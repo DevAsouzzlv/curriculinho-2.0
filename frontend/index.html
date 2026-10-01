@@ -16,6 +16,31 @@
         </header>
         
         <main>
+            <div class="ai-container" style="background: #f0f7ff; padding: 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #cce3ff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <h2 style="color: #0056b3; margin-bottom: 10px;">🤖 Analisador Inteligente (IA)</h2>
+                <p style="margin-bottom: 15px; font-size: 14px; color: #555;">Faça o upload do seu currículo em PDF e deixe nossa IA avaliá-lo ou compará-lo com uma vaga de emprego real!</p>
+                
+                <div class="form-group">
+                    <label for="resumePdf" style="font-weight: bold;">Seu Currículo (PDF)</label>
+                    <input type="file" id="resumePdf" accept=".pdf">
+                </div>
+                
+                <div class="form-group" style="margin-top: 15px;">
+                    <label for="jobDescription" style="font-weight: bold;">Descrição da Vaga (Opcional - Cole para fazer o Match)</label>
+                    <textarea id="jobDescription" rows="3" placeholder="Cole a descrição da vaga do LinkedIn ou Gupy..."></textarea>
+                </div>
+                
+                <div class="buttons" style="margin-top: 15px; display: flex; gap: 10px;">
+                    <button type="button" id="btnEvaluate" style="background-color: #4CAF50; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Avaliar Currículo</button>
+                    <button type="button" id="btnMatch" style="background-color: #2196F3; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Fazer Match com Vaga</button>
+                </div>
+
+                <div id="aiResultContainer" style="display: none; margin-top: 20px; padding: 15px; background: white; border-radius: 5px; border-left: 4px solid #2196F3;">
+                    <h3 id="aiResultTitle" style="margin-bottom: 10px; color: #333;">Resultado</h3>
+                    <div id="aiResultContent" style="white-space: pre-wrap; font-size: 14px; color: #444; line-height: 1.5;"></div>
+                </div>
+            </div>
+
             <div class="form-container">
                 <form id="resumeForm">
                     <h2>Informações Pessoais</h2>

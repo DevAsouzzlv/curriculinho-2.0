@@ -73,3 +73,71 @@ function showNotification(message, type = 'success') {
 
 // Tornar a função showNotification global
 window.showNotification = showNotification;
+
+// --- IA Analyzer Logic ---
+document.addEventListener('DOMContentLoaded', function() {
+    const btnEvaluate = document.getElementById('btnEvaluate');
+    const btnMatch = document.getElementById('btnMatch');
+    const resumePdf = document.getElementById('resumePdf');
+    const jobDescription = document.getElementById('jobDescription');
+    const aiResultContainer = document.getElementById('aiResultContainer');
+    const aiResultTitle = document.getElementById('aiResultTitle');
+    const aiResultContent = document.getElementById('aiResultContent');
+
+    const API_BASE = "http://127.0.0.1:8000/api/v1";
+
+    async function sendToAI(endpoint, formData, title) {
+        if (!resumePdf.files[0]) {
+            showNotification('Por favor, anexe um currículo em PDF!', 'error');
+            return;
+        }
+
+        aiResultContainer.style.display = 'block';
+        aiResultTitle.innerText = title + " (Analisando...)";
+        aiResultContent.innerText = "A Inteligência Artificial está processando seu documento. Isso pode levar alguns segundos...";
+
+        try {
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.detail || 'Erro desconhecido');
+            }
+
+            const data = await response.json();
+            aiResultTitle.innerText = "✅ " + title;
+            // A resposta pode estar em 'feedback' ou 'match_analysis'
+            aiResultContent.innerText = data.feedback || data.match_analysis;
+            showNotification('Análise concluída com sucesso!', 'success');
+
+        } catch (error) {
+            aiResultTitle.innerText = "❌ Erro na Análise";
+            aiResultContent.innerText = "Houve um erro ao se comunicar com a IA:\n" + error.message;
+            showNotification('Falha ao analisar.', 'error');
+        }
+    }
+
+    if (btnEvaluate) {
+        btnEvaluate.addEventListener('click', () => {
+            const formData = new FormData();
+            formData.append('file', resumePdf.files[0]);
+            sendToAI('/resume/evaluate', formData, 'Avaliação Diagnóstica do Currículo');
+        });
+    }
+
+    if (btnMatch) {
+        btnMatch.addEventListener('click', () => {
+            if (!jobDescription.value.trim()) {
+                showNotification('Por favor, cole a descrição da vaga para o Match!', 'error');
+                return;
+            }
+            const formData = new FormData();
+            formData.append('file', resumePdf.files[0]);
+            formData.append('job_description', jobDescription.value);
+            sendToAI('/jobs/match', formData, 'Match com a Vaga (Gaps e Aderência)');
+        });
+    }
+});
