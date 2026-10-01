@@ -1,0 +1,64 @@
+{
+  "name": "Curriculo Express",
+  "short_name": "Curriculinho",
+  "start_url": "https://dev.santecweb.com.br/curriculo",
+  "display": "standalone",
+  "description": "Aplicativo para criar currículos profissionais com formato padronizado, desenvolvido pela turma de Desenvolvimento de Sistemas do SENAC",
+  "lang": "pt-BR",
+  "dir": "auto",
+  "theme_color": "#155491",
+  "background_color": "#f5f5f5",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/icons/icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/screenshots/img.png",
+      "sizes": "2880x1800",
+      "type": "image/png",
+      "description": "Tela de criação de currículo com formulário e visualização em tempo real"
+    },
+    {
+      "src": "assets/screenshots/img.png",
+      "sizes": "2880x1800",
+      "type": "image/png",
+      "description": "Currículo gerado pronto para impressão ou exportação"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "windows",
+      "url": "https://dev.santecweb.com.br/curriculo"
+    }
+  ],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Novo Currículo",
+      "url": "/index.html?new=true",
+      "description": "Criar um novo currículo em branco"
+    },
+    {
+      "name": "Modelos",
+      "url": "/index.html?templates=true",
+      "description": "Acessar modelos de currículo pré-definidos"
+    },
+    {
+      "name": "Continuar Editando",
+      "url": "/index.html?load=last",
+      "description": "Continuar editando o último currículo salvo"
+    }
+  ]
+}
