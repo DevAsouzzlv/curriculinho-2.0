@@ -1,6 +1,3 @@
-/**
- * Arquivo principal que inicializa a aplicação
- */
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar manipuladores de formulário
     FormHandlers.initializeFormHandlers();
@@ -15,6 +12,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar a visualização em tempo real
     RealtimePreview.initialize();
     
+    // Landing Page Logic
+    const btnComecar = document.getElementById('btnComecar');
+    if (btnComecar) {
+        btnComecar.addEventListener('click', () => {
+            document.getElementById('landing-screen').style.display = 'none';
+            document.getElementById('app-container').style.display = 'block';
+            
+            // Garantir que a primeira aba comece visível (Gerador de Currículo)
+            document.getElementById('gerador-section').style.display = 'flex';
+        });
+    }
+
     // TAB NAVIGATION LOGIC
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabSections = document.querySelectorAll('.tab-section');

@@ -10,16 +10,27 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Gerador de Currículo Profissional</h1>
-            <p>Selecione a ferramenta que deseja utilizar abaixo:</p>
+        <!-- TELA DE ENTRADA -->
+        <div id="landing-screen" style="text-align: center; padding-top: 5vh; animation: fadeInUp 0.8s ease-out;">
+            <img src="assets/icon/icon_192.png" alt="Curriculinho Logo" style="width: 150px; margin-bottom: 20px; border-radius: 25px; box-shadow: 0 10px 25px rgba(21, 84, 145, 0.15);">
+            <h1 style="color: #155491; font-size: 3.5rem; font-weight: 700; margin-bottom: 15px;">Curriculinho <span style="color: #f79633;">2.0</span></h1>
+            <p style="font-size: 1.2rem; color: #4a5568; max-width: 650px; margin: 0 auto 40px; line-height: 1.6;">Sua plataforma inteligente para alavancar sua carreira. Crie currículos impecáveis, receba auditorias com Inteligência Artificial e calcule o match exato com as vagas dos seus sonhos.</p>
             
-            <nav class="app-tabs" style="display: flex; justify-content: center; gap: 15px; margin-top: 25px;">
-                <button class="tab-btn active" data-target="gerador-section">📝 Gerador de Currículo</button>
-                <button class="tab-btn" data-target="avaliador-section">🤖 Avaliador com IA</button>
-                <button class="tab-btn" data-target="match-section">🎯 Match de Vagas</button>
-            </nav>
-        </header>
+            <button type="button" id="btnComecar" style="background: linear-gradient(135deg, #f79633 0%, #e58121 100%); font-size: 1.2rem; padding: 15px 40px; border-radius: 50px; box-shadow: 0 8px 20px rgba(247, 150, 51, 0.3); transition: transform 0.3s ease, box-shadow 0.3s ease;">🚀 Iniciar Agora</button>
+        </div>
+
+        <!-- APLICAÇÃO PRINCIPAL (INVISÍVEL NO INÍCIO) -->
+        <div id="app-container" style="display: none;">
+            <header>
+                <h1>Gerador de Currículo Profissional</h1>
+                <p>Selecione a ferramenta que deseja utilizar abaixo:</p>
+                
+                <nav class="app-tabs" style="display: flex; justify-content: center; gap: 15px; margin-top: 25px;">
+                    <button class="tab-btn active" data-target="gerador-section">📝 Gerador de Currículo</button>
+                    <button class="tab-btn" data-target="avaliador-section">🤖 Avaliador com IA</button>
+                    <button class="tab-btn" data-target="match-section">🎯 Match de Vagas</button>
+                </nav>
+            </header>
         
         <main>
             <!-- SEÇÃO 2: AVALIADOR -->
@@ -390,6 +401,7 @@
                 </div>
             </div>
         </div>
+        </div> <!-- Fecha app-container -->
     </div>
     <!-- Rodapé -->
     <footer class="footer">

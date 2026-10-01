@@ -11,9 +11,14 @@ body {
     background-color: #f0f4f8;
     color: #2d3748;
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .container {
+    flex: 1; /* Faz o container empurrar o footer para baixo */
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 30px 20px;
