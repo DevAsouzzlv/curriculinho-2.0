@@ -15,6 +15,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar a visualização em tempo real
     RealtimePreview.initialize();
     
+    // TAB NAVIGATION LOGIC
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabSections = document.querySelectorAll('.tab-section');
+    
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active de todos
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabSections.forEach(s => s.style.display = 'none');
+            
+            // Adiciona active no clicado
+            btn.classList.add('active');
+            const targetId = btn.getAttribute('data-target');
+            document.getElementById(targetId).style.display = targetId === 'gerador-section' ? 'flex' : 'block';
+            
+            // Oculta o resultado da IA ao trocar de aba
+            document.getElementById('aiResultContainer').style.display = 'none';
+        });
+    });
+
     // Verificar se há dados salvos e mostrar notificação
     if (localStorage.getItem('resumeData')) {
         showNotification('Dados carregados do armazenamento local', 'info');
@@ -78,8 +98,6 @@ window.showNotification = showNotification;
 document.addEventListener('DOMContentLoaded', function() {
     const btnEvaluate = document.getElementById('btnEvaluate');
     const btnMatch = document.getElementById('btnMatch');
-    const resumePdf = document.getElementById('resumePdf');
-    const jobDescription = document.getElementById('jobDescription');
     const aiResultContainer = document.getElementById('aiResultContainer');
     const aiResultTitle = document.getElementById('aiResultTitle');
     const aiResultContent = document.getElementById('aiResultContent');
@@ -87,15 +105,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const API_BASE = "http://127.0.0.1:8000/api/v1";
 
     async function sendToAI(endpoint, formData, title) {
-        if (!resumePdf.files[0]) {
-            showNotification('Por favor, anexe um currículo em PDF!', 'error');
-            return;
-        }
-
         // Exibe loading interativo
         aiResultContainer.style.display = 'block';
         aiResultTitle.innerHTML = `<span class="loading-text">⏳ ${title} (Analisando...)</span>`;
         aiResultContent.innerHTML = `<div style="text-align: center; padding: 20px;"><p style="color: #4a5568;">A Inteligência Artificial está processando seu documento.<br>Isso pode levar alguns segundos...</p></div>`;
+
+        // Smooth scroll para o container de resultado
+        aiResultContainer.scrollIntoView({ behavior: 'smooth' });
 
         try {
             const response = await fetch(`${API_BASE}${endpoint}`, {
@@ -126,28 +142,40 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Análise concluída com sucesso!', 'success');
 
         } catch (error) {
-            aiResultTitle.innerText = "❌ Erro na Análise";
-            aiResultContent.innerText = "Houve um erro ao se comunicar com a IA:\n" + error.message;
+            aiResultTitle.innerHTML = "❌ Erro na Análise";
+            aiResultContent.innerHTML = `<p style="color: red;">Houve um erro ao se comunicar com a IA:<br>${error.message}</p>`;
             showNotification('Falha ao analisar.', 'error');
         }
     }
 
     if (btnEvaluate) {
         btnEvaluate.addEventListener('click', () => {
+            const fileInput = document.getElementById('resumePdfAvaliador');
+            if (!fileInput.files[0]) {
+                showNotification('Por favor, anexe um currículo em PDF!', 'error');
+                return;
+            }
             const formData = new FormData();
-            formData.append('file', resumePdf.files[0]);
+            formData.append('file', fileInput.files[0]);
             sendToAI('/resume/evaluate', formData, 'Avaliação Diagnóstica do Currículo');
         });
     }
 
     if (btnMatch) {
         btnMatch.addEventListener('click', () => {
+            const fileInput = document.getElementById('resumePdfMatch');
+            const jobDescription = document.getElementById('jobDescription');
+            
+            if (!fileInput.files[0]) {
+                showNotification('Por favor, anexe um currículo em PDF!', 'error');
+                return;
+            }
             if (!jobDescription.value.trim()) {
                 showNotification('Por favor, cole a descrição da vaga para o Match!', 'error');
                 return;
             }
             const formData = new FormData();
-            formData.append('file', resumePdf.files[0]);
+            formData.append('file', fileInput.files[0]);
             formData.append('job_description', jobDescription.value);
             sendToAI('/jobs/match', formData, 'Match com a Vaga (Gaps e Aderência)');
         });

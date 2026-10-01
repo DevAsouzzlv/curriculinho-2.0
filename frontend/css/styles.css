@@ -292,3 +292,68 @@ button[type="reset"]:hover { background-color: #cbd5e0; box-shadow: none; }
     font-size: 0.85rem;
     font-weight: 500;
 }
+
+/* Estilos para impressão (Exportar PDF) */
+@media print {
+    /* Ocultar todos os elementos da interface que não são o currículo */
+    .form-container,
+    .ai-container,
+    .buttons, 
+    .resume-actions, 
+    button,
+    #printBtn,
+    .only-screen,
+    header,
+    .footer {
+        display: none !important;
+    }
+    
+    /* Garantir que o container de visualização ocupe toda a página */
+    .preview-container {
+        box-shadow: none;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+    
+    /* Ajustar o currículo para impressão */
+    .resume {
+        padding: 0;
+        margin: 0;
+    }
+    
+    /* Remover qualquer margem ou padding desnecessário */
+    body, .container, main {
+        margin: 0;
+        padding: 0;
+        background-color: white;
+    }
+}
+
+/* Tab Navigation Styles */
+.tab-btn {
+    background-color: transparent;
+    color: #4a5568;
+    border: 2px solid transparent;
+    border-bottom: 2px solid #cbd5e0;
+    padding: 10px 20px;
+    border-radius: 0;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+.tab-btn:hover {
+    background-color: rgba(21, 84, 145, 0.05);
+    border-bottom: 2px solid #155491;
+    transform: none;
+    box-shadow: none;
+    color: #155491;
+}
+
+.tab-btn.active {
+    color: #155491;
+    border-bottom: 3px solid #155491;
+}
