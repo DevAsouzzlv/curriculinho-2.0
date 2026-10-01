@@ -92,9 +92,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Exibe loading interativo
         aiResultContainer.style.display = 'block';
-        aiResultTitle.innerText = title + " (Analisando...)";
-        aiResultContent.innerText = "A Inteligência Artificial está processando seu documento. Isso pode levar alguns segundos...";
+        aiResultTitle.innerHTML = `<span class="loading-text">⏳ ${title} (Analisando...)</span>`;
+        aiResultContent.innerHTML = `<div style="text-align: center; padding: 20px;"><p style="color: #4a5568;">A Inteligência Artificial está processando seu documento.<br>Isso pode levar alguns segundos...</p></div>`;
 
         try {
             const response = await fetch(`${API_BASE}${endpoint}`, {
@@ -108,9 +109,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const data = await response.json();
-            aiResultTitle.innerText = "✅ " + title;
-            // A resposta pode estar em 'feedback' ou 'match_analysis'
-            aiResultContent.innerText = data.feedback || data.match_analysis;
+            aiResultTitle.innerHTML = `✅ ${title}`;
+            
+            // Pega o texto da IA
+            let textOutput = data.feedback || data.match_analysis || "Nenhuma análise retornada.";
+            
+            // Parser básico de Markdown para HTML
+            let htmlOutput = textOutput
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Negrito
+                .replace(/\*(.*?)\*/g, '<em>$1</em>') // Itálico
+                .replace(/\n\n/g, '</p><p>') // Parágrafos
+                .replace(/\n- /g, '<br>• ') // Listas
+                .replace(/\n/g, '<br>'); // Quebras de linha normais
+                
+            aiResultContent.innerHTML = `<p>${htmlOutput}</p>`;
             showNotification('Análise concluída com sucesso!', 'success');
 
         } catch (error) {
