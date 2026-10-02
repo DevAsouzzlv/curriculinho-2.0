@@ -25,10 +25,10 @@
                 <h1>Gerador de Currículo Profissional</h1>
                 <p>Selecione a ferramenta que deseja utilizar abaixo:</p>
                 
-                <nav class="app-tabs" style="display: flex; justify-content: center; gap: 15px; margin-top: 25px;">
-                    <button class="tab-btn active" data-target="gerador-section">📝 Gerador de Currículo</button>
-                    <button class="tab-btn" data-target="avaliador-section">🤖 Avaliador com IA</button>
-                    <button class="tab-btn" data-target="match-section">🎯 Match de Vagas</button>
+                <nav class="app-tabs" role="tablist" aria-label="Ferramentas de Carreira" style="display: flex; justify-content: center; gap: 15px; margin-top: 25px;">
+                    <button class="tab-btn active" data-target="gerador-section" role="tab" aria-selected="true" aria-controls="gerador-section" tabindex="0">📝 Gerador de Currículo</button>
+                    <button class="tab-btn" data-target="avaliador-section" role="tab" aria-selected="false" aria-controls="avaliador-section" tabindex="-1">🤖 Avaliador com IA</button>
+                    <button class="tab-btn" data-target="match-section" role="tab" aria-selected="false" aria-controls="match-section" tabindex="-1">🎯 Match de Vagas</button>
                 </nav>
             </header>
         
@@ -38,9 +38,13 @@
                 <h2 style="color: #0056b3; margin-bottom: 10px;">🤖 Avaliação Diagnóstica</h2>
                 <p style="margin-bottom: 20px; font-size: 14px; color: #555;">Faça o upload do seu currículo em PDF. Nossa IA atuará como um recrutador sênior para analisar seus pontos fortes e fracos.</p>
                 
-                <div class="form-group">
-                    <label for="resumePdfAvaliador" style="font-weight: bold;">Seu Currículo (PDF)</label>
-                    <input type="file" id="resumePdfAvaliador" accept=".pdf">
+                <div class="form-group dropzone-container">
+                    <label for="resumePdfAvaliador" class="dropzone-label">
+                        <span class="dropzone-icon">📄</span>
+                        <span class="dropzone-text">Arraste seu currículo em PDF aqui ou clique para selecionar (máx. 5MB)</span>
+                        <input type="file" id="resumePdfAvaliador" class="visually-hidden" accept=".pdf">
+                    </label>
+                    <div id="file-name-avaliador" class="file-name-display"></div>
                 </div>
                 
                 <div class="buttons" style="margin-top: 15px; display: flex; justify-content: flex-end;">
@@ -54,9 +58,13 @@
                 <p style="margin-bottom: 20px; font-size: 14px; color: #555;">Análise de aderência: Compare seu currículo com uma vaga real para descobrir suas chances e o que falta para você ser aprovado.</p>
                 
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="resumePdfMatch" style="font-weight: bold;">Seu Currículo (PDF)</label>
-                        <input type="file" id="resumePdfMatch" accept=".pdf">
+                    <div class="form-group dropzone-container" style="flex: 1;">
+                        <label for="resumePdfMatch" class="dropzone-label">
+                            <span class="dropzone-icon">📄</span>
+                            <span class="dropzone-text">Arraste seu currículo em PDF aqui ou clique para selecionar (máx. 5MB)</span>
+                            <input type="file" id="resumePdfMatch" class="visually-hidden" accept=".pdf">
+                        </label>
+                        <div id="file-name-match" class="file-name-display"></div>
                     </div>
                 </div>
                 <div class="form-group" style="margin-top: 15px;">
@@ -283,15 +291,15 @@
                         <div class="skills-column">
                             <h3>Hard Skills (habilidades técnicas)</h3>
                             <div class="skills-selection">
-                                <div><input type="checkbox" class="hard-skill" value="Programação"> Programação</div>
-                                <div><input type="checkbox" class="hard-skill" value="Análise de dados"> Análise de dados</div>
-                                <div><input type="checkbox" class="hard-skill" value="Pacote Office"> Pacote Office</div>
-                                <div><input type="checkbox" class="hard-skill" value="Controle de planilhas e dados"> Controle de planilhas e dados</div>
-                                <div><input type="checkbox" class="hard-skill" value="Operação de sistemas de gestão (ERP)"> Operação de sistemas de gestão (ERP)</div>
-                                <div><input type="checkbox" class="hard-skill" value="Ferramentas de videoconferência"> Ferramentas de videoconferência</div>
-                                <div><input type="checkbox" class="hard-skill" value="Google Docs / Drive"> Google Docs / Drive</div>
-                                <div><input type="checkbox" class="hard-skill" value="Rotinas administrativas"> Rotinas administrativas</div>
-                                <div><input type="checkbox" class="hard-skill" value="Noções de fluxo de caixa"> Noções de fluxo de caixa</div>
+                                <label class="skill-chip"><input type="checkbox" class="hard-skill visually-hidden" value="Programação"><span class="chip-content">Programação</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="hard-skill visually-hidden" value="Análise de dados"><span class="chip-content">Análise de dados</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="hard-skill visually-hidden" value="Pacote Office"><span class="chip-content">Pacote Office</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="hard-skill visually-hidden" value="Controle de planilhas e dados"><span class="chip-content">Controle de planilhas e dados</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="hard-skill visually-hidden" value="Operação de sistemas de gestão (ERP)"><span class="chip-content">Operação de sistemas de gestão (ERP)</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="hard-skill visually-hidden" value="Ferramentas de videoconferência"><span class="chip-content">Ferramentas de videoconferência</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="hard-skill visually-hidden" value="Google Docs / Drive"><span class="chip-content">Google Docs / Drive</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="hard-skill visually-hidden" value="Rotinas administrativas"><span class="chip-content">Rotinas administrativas</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="hard-skill visually-hidden" value="Noções de fluxo de caixa"><span class="chip-content">Noções de fluxo de caixa</span></label>
                             </div>
                             <div class="form-group">
                                 <label>Outras Hard Skills</label>
@@ -302,15 +310,15 @@
                         <div class="skills-column">
                             <h3>Soft Skills (habilidades comportamentais)</h3>
                             <div class="skills-selection">
-                                <div><input type="checkbox" class="soft-skill" value="Trabalho em equipe"> Trabalho em equipe</div>
-                                <div><input type="checkbox" class="soft-skill" value="Adaptabilidade"> Adaptabilidade</div>
-                                <div><input type="checkbox" class="soft-skill" value="Comunicação clara"> Comunicação clara</div>
-                                <div><input type="checkbox" class="soft-skill" value="Escuta ativa"> Escuta ativa</div>
-                                <div><input type="checkbox" class="soft-skill" value="Criatividade"> Criatividade</div>
-                                <div><input type="checkbox" class="soft-skill" value="Inovação"> Inovação</div>
-                                <div><input type="checkbox" class="soft-skill" value="Visão de melhoria contínua"> Visão de melhoria contínua</div>
-                                <div><input type="checkbox" class="soft-skill" value="Organização"> Organização</div>
-                                <div><input type="checkbox" class="soft-skill" value="Comprometimento"> Comprometimento</div>
+                                <label class="skill-chip"><input type="checkbox" class="soft-skill visually-hidden" value="Trabalho em equipe"><span class="chip-content">Trabalho em equipe</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="soft-skill visually-hidden" value="Adaptabilidade"><span class="chip-content">Adaptabilidade</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="soft-skill visually-hidden" value="Comunicação clara"><span class="chip-content">Comunicação clara</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="soft-skill visually-hidden" value="Escuta ativa"><span class="chip-content">Escuta ativa</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="soft-skill visually-hidden" value="Criatividade"><span class="chip-content">Criatividade</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="soft-skill visually-hidden" value="Inovação"><span class="chip-content">Inovação</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="soft-skill visually-hidden" value="Visão de melhoria contínua"><span class="chip-content">Visão de melhoria contínua</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="soft-skill visually-hidden" value="Organização"><span class="chip-content">Organização</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="soft-skill visually-hidden" value="Comprometimento"><span class="chip-content">Comprometimento</span></label>
                             </div>
                             <div class="form-group">
                                 <label>Outras Soft Skills</label>
@@ -326,10 +334,10 @@
                     </div>
                     
                     <div class="buttons">
-                        <button type="submit" id="generateBtn">Gerar Currículo</button>
-                        <button type="button" id="saveBtn">Salvar Dados</button>
-                        <button type="button" id="exportWordBtn">Exportar para Word</button>
-                        <button type="reset" id="clearBtn">Limpar</button>
+                        <button type="submit" id="generateBtn">📄 Visualizar & Concluir</button>
+                        <button type="button" id="saveBtn">💾 Salvar Rascunho</button>
+                        <button type="button" id="exportWordBtn">📥 Exportar para Word</button>
+                        <button type="reset" id="clearBtn" class="remove-btn">🗑️ Restaurar Padrão</button>
                     </div>
                 </form>
             </div>
@@ -369,30 +377,30 @@
                         <div class="modal-skills-column">
                             <h4>Hard Skills</h4>
                             <div class="skills-selection">
-                                <div><input type="checkbox" class="modal-hard-skill" value="Programação"> Programação</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Análise de dados"> Análise de dados</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Pacote Office"> Pacote Office</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Controle de planilhas e dados"> Controle de planilhas e dados</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Operação de sistemas de gestão (ERP)"> Operação de sistemas de gestão (ERP)</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Ferramentas de videoconferência"> Ferramentas de videoconferência</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Google Docs / Drive"> Google Docs / Drive</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Rotinas administrativas"> Rotinas administrativas</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Noções de fluxo de caixa"> Noções de fluxo de caixa</div>
+                                <label class="skill-chip"><input type="checkbox" class="modal-hard-skill visually-hidden" value="Programação"><span class="chip-content">Programação</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-hard-skill visually-hidden" value="Análise de dados"><span class="chip-content">Análise de dados</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-hard-skill visually-hidden" value="Pacote Office"><span class="chip-content">Pacote Office</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-hard-skill visually-hidden" value="Controle de planilhas e dados"><span class="chip-content">Controle de planilhas e dados</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-hard-skill visually-hidden" value="Operação de sistemas de gestão (ERP)"><span class="chip-content">Operação de sistemas de gestão (ERP)</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-hard-skill visually-hidden" value="Ferramentas de videoconferência"><span class="chip-content">Ferramentas de videoconferência</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-hard-skill visually-hidden" value="Google Docs / Drive"><span class="chip-content">Google Docs / Drive</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-hard-skill visually-hidden" value="Rotinas administrativas"><span class="chip-content">Rotinas administrativas</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-hard-skill visually-hidden" value="Noções de fluxo de caixa"><span class="chip-content">Noções de fluxo de caixa</span></label>
                             </div>
                         </div>
                         
                         <div class="modal-skills-column">
                             <h4>Soft Skills</h4>
                             <div class="skills-selection">
-                                <div><input type="checkbox" class="modal-soft-skill" value="Trabalho em equipe"> Trabalho em equipe</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Adaptabilidade"> Adaptabilidade</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Comunicação clara"> Comunicação clara</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Escuta ativa"> Escuta ativa</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Criatividade"> Criatividade</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Inovação"> Inovação</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Visão de melhoria contínua"> Visão de melhoria contínua</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Organização"> Organização</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Comprometimento"> Comprometimento</div>
+                                <label class="skill-chip"><input type="checkbox" class="modal-soft-skill visually-hidden" value="Trabalho em equipe"><span class="chip-content">Trabalho em equipe</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-soft-skill visually-hidden" value="Adaptabilidade"><span class="chip-content">Adaptabilidade</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-soft-skill visually-hidden" value="Comunicação clara"><span class="chip-content">Comunicação clara</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-soft-skill visually-hidden" value="Escuta ativa"><span class="chip-content">Escuta ativa</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-soft-skill visually-hidden" value="Criatividade"><span class="chip-content">Criatividade</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-soft-skill visually-hidden" value="Inovação"><span class="chip-content">Inovação</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-soft-skill visually-hidden" value="Visão de melhoria contínua"><span class="chip-content">Visão de melhoria contínua</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-soft-skill visually-hidden" value="Organização"><span class="chip-content">Organização</span></label>
+                                <label class="skill-chip"><input type="checkbox" class="modal-soft-skill visually-hidden" value="Comprometimento"><span class="chip-content">Comprometimento</span></label>
                             </div>
                         </div>
                     </div>

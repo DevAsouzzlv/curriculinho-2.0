@@ -120,7 +120,7 @@ const ResumeGenerator = (function() {
                 ` : ''}
                 
                 <div class="resume-section">
-                    <p><em>Atualizado em novembro de 2025.</em></p>
+                    <p><em>Atualizado em ${new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(new Date())}.</em></p>
                 </div>
                 
                 <div class="resume-actions only-screen">

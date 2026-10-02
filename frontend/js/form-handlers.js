@@ -28,17 +28,17 @@ const FormHandlers = (function() {
         initializeSynthesisModal();
         
         // Botão de limpar
-        document.getElementById('clearBtn').addEventListener('click', function(e) {
-            if (confirm('Tem certeza que deseja limpar o formulário? Todos os dados não salvos serão perdidos.')) {
-                // Limpar a visualização também
+        document.getElementById('clearBtn').addEventListener('click', async function(e) {
+            e.preventDefault(); // Impedir reset automático no click (fazer manualmente)
+            const confirmed = await window.showConfirm('Tem certeza que deseja limpar o formulário? Todos os dados não salvos serão perdidos.');
+            if (confirmed) {
+                document.getElementById('resumeForm').reset();
                 setTimeout(() => {
                     if (typeof RealtimePreview !== 'undefined') {
                         RealtimePreview.updateFullPreview();
                     }
                 }, 100);
-                return true; // Permite que o reset padrão ocorra
             }
-            e.preventDefault(); // Cancela o reset se o usuário não confirmar
         });
     }
 
@@ -106,7 +106,7 @@ const FormHandlers = (function() {
             
             // Verificar se foram selecionadas skills suficientes
             if (selectedHardSkills.length < 1 || selectedSoftSkills.length < 1) {
-                alert('Por favor, selecione pelo menos uma hard skill e uma soft skill.');
+                window.showNotification('Selecione ao menos 1 competência técnica e 1 comportamental para prosseguir.', 'error');
                 return;
             }
             
@@ -173,10 +173,17 @@ const FormHandlers = (function() {
     /**
      * Manipulador para remover um item (educação, experiência, curso)
      */
-    function handleRemoveItem() {
-        const parent = this.parentElement;
-        const container = parent.parentElement;
-        container.removeChild(parent);
+    async function handleRemoveItem(e) {
+        const btn = e.currentTarget;
+        const confirmed = await window.showConfirm('Tem certeza que deseja remover este item?');
+        if (confirmed) {
+            const parent = btn.parentElement;
+            const container = parent.parentElement;
+            container.removeChild(parent);
+            if (typeof RealtimePreview !== 'undefined') {
+                RealtimePreview.updateFullPreview();
+            }
+        }
     }
 
     /**

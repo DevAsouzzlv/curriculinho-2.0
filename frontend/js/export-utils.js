@@ -9,7 +9,7 @@ const ExportUtils = (function() {
         // Verificar se o currículo foi gerado
         const resumePreview = document.getElementById('resumePreview');
         if (!resumePreview.innerHTML.trim()) {
-            alert('Por favor, gere o currículo antes de exportar para Word.');
+            window.showNotification('Por favor, gere o currículo antes de exportar para Word.', 'error');
             return;
         }
         
@@ -178,7 +178,7 @@ const ExportUtils = (function() {
             
         } catch (error) {
             console.error('Erro ao exportar para Word:', error);
-            alert('Ocorreu um erro ao exportar para Word. Por favor, tente novamente.');
+            window.showNotification('Ocorreu um erro ao exportar para Word. Por favor, tente novamente.', 'error');
         }
     }
 

@@ -181,8 +181,9 @@ const DataStorage = (function() {
     /**
      * Limpa todos os dados salvos no localStorage
      */
-    function clearSavedData() {
-        if (confirm('Tem certeza que deseja limpar todos os dados salvos? Esta ação não pode ser desfeita.')) {
+    async function clearSavedData() {
+        const confirmed = await window.showConfirm('Tem certeza que deseja limpar todos os dados salvos? Esta ação não pode ser desfeita.');
+        if (confirmed) {
             localStorage.removeItem('resumeData');
             window.showNotification('Dados limpos com sucesso!', 'success');
             location.reload(); // Recarregar a página para limpar o formulário
