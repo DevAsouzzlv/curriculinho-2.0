@@ -1,16 +1,44 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Escape HTML Helper (XSS Prevention)
+    window.escapeHTML = function(str) {
+        if (!str) return '';
+        return str.replace(/[&<>'"]/g, function(tag) {
+            const charsToReplace = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            };
+            return charsToReplace[tag] || tag;
+        });
+    };
+
+    // Prevenir reload acidental do formulário
+    const resumeForm = document.getElementById('resumeForm');
+    if (resumeForm) {
+        resumeForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Apenas foca na pré-visualização quando clicado no "Visualizar & Concluir"
+            document.querySelector('.preview-card').scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
     // Inicializar manipuladores de formulário
-    FormHandlers.initializeFormHandlers();
+    if (typeof FormHandlers !== 'undefined') FormHandlers.initializeFormHandlers();
     
     // Carregar dados salvos
-    DataStorage.loadFormData();
+    if (typeof DataStorage !== 'undefined') DataStorage.loadFormData();
     
     // Adicionar eventos para botões de ação
-    document.getElementById('saveBtn').addEventListener('click', DataStorage.saveFormData);
-    document.getElementById('exportWordBtn').addEventListener('click', ExportUtils.exportToWord);
+    const saveBtn = document.getElementById('saveBtn');
+    const exportWordBtn = document.getElementById('exportWordBtn');
+    
+    if (saveBtn) saveBtn.addEventListener('click', DataStorage.saveFormData);
+    if (exportWordBtn) exportWordBtn.addEventListener('click', ExportUtils.exportToWord);
     
     // Inicializar a visualização em tempo real
-    RealtimePreview.initialize();
+    if (typeof RealtimePreview !== 'undefined') RealtimePreview.initialize();
     
     // Landing Page Logic
     const btnComecar = document.getElementById('btnComecar');
@@ -20,43 +48,114 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('app-container').style.display = 'block';
             
             // Garantir que a primeira aba comece visível (Gerador de Currículo)
-            document.getElementById('gerador-section').style.display = 'flex';
+            document.getElementById('gerador-section').style.display = 'grid';
         });
     }
 
     // TAB NAVIGATION LOGIC
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabSections = document.querySelectorAll('.tab-section');
-    
+
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Remove active de todos
-            tabBtns.forEach(b => b.classList.remove('active'));
+            tabBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
             tabSections.forEach(s => s.style.display = 'none');
             
-            // Adiciona active no clicado
             btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
             const targetId = btn.getAttribute('data-target');
-            document.getElementById(targetId).style.display = targetId === 'gerador-section' ? 'flex' : 'block';
+            const targetEl = document.getElementById(targetId);
             
-            // Oculta o resultado da IA ao trocar de aba
-            document.getElementById('aiResultContainer').style.display = 'none';
+            if (targetId === 'gerador-section') {
+                targetEl.style.display = 'grid';
+            } else {
+                targetEl.style.display = 'block';
+            }
         });
     });
 
-    // Verificar se há dados salvos e mostrar notificação
-    if (localStorage.getItem('resumeData')) {
-        showNotification('Dados carregados do armazenamento local', 'info');
+    // Função de enviar para a IA (Avaliador e Match)
+    function sendToAI(fileInputId, endpoint, resultContainerId, textContentId, extraData = {}) {
+        const fileInput = document.getElementById(fileInputId);
+        const resultContainer = document.getElementById(resultContainerId);
+        const aiResultContent = document.getElementById(textContentId);
+
+        if (!fileInput.files || !fileInput.files[0]) {
+            showNotification('Por favor, anexe um currículo em PDF!', 'error');
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        for (const key in extraData) {
+            formData.append(key, extraData[key]);
+        }
+
+        resultContainer.style.display = 'block';
+        aiResultContent.innerHTML = '<p><em>Carregando análise da IA... aguarde (pode levar alguns segundos)</em></p>';
+
+        const API_BASE = "http://localhost:8000/api/v1";
+
+        fetch(`${API_BASE}${endpoint}`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw new Error(err.detail || "Erro desconhecido") });
+            }
+            return response.json();
+        })
+        .then(data => {
+            let markdownText = data.feedback || data.match_analysis || "Análise concluída, mas sem texto retornado.";
+            // Previne XSS escapando as tags HTML que vieram do Gemini
+            markdownText = window.escapeHTML(markdownText);
+            
+            // Markdown to HTML conversion
+            let htmlOutput = markdownText
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+            
+            aiResultContent.innerHTML = `<p>${htmlOutput}</p>`;
+            showNotification('Análise concluída com sucesso!', 'success');
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            aiResultContent.innerHTML = `<p style="color: red;">Houve um erro ao se comunicar com a IA:<br>${window.escapeHTML(error.message)}</p>`;
+            showNotification('Falha ao analisar.', 'error');
+        });
+    }
+
+    // Bind AI Buttons
+    const evaluateBtn = document.getElementById('evaluateResumeBtn');
+    if (evaluateBtn) {
+        evaluateBtn.addEventListener('click', () => {
+            sendToAI('resumePdfAvaliador', '/resume/evaluate', 'aiResultContainer', 'aiResultContent');
+        });
+    }
+    
+    const matchBtn = document.getElementById('matchResumeBtn');
+    if (matchBtn) {
+        matchBtn.addEventListener('click', () => {
+            const jobDesc = document.getElementById('jobDescriptionMatch');
+            if (!jobDesc || !jobDesc.value.trim()) {
+                showNotification('Por favor, cole a descrição da vaga para o Match!', 'error');
+                return;
+            }
+            sendToAI('resumePdfMatch', '/jobs/match', 'matchResultContainer', 'matchResultContent', {
+                job_description: jobDesc.value.trim()
+            });
+        });
     }
 });
 
-/**
- * Exibe uma notificação temporária
- * @param {string} message - Mensagem a ser exibida
- * @param {string} type - Tipo de notificação (success, error, info)
- */
 function showNotification(message, type = 'success') {
-    // Criar elemento de notificação
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = message;
@@ -71,136 +170,35 @@ function showNotification(message, type = 'success') {
     notification.style.zIndex = '1000';
     notification.style.transition = 'opacity 0.5s';
     
-    // Definir cor com base no tipo
     switch (type) {
         case 'success':
-            notification.style.backgroundColor = '#2ecc71';
+            notification.style.backgroundColor = '#4CAF50';
             notification.style.color = 'white';
             break;
         case 'error':
-            notification.style.backgroundColor = '#e74c3c';
+            notification.style.backgroundColor = '#f44336';
             notification.style.color = 'white';
             break;
         case 'info':
-            notification.style.backgroundColor = '#3498db';
+            notification.style.backgroundColor = '#2196F3';
             notification.style.color = 'white';
             break;
-        default:
-            notification.style.backgroundColor = '#2ecc71';
-            notification.style.color = 'white';
     }
     
-    // Adicionar ao corpo do documento
     document.body.appendChild(notification);
-    
-    // Remover após 3 segundos
     setTimeout(() => {
         notification.style.opacity = '0';
         setTimeout(() => {
-            document.body.removeChild(notification);
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
         }, 500);
     }, 3000);
 }
-
-// Tornar a função showNotification global
 window.showNotification = showNotification;
 
-// --- IA Analyzer Logic ---
-document.addEventListener('DOMContentLoaded', function() {
-    const btnEvaluate = document.getElementById('btnEvaluate');
-    const btnMatch = document.getElementById('btnMatch');
-    const aiResultContainer = document.getElementById('aiResultContainer');
-    const aiResultTitle = document.getElementById('aiResultTitle');
-    const aiResultContent = document.getElementById('aiResultContent');
-
-    const API_BASE = "http://127.0.0.1:8000/api/v1";
-
-    async function sendToAI(endpoint, formData, title) {
-        // Exibe loading interativo
-        aiResultContainer.style.display = 'block';
-        aiResultTitle.innerHTML = `<span class="loading-text">⏳ ${title} (Analisando...)</span>`;
-        aiResultContent.innerHTML = `<div style="text-align: center; padding: 20px;"><p style="color: #4a5568;">A Inteligência Artificial está processando seu documento.<br>Isso pode levar alguns segundos...</p></div>`;
-
-        // Smooth scroll para o container de resultado
-        aiResultContainer.scrollIntoView({ behavior: 'smooth' });
-
-        try {
-            const response = await fetch(`${API_BASE}${endpoint}`, {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.detail || 'Erro desconhecido');
-            }
-
-            const data = await response.json();
-            aiResultTitle.innerHTML = `✅ ${title}`;
-            
-            // Pega o texto da IA
-            let textOutput = data.feedback || data.match_analysis || "Nenhuma análise retornada.";
-            
-            // Parser básico de Markdown para HTML
-            let htmlOutput = textOutput
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Negrito
-                .replace(/\*(.*?)\*/g, '<em>$1</em>') // Itálico
-                .replace(/\n\n/g, '</p><p>') // Parágrafos
-                .replace(/\n- /g, '<br>• ') // Listas
-                .replace(/\n/g, '<br>'); // Quebras de linha normais
-                
-            aiResultContent.innerHTML = `<p>${htmlOutput}</p>`;
-            showNotification('Análise concluída com sucesso!', 'success');
-
-        } catch (error) {
-            aiResultTitle.innerHTML = "❌ Erro na Análise";
-            aiResultContent.innerHTML = `<p style="color: red;">Houve um erro ao se comunicar com a IA:<br>${error.message}</p>`;
-            showNotification('Falha ao analisar.', 'error');
-        }
-    }
-
-    if (btnEvaluate) {
-        btnEvaluate.addEventListener('click', () => {
-            const fileInput = document.getElementById('resumePdfAvaliador');
-            if (!fileInput.files[0]) {
-                showNotification('Por favor, anexe um currículo em PDF!', 'error');
-                return;
-            }
-            const formData = new FormData();
-            formData.append('file', fileInput.files[0]);
-            sendToAI('/resume/evaluate', formData, 'Avaliação Diagnóstica do Currículo');
-        });
-    }
-
-    if (btnMatch) {
-        btnMatch.addEventListener('click', () => {
-            const fileInput = document.getElementById('resumePdfMatch');
-            const jobDescription = document.getElementById('jobDescription');
-            
-            if (!fileInput.files[0]) {
-                showNotification('Por favor, anexe um currículo em PDF!', 'error');
-                return;
-            }
-            if (!jobDescription.value.trim()) {
-                showNotification('Por favor, cole a descrição da vaga para o Match!', 'error');
-                return;
-            }
-            const formData = new FormData();
-            formData.append('file', fileInput.files[0]);
-            formData.append('job_description', jobDescription.value);
-            sendToAI('/jobs/match', formData, 'Match com a Vaga (Gaps e Aderência)');
-        });
-    }
-});
-
-/**
- * Exibe um modal de confirmação customizado (não bloqueia a thread)
- * @param {string} message - Mensagem a ser exibida
- * @returns {Promise<boolean>} Resolvida com true se confirmado, false se cancelado
- */
 function showConfirm(message) {
     return new Promise((resolve) => {
-        // Criar overlay
         const overlay = document.createElement('div');
         overlay.className = 'confirm-overlay';
         overlay.style.position = 'fixed';
@@ -214,7 +212,6 @@ function showConfirm(message) {
         overlay.style.justifyContent = 'center';
         overlay.style.alignItems = 'center';
 
-        // Criar modal
         const modal = document.createElement('div');
         modal.className = 'confirm-modal';
         modal.style.backgroundColor = 'white';
@@ -273,6 +270,55 @@ function showConfirm(message) {
 }
 window.showConfirm = showConfirm;
 
+// Dropzone file name display logic & drag/drop
+document.addEventListener('DOMContentLoaded', () => {
+    const setupDropzone = (inputId, displayId) => {
+        const input = document.getElementById(inputId);
+        const display = document.getElementById(displayId);
+        if (input && display) {
+            const dropzoneLabel = input.closest('.dropzone-label');
+            
+            // Change event (Click to select)
+            input.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    display.textContent = '✅ Arquivo selecionado: ' + window.escapeHTML(this.files[0].name);
+                } else {
+                    display.textContent = '';
+                }
+            });
+            
+            // Drag over events
+            dropzoneLabel.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzoneLabel.style.backgroundColor = '#eaf2fb';
+                dropzoneLabel.style.borderColor = '#155491';
+            });
+            
+            dropzoneLabel.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropzoneLabel.style.backgroundColor = '';
+                dropzoneLabel.style.borderColor = '';
+            });
+            
+            // Drop event
+            dropzoneLabel.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzoneLabel.style.backgroundColor = '';
+                dropzoneLabel.style.borderColor = '';
+                
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    input.files = e.dataTransfer.files;
+                    const event = new Event('change');
+                    input.dispatchEvent(event);
+                }
+            });
+        }
+    };
+    
+    setupDropzone('resumePdfAvaliador', 'file-name-avaliador');
+    setupDropzone('resumePdfMatch', 'file-name-match');
+});
+
 // Phone Mask Logic
 document.addEventListener('DOMContentLoaded', () => {
     const maskPhone = (e) => {
@@ -290,24 +336,4 @@ document.addEventListener('DOMContentLoaded', () => {
     const phone2 = document.getElementById('phone2');
     if (phone1) phone1.addEventListener('input', maskPhone);
     if (phone2) phone2.addEventListener('input', maskPhone);
-});
-
-// Dropzone file name display logic
-document.addEventListener('DOMContentLoaded', () => {
-    const setupDropzone = (inputId, displayId) => {
-        const input = document.getElementById(inputId);
-        const display = document.getElementById(displayId);
-        if (input && display) {
-            input.addEventListener('change', function() {
-                if (this.files && this.files[0]) {
-                    display.textContent = '✅ Arquivo selecionado: ' + this.files[0].name;
-                } else {
-                    display.textContent = '';
-                }
-            });
-        }
-    };
-    
-    setupDropzone('resumePdfAvaliador', 'file-name-avaliador');
-    setupDropzone('resumePdfMatch', 'file-name-match');
 });

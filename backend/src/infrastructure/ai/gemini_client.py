@@ -1,5 +1,5 @@
 import os
-import time
+import asyncio
 from google import genai
 
 class GeminiClient:
@@ -10,17 +10,20 @@ class GeminiClient:
         
         self.client = genai.Client(api_key=api_key)
 
-    def _call_gemini_with_fallback(self, prompt: str) -> str:
-        """Função privada que lida com as tentativas e fallback dos modelos."""
-        models_to_try = ['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.5-flash', 'gemini-3.1-flash-lite']
+    async def _call_gemini_with_fallback(self, prompt: str) -> str:
+        """Função privada que lida com as tentativas e fallback dos modelos de forma assíncrona."""
+        # Corrigido para modelos oficiais e válidos
+        models_to_try = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
         max_retries = 3
 
         for model in models_to_try:
             for attempt in range(max_retries):
                 try:
-                    response = self.client.models.generate_content(
+                    # Executa a chamada bloqueante de rede em uma thread separada para não travar o loop de eventos
+                    response = await asyncio.to_thread(
+                        self.client.models.generate_content,
                         model=model,
-                        contents=prompt,
+                        contents=prompt
                     )
                     return response.text
                 except Exception as e:
@@ -28,7 +31,7 @@ class GeminiClient:
                     
                     if "503" in error_msg or "UNAVAILABLE" in error_msg:
                         print(f"[Aviso - Tentativa {attempt + 1}/{max_retries}] Modelo {model} sobrecarregado (503). Retentando em 2s...")
-                        time.sleep(2)
+                        await asyncio.sleep(2)
                         continue
                         
                     elif "404" in error_msg or "NOT_FOUND" in error_msg:
@@ -40,7 +43,7 @@ class GeminiClient:
                         
         raise Exception("Infelizmente os servidores do Google Gemini estão instáveis no momento. Tente novamente em alguns minutos.")
 
-    def evaluate_resume(self, resume_text: str) -> str:
+    async def evaluate_resume(self, resume_text: str) -> str:
         prompt = f"""
         Você é um recrutador sênior de Tecnologia e Recursos Humanos.
         Avalie o currículo abaixo extraído de um PDF e forneça um feedback construtivo.
@@ -53,9 +56,9 @@ class GeminiClient:
         Currículo:
         {resume_text}
         """
-        return self._call_gemini_with_fallback(prompt)
+        return await self._call_gemini_with_fallback(prompt)
 
-    def evaluate_match(self, resume_text: str, job_description: str) -> str:
+    async def evaluate_match(self, resume_text: str, job_description: str) -> str:
         prompt = f"""
         Você é um recrutador sênior de Tecnologia e Recursos Humanos e um especialista em ATS (Applicant Tracking System).
         Compare o currículo do candidato com a descrição da vaga fornecida.
@@ -73,4 +76,4 @@ class GeminiClient:
         Currículo do Candidato:
         {resume_text}
         """
-        return self._call_gemini_with_fallback(prompt)
+        return await self._call_gemini_with_fallback(prompt)

@@ -1,10 +1,20 @@
 from fastapi import APIRouter, File, UploadFile, Form, HTTPException
 import pdfplumber
 import io
+import asyncio
 
 from infrastructure.ai.gemini_client import GeminiClient
 
 router = APIRouter()
+
+def extract_pdf_text_sync(contents: bytes) -> str:
+    extracted_text = ""
+    with pdfplumber.open(io.BytesIO(contents)) as pdf:
+        for page in pdf.pages:
+            text = page.extract_text()
+            if text:
+                extracted_text += text + "\n"
+    return extracted_text
 
 @router.post("/match")
 async def match_resume_to_job(
@@ -20,23 +30,28 @@ async def match_resume_to_job(
     
     try:
         contents = await file.read()
-        extracted_text = ""
         
-        with pdfplumber.open(io.BytesIO(contents)) as pdf:
-            for page in pdf.pages:
-                text = page.extract_text()
-                if text:
-                    extracted_text += text + "\n"
+        # Limite de tamanho de 5MB
+        if len(contents) > 5 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="O arquivo excede o limite de 5MB.")
+            
+        # Extração em threadpool
+        extracted_text = await asyncio.to_thread(extract_pdf_text_sync, contents)
         
-        # Chama a IA para a Análise de Gaps (Match)
+        if not extracted_text.strip():
+            raise HTTPException(status_code=422, detail="O PDF parece estar vazio ou é uma imagem rasterizada sem texto extraível.")
+        
+        # Chama a IA para a Análise de Gaps (Match) assincronamente
         gemini = GeminiClient()
-        match_result = gemini.evaluate_match(extracted_text, job_description)
+        match_result = await gemini.evaluate_match(extracted_text, job_description)
         
         return {
             "filename": file.filename,
             "match_analysis": match_result
         }
         
+    except HTTPException:
+        raise
     except ValueError as ve:
         raise HTTPException(status_code=500, detail=str(ve))
     except Exception as e:

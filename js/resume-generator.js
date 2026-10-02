@@ -2,26 +2,27 @@
  * Módulo para gerar o currículo a partir dos dados do formulário
  */
 const ResumeGenerator = (function() {
+    const esc = window.escapeHTML || (x => x);
     /**
      * Gera o currículo HTML com base nos dados do formulário
      */
     function generateResume() {
         // Coletar informações pessoais
-        const name = document.getElementById('name').value;
-        const birthplace = document.getElementById('birthplace').value;
-        const maritalStatus = document.getElementById('maritalStatus').value;
-        const age = document.getElementById('age').value;
-        const neighborhood = document.getElementById('neighborhood').value;
-        const city = document.getElementById('city').value;
-        const state = document.getElementById('state').value;
-        const phone1 = document.getElementById('phone1').value;
-        const phone2 = document.getElementById('phone2').value;
-        const email = document.getElementById('email').value;
-        const license = document.getElementById('license').value;
+        const name = esc( document.getElementById('name').value);
+        const birthplace = esc( document.getElementById('birthplace').value);
+        const maritalStatus = esc( document.getElementById('maritalStatus').value);
+        const age = esc( document.getElementById('age').value);
+        const neighborhood = esc( document.getElementById('neighborhood').value);
+        const city = esc( document.getElementById('city').value);
+        const state = esc( document.getElementById('state').value);
+        const phone1 = esc( document.getElementById('phone1').value);
+        const phone2 = esc( document.getElementById('phone2').value);
+        const email = esc( document.getElementById('email').value);
+        const license = esc( document.getElementById('license').value);
         
         // Coletar objetivo e síntese
-        const objective = document.getElementById('objective').value;
-        const qualificationSummary = document.getElementById('qualificationSummary').value;
+        const objective = esc( document.getElementById('objective').value);
+        const qualificationSummary = esc( document.getElementById('qualificationSummary').value);
         
         // Coletar formação acadêmica
         const educationHTML = generateEducationHTML();
@@ -36,7 +37,7 @@ const ResumeGenerator = (function() {
         const skillsHTML = generateSkillsHTML();
         
         // Coletar informações complementares
-        const additionalInfo = document.getElementById('additionalInfo').value;
+        const additionalInfo = esc( document.getElementById('additionalInfo').value);
         
         // Construir o cabeçalho do currículo
         let headerHTML = `<h1>${name}</h1>`;
@@ -145,12 +146,12 @@ const ResumeGenerator = (function() {
         let educationHTML = '';
         
         educationItems.forEach(item => {
-            const level = item.querySelector('.education-level').value;
-            const course = item.querySelector('.education-course').value;
-            const institution = item.querySelector('.institution').value;
-            const status = item.querySelector('.education-status').value;
-            const year = item.querySelector('.education-year').value;
-            const shift = item.querySelector('.education-shift').value;
+            const level = esc( item.querySelector('.education-level').value);
+            const course = esc( item.querySelector('.education-course').value);
+            const institution = esc( item.querySelector('.institution').value);
+            const status = esc( item.querySelector('.education-status').value);
+            const year = esc( item.querySelector('.education-year').value);
+            const shift = esc( item.querySelector('.education-shift').value);
             
             if (level && institution && status && year) {
                 let educationText = `${level}`;
@@ -179,10 +180,10 @@ const ResumeGenerator = (function() {
         let experienceHTML = '';
         
         experienceItems.forEach(item => {
-            const position = item.querySelector('.position').value;
-            const company = item.querySelector('.company').value;
-            const period = item.querySelector('.job-period').value;
-            const description = item.querySelector('.job-description').value;
+            const position = esc( item.querySelector('.position').value);
+            const company = esc( item.querySelector('.company').value);
+            const period = esc( item.querySelector('.job-period').value);
+            const description = esc( item.querySelector('.job-description').value);
             
             if (position && company && period) {
                 experienceHTML += `
@@ -206,10 +207,10 @@ const ResumeGenerator = (function() {
         let coursesHTML = '';
         
         courseItems.forEach(item => {
-            const courseName = item.querySelector('.course-name').value;
-            const institution = item.querySelector('.course-institution').value;
-            const hours = item.querySelector('.course-hours').value;
-            const year = item.querySelector('.course-year').value;
+            const courseName = esc( item.querySelector('.course-name').value);
+            const institution = esc( item.querySelector('.course-institution').value);
+            const hours = esc( item.querySelector('.course-hours').value);
+            const year = esc( item.querySelector('.course-year').value);
             
             if (courseName && institution) {
                 let courseText = `${courseName} | ${institution}`;
@@ -247,7 +248,7 @@ const ResumeGenerator = (function() {
         });
         
         // Adicionar outras habilidades
-        const otherHardSkills = document.getElementById('otherHardSkills').value;
+        const otherHardSkills = esc( document.getElementById('otherHardSkills').value);
         if (otherHardSkills) {
             otherHardSkills.split(',').forEach(skill => {
                 const trimmedSkill = skill.trim();
@@ -257,7 +258,7 @@ const ResumeGenerator = (function() {
             });
         }
         
-        const otherSoftSkills = document.getElementById('otherSoftSkills').value;
+        const otherSoftSkills = esc( document.getElementById('otherSoftSkills').value);
         if (otherSoftSkills) {
             otherSoftSkills.split(',').forEach(skill => {
                 const trimmedSkill = skill.trim();

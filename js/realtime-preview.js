@@ -2,6 +2,7 @@
  * Módulo para gerenciar a visualização em tempo real do currículo
  */
 const RealtimePreview = (function() {
+    const esc = window.escapeHTML || (x => x);
     // Armazenar referências a elementos DOM frequentemente acessados
     let elements = {};
     
@@ -172,7 +173,7 @@ const RealtimePreview = (function() {
         
         // Informações adicionais
         elements.additionalInfo.addEventListener('input', debounce(() => {
-            const value = elements.additionalInfo.value;
+            const value = esc( elements.additionalInfo.value);
             elements.previewAdditionalInfo.textContent = value;
             elements.previewAdditionalInfoSection.style.display = value ? 'block' : 'none';
         }, 300));
@@ -329,44 +330,50 @@ const RealtimePreview = (function() {
      * Configura observadores de mutação para detectar alterações nas seções dinâmicas
      */
     function setupMutationObservers() {
-        // Observador para o container de educação
         const educationObserver = new MutationObserver(mutations => {
             for (const mutation of mutations) {
                 if (mutation.type === 'childList') {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === 1 && node.classList.contains('education-item')) {
+                            addListenersToEducationItem(node);
+                        }
+                    });
                     updateEducation();
                 }
             }
         });
         
-        educationObserver.observe(document.getElementById('education-container'), {
-            childList: true
-        });
+        educationObserver.observe(document.getElementById('education-container'), { childList: true });
         
-        // Observador para o container de experiência
         const experienceObserver = new MutationObserver(mutations => {
             for (const mutation of mutations) {
                 if (mutation.type === 'childList') {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === 1 && node.classList.contains('experience-item')) {
+                            addListenersToExperienceItem(node);
+                        }
+                    });
                     updateExperience();
                 }
             }
         });
         
-        experienceObserver.observe(document.getElementById('experience-container'), {
-            childList: true
-        });
+        experienceObserver.observe(document.getElementById('experience-container'), { childList: true });
         
-        // Observador para o container de cursos
         const coursesObserver = new MutationObserver(mutations => {
             for (const mutation of mutations) {
                 if (mutation.type === 'childList') {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === 1 && node.classList.contains('course-item')) {
+                            addListenersToCourseItem(node);
+                        }
+                    });
                     updateCourses();
                 }
             }
         });
         
-        coursesObserver.observe(document.getElementById('courses-container'), {
-            childList: true
-        });
+        coursesObserver.observe(document.getElementById('courses-container'), { childList: true });
     }
     
     /**
@@ -386,7 +393,7 @@ const RealtimePreview = (function() {
         updateSkills();
         
         // Informações adicionais
-        const additionalInfo = elements.additionalInfo.value;
+        const additionalInfo = esc( elements.additionalInfo.value);
         elements.previewAdditionalInfo.textContent = additionalInfo;
         elements.previewAdditionalInfoSection.style.display = additionalInfo ? 'block' : 'none';
     }
@@ -396,14 +403,14 @@ const RealtimePreview = (function() {
      */
     function updatePersonalInfo() {
         // Nome
-        const name = elements.name.value;
+        const name = esc( elements.name.value);
         elements.previewName.textContent = name || 'Nome Completo';
         
         // Linha de naturalidade, estado civil e idade
         let personalInfoLine = '';
-        const birthplace = elements.birthplace.value;
-        const maritalStatus = elements.maritalStatus.value;
-        const age = elements.age.value;
+        const birthplace = esc( elements.birthplace.value);
+        const maritalStatus = esc( elements.maritalStatus.value);
+        const age = esc( elements.age.value);
         
         if (birthplace) personalInfoLine += `Natural de ${birthplace}`;
         if (birthplace && (maritalStatus || age)) personalInfoLine += ', ';
@@ -415,9 +422,9 @@ const RealtimePreview = (function() {
         
         // Linha de endereço
         let addressLine = '';
-        const neighborhood = elements.neighborhood.value;
-        const city = elements.city.value;
-        const state = elements.state.value;
+        const neighborhood = esc( elements.neighborhood.value);
+        const city = esc( elements.city.value);
+        const state = esc( elements.state.value);
         
         if (neighborhood) addressLine += neighborhood;
         if (neighborhood && (city || state)) addressLine += ', ';
@@ -429,8 +436,8 @@ const RealtimePreview = (function() {
         
         // Linha de telefones
         let phoneLine = '';
-        const phone1 = elements.phone1.value;
-        const phone2 = elements.phone2.value;
+        const phone1 = esc( elements.phone1.value);
+        const phone2 = esc( elements.phone2.value);
         
         if (phone1) phoneLine += phone1;
         if (phone1 && phone2) phoneLine += '; ';
@@ -439,10 +446,10 @@ const RealtimePreview = (function() {
         elements.previewPhones.textContent = phoneLine;
         
         // Email
-        elements.previewEmail.textContent = elements.email.value;
+        elements.previewEmail.textContent = esc( elements.email.value);
         
         // CNH
-        const license = elements.license.value;
+        const license = esc( elements.license.value);
         elements.previewLicense.textContent = license ? `CNH: ${license}` : '';
     }
     
@@ -459,12 +466,12 @@ const RealtimePreview = (function() {
         }
         
         educationItems.forEach(item => {
-            const level = item.querySelector('.education-level').value;
-            const course = item.querySelector('.education-course').value;
-            const institution = item.querySelector('.institution').value;
-            const status = item.querySelector('.education-status').value;
-            const year = item.querySelector('.education-year').value;
-            const shift = item.querySelector('.education-shift').value;
+            const level = esc( item.querySelector('.education-level').value);
+            const course = esc( item.querySelector('.education-course').value);
+            const institution = esc( item.querySelector('.institution').value);
+            const status = esc( item.querySelector('.education-status').value);
+            const year = esc( item.querySelector('.education-year').value);
+            const shift = esc( item.querySelector('.education-shift').value);
             
             if (level || institution || status || year) {
                 let educationText = `${level || 'Nível não especificado'}`;
@@ -503,10 +510,10 @@ const RealtimePreview = (function() {
         let hasValidExperience = false;
         
         experienceItems.forEach(item => {
-            const position = item.querySelector('.position').value;
-            const company = item.querySelector('.company').value;
-            const period = item.querySelector('.job-period').value;
-            const description = item.querySelector('.job-description').value;
+            const position = esc( item.querySelector('.position').value);
+            const company = esc( item.querySelector('.company').value);
+            const period = esc( item.querySelector('.job-period').value);
+            const description = esc( item.querySelector('.job-description').value);
             
             if (position || company || period) {
                 hasValidExperience = true;
@@ -541,10 +548,10 @@ const RealtimePreview = (function() {
         let hasValidCourse = false;
         
         courseItems.forEach(item => {
-            const courseName = item.querySelector('.course-name').value;
-            const institution = item.querySelector('.course-institution').value;
-            const hours = item.querySelector('.course-hours').value;
-            const year = item.querySelector('.course-year').value;
+            const courseName = esc( item.querySelector('.course-name').value);
+            const institution = esc( item.querySelector('.course-institution').value);
+            const hours = esc( item.querySelector('.course-hours').value);
+            const year = esc( item.querySelector('.course-year').value);
             
             if (courseName || institution) {
                 hasValidCourse = true;
@@ -587,7 +594,7 @@ const RealtimePreview = (function() {
         });
         
         // Adicionar outras habilidades
-        const otherHardSkills = elements.otherHardSkills.value;
+        const otherHardSkills = esc( elements.otherHardSkills.value);
         if (otherHardSkills) {
             otherHardSkills.split(',').forEach(skill => {
                 const trimmedSkill = skill.trim();
@@ -597,7 +604,7 @@ const RealtimePreview = (function() {
             });
         }
         
-        const otherSoftSkills = elements.otherSoftSkills.value;
+        const otherSoftSkills = esc( elements.otherSoftSkills.value);
         if (otherSoftSkills) {
             otherSoftSkills.split(',').forEach(skill => {
                 const trimmedSkill = skill.trim();
