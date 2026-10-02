@@ -869,3 +869,49 @@ body {
 .resume p, .resume ul, .resume-item p {
     margin-bottom: 5px;
 }
+
+/* =========================================
+   AI LOADING ANIMATION
+   ========================================= */
+.ai-loading-container {
+    margin: 20px 0;
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background-color: #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    width: 0%;
+    transition: width 0.4s ease-out;
+    border-radius: 20px;
+}
+.progress-status {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 10px;
+}
+.progress-percentage {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

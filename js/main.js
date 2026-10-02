@@ -97,7 +97,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         resultContainer.style.display = 'block';
-        aiResultContent.innerHTML = '<p><em>Carregando análise da IA... aguarde (pode levar alguns segundos)</em></p>';
+        
+        // NOVO: UX de Carregamento Animado
+        aiResultContent.innerHTML = `
+            <div class="ai-loading-container">
+                <div class="progress-percentage">0%</div>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="aiProgressFill"></div>
+                </div>
+                <p class="progress-status" id="aiProgressStatus">Recebendo documento...</p>
+            </div>
+        `;
+
+        const progressFill = document.getElementById('aiProgressFill');
+        const progressStatus = document.getElementById('aiProgressStatus');
+        const progressPercentage = document.querySelector('.progress-percentage');
+        
+        let progress = 0;
+        const steps = [
+            { threshold: 10, text: "Preparando documento em PDF..." },
+            { threshold: 30, text: "Lendo e extraindo informações..." },
+            { threshold: 60, text: "A IA está analisando seus dados..." },
+            { threshold: 80, text: "Cruzando habilidades e perfil..." },
+            { threshold: 95, text: "Formatando os resultados finais..." }
+        ];
+
+        const progressInterval = setInterval(() => {
+            if (progress < 95) {
+                progress += Math.floor(Math.random() * 4) + 1;
+                if (progress > 95) progress = 95;
+                
+                if (progressFill) progressFill.style.width = `${progress}%`;
+                if (progressPercentage) progressPercentage.textContent = `${progress}%`;
+
+                const currentStep = steps.slice().reverse().find(s => progress >= s.threshold);
+                if (currentStep && progressStatus) {
+                    progressStatus.textContent = currentStep.text;
+                }
+            }
+        }, 500);
 
         const API_BASE = "http://localhost:8000/api/v1";
 
@@ -112,20 +150,26 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            let markdownText = data.feedback || data.match_analysis || "Análise concluída, mas sem texto retornado.";
-            // Previne XSS escapando as tags HTML que vieram do Gemini
-            markdownText = window.escapeHTML(markdownText);
+            clearInterval(progressInterval);
+            if (progressFill) progressFill.style.width = '100%';
+            if (progressPercentage) progressPercentage.textContent = '100%';
+            if (progressStatus) progressStatus.textContent = 'Análise concluída com sucesso!';
             
-            // Markdown to HTML conversion
-            let htmlOutput = markdownText
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/\n/g, '<br>');
-            
-            aiResultContent.innerHTML = `<p>${htmlOutput}</p>`;
-            showNotification('Análise concluída com sucesso!', 'success');
+            setTimeout(() => {
+                let markdownText = data.feedback || data.match_analysis || "Análise concluída, mas sem texto retornado.";
+                markdownText = window.escapeHTML(markdownText);
+                
+                let htmlOutput = markdownText
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>');
+                
+                aiResultContent.innerHTML = `<p>${htmlOutput}</p>`;
+                showNotification('Análise concluída!', 'success');
+            }, 800);
         })
         .catch(error => {
+            clearInterval(progressInterval);
             console.error('Erro:', error);
             aiResultContent.innerHTML = `<p style="color: red;">Houve um erro ao se comunicar com a IA:<br>${window.escapeHTML(error.message)}</p>`;
             showNotification('Falha ao analisar.', 'error');
