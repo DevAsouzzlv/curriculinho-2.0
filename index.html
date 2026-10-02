@@ -21,76 +21,79 @@
     /* Reset and Typography for Landing */
     #landing-screen {
         font-family: 'Outfit', sans-serif;
-        background-color: #fafaf9; /* Warm off-white */
-        color: #1c1917; /* Very dark stone */
+        background-color: #ffffff; /* Fundo limpo branco */
+        color: #333333;
         overflow-x: hidden;
         position: relative;
     }
     
     /* Navbar */
     .landing-nav {
-        padding: 20px 0;
+        padding: 10px 0; /* DIMINUÍDO */
         position: absolute;
         width: 100%;
         top: 0;
         z-index: 100;
+        background: rgba(255, 255, 255, 0.95);
+        border-bottom: 1px solid #eeeeee;
     }
     .landing-nav .brand {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         font-weight: 900;
         letter-spacing: -0.5px;
-        color: #1c1917;
+        color: #155491; /* AZUL ORIGINAL */
         text-decoration: none;
     }
     .landing-nav .brand span {
-        color: #6366f1; /* Indigo */
+        color: #f79633; /* LARANJA ORIGINAL */
     }
     .btn-pill {
         border-radius: 50px;
-        padding: 12px 28px;
+        padding: 8px 24px;
         font-weight: 600;
         transition: all 0.2s ease;
     }
     .btn-dark-pill {
-        background-color: #1c1917;
+        background-color: #155491; /* AZUL ORIGINAL */
         color: white;
-        border: 2px solid #1c1917;
+        border: 2px solid #155491;
     }
     .btn-dark-pill:hover {
-        background-color: #4338ca;
-        border-color: #4338ca;
+        background-color: #0d3b66;
+        border-color: #0d3b66;
         transform: translateY(-2px);
+        color: white;
     }
     .btn-outline-pill {
         background-color: transparent;
-        color: #1c1917;
+        color: #155491;
         border: 2px solid #e7e5e4;
     }
     .btn-outline-pill:hover {
-        border-color: #1c1917;
+        border-color: #155491;
     }
 
     /* Hero Section */
     .hero {
-        min-height: 100vh;
+        min-height: 90vh;
         display: flex;
         align-items: center;
         position: relative;
-        padding-top: 80px;
+        padding-top: 100px;
     }
     
-    /* Background blob */
+    /* Background blob (Soft Blue instead of Yellow) */
     .bg-shape {
         position: absolute;
         top: -10%;
         right: -10%;
         width: 800px;
         height: 800px;
-        background: #fef08a; /* Soft Yellow */
+        background: #eaf3fc; /* Azul bem claro */
         border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
         z-index: 0;
         animation: morph 12s ease-in-out infinite alternate;
-        opacity: 0.6;
+        opacity: 0.8;
     }
     @keyframes morph {
         0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg); }
@@ -100,30 +103,33 @@
     .hero-content {
         position: relative;
         z-index: 10;
+        max-width: 1400px; /* Expandir a largura */
     }
     .hero-badge {
         display: inline-flex;
         align-items: center;
         gap: 8px;
         background: white;
-        padding: 8px 16px;
+        padding: 6px 14px;
         border-radius: 50px;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         margin-bottom: 24px;
         border: 1px solid #f5f5f4;
+        color: #f79633;
     }
     .hero-title {
-        font-size: 4.5rem;
+        font-size: 3.8rem; /* DIMINUÍDO para não quebrar feio */
         font-weight: 900;
-        line-height: 1.1;
-        letter-spacing: -0.03em;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
         margin-bottom: 24px;
+        color: #111111;
     }
     .highlight {
         position: relative;
-        color: #4338ca; /* Indigo */
+        color: #155491; /* AZUL ORIGINAL */
         display: inline-block;
     }
     .highlight::after {
@@ -132,17 +138,18 @@
         bottom: 8px;
         left: 0;
         width: 100%;
-        height: 16px;
-        background: #fde047; /* Bright yellow */
+        height: 12px;
+        background: #f79633; /* LARANJA ORIGINAL */
         z-index: -1;
         border-radius: 4px;
         transform: rotate(-1deg);
+        opacity: 0.8;
     }
     .hero-subtitle {
-        font-size: 1.25rem;
-        color: #57534e;
-        margin-bottom: 40px;
-        max-width: 90%;
+        font-size: 1.15rem;
+        color: #555555;
+        margin-bottom: 35px;
+        max-width: 95%;
         line-height: 1.6;
     }
     .hero-cta {
@@ -150,41 +157,44 @@
         gap: 16px;
     }
     .btn-cta-primary {
-        background-color: #4338ca;
+        background-color: #f79633; /* LARANJA ORIGINAL */
         color: white;
-        padding: 18px 40px;
+        padding: 16px 36px;
         border-radius: 50px;
         font-size: 1.1rem;
         font-weight: 600;
         border: none;
-        box-shadow: 0 10px 25px -5px rgba(67, 56, 202, 0.4);
+        box-shadow: 0 10px 25px -5px rgba(247, 150, 51, 0.4);
         transition: all 0.3s ease;
     }
     .btn-cta-primary:hover {
         transform: translateY(-3px);
-        box-shadow: 0 15px 30px -5px rgba(67, 56, 202, 0.5);
+        box-shadow: 0 15px 30px -5px rgba(247, 150, 51, 0.5);
+        color: white;
     }
 
     /* Right Side Visuals */
     .visual-wrapper {
         position: relative;
         z-index: 10;
-        height: 600px;
+        height: 550px;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end; /* ALINHAR PARA A DIREITA */
         align-items: center;
+        padding-right: 40px;
     }
     .visual-card {
-        width: 340px;
-        height: 480px;
-        background: #1c1917;
-        border-radius: 30px;
-        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
+        width: 320px;
+        height: 460px;
+        background: white; /* Card Branco ao invés de dark mode */
+        border: 2px solid #e2e8f0;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px -10px rgba(21, 84, 145, 0.15); /* Sombra azulada */
         position: relative;
-        transform: rotate(6deg);
+        transform: rotate(4deg);
         transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         padding: 40px 30px;
-        color: white;
+        color: #333;
         display: flex;
         flex-direction: column;
     }
@@ -192,10 +202,10 @@
         transform: rotate(0deg) scale(1.02);
     }
     
-    /* Mock CV lines inside card */
-    .v-line { background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 16px; }
-    .v-title { width: 60%; height: 24px; background: #fde047; margin-bottom: 30px; }
-    .v-sub { width: 40%; height: 12px; background: #818cf8; margin-bottom: 40px; }
+    /* Mock CV lines inside card (Colors from original palette) */
+    .v-line { background: #f1f5f9; border-radius: 10px; margin-bottom: 16px; }
+    .v-title { width: 60%; height: 24px; background: #155491; margin-bottom: 30px; }
+    .v-sub { width: 40%; height: 12px; background: #f79633; margin-bottom: 40px; }
     .v-text-1 { width: 100%; height: 8px; }
     .v-text-2 { width: 85%; height: 8px; }
     .v-text-3 { width: 90%; height: 8px; }
@@ -204,66 +214,69 @@
     .float-tag {
         position: absolute;
         background: white;
-        padding: 12px 24px;
+        padding: 10px 20px;
         border-radius: 50px;
         font-weight: 700;
-        color: #1c1917;
-        box-shadow: 0 15px 30px -5px rgba(0,0,0,0.1);
+        color: #155491;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
         display: flex;
         align-items: center;
         gap: 10px;
         animation: float 6s ease-in-out infinite;
         z-index: 20;
-        border: 2px solid #f5f5f4;
+        border: 1px solid #f1f5f9;
+        font-size: 0.9rem;
     }
-    .tag-1 { top: 10%; left: -15%; animation-delay: 0s; color: #4338ca; }
-    .tag-2 { bottom: 20%; right: -20%; animation-delay: 1.5s; color: #ea580c; }
-    .tag-3 { bottom: 5%; left: 0%; animation-delay: 3s; color: #16a34a; }
+    .tag-1 { top: 5%; left: 0%; animation-delay: 0s; color: #155491; }
+    .tag-2 { bottom: 25%; right: -10%; animation-delay: 1.5s; color: #f79633; }
+    .tag-3 { bottom: 10%; left: -5%; animation-delay: 3s; color: #4CAF50; } /* VERDE ORIGINAL */
     .tag-icon {
-        width: 32px; height: 32px; 
+        width: 28px; height: 28px; 
         border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        background: #f3f4f6;
+        background: #f8fafc;
     }
 
     @keyframes float {
         0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-20px); }
+        50% { transform: translateY(-15px); }
     }
 
-    /* Footer */
+    /* Footer (DIMINUÍDO E NAS CORES ORIGINAIS) */
     .creative-footer {
-        background-color: #1c1917;
+        background-color: #155491; /* AZUL ORIGINAL */
         color: white;
-        padding: 80px 0 40px 0;
+        padding: 40px 0 20px 0; /* BEM MENOR */
         margin-top: 0;
     }
     .footer-title {
-        font-size: 3rem;
+        font-size: 2rem; /* MENOR */
         font-weight: 800;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     .footer-divider {
         height: 1px;
-        background: rgba(255,255,255,0.1);
-        margin: 40px 0;
+        background: rgba(255,255,255,0.2);
+        margin: 25px 0;
     }
     
     @media (max-width: 991px) {
-        .hero-title { font-size: 3rem; }
+        .hero-title { font-size: 2.8rem; }
         .bg-shape { width: 400px; height: 400px; }
         .visual-wrapper { display: none; }
+        .hero { padding-top: 120px; }
     }
 </style>
+
 
 <div id="landing-screen">
     <!-- Navbar -->
     <nav class="landing-nav">
         <div class="container d-flex justify-content-between align-items-center">
-            <a href="#" class="brand">Curriculinho<span>.</span></a>
-            <div class="d-flex gap-3">
+            <a href="#" class="brand">Curriculinho<span>2.0</span></a>
+            <div class="d-flex gap-2">
                 <button class="btn btn-outline-pill d-none d-md-block" onclick="document.getElementById('btnComecar').click(); setTimeout(() => document.querySelector('[data-target=\'avaliador-section\']').click(), 100);">Avaliar CV</button>
-                <button class="btn btn-dark-pill" onclick="document.getElementById('btnComecar').click();">Entrar <i class="bi bi-arrow-right ms-2"></i></button>
+                <button class="btn btn-dark-pill" onclick="document.getElementById('btnComecar').click();">Entrar <i class="bi bi-arrow-right ms-1"></i></button>
             </div>
         </div>
     </nav>
@@ -274,21 +287,19 @@
         <div class="container hero-content">
             <div class="row align-items-center">
                 <!-- Text Column -->
-                <div class="col-lg-6">
+                <div class="col-lg-6 pe-lg-5">
                     <div class="hero-badge">
-                        <span style="font-size: 1.2rem;">✨</span> Inteligência Artificial para Carreiras
+                        <i class="bi bi-stars"></i> Inteligência Artificial para Carreiras
                     </div>
                     <h1 class="hero-title">
-                        O seu próximo<br>
-                        emprego começa<br>
-                        <span class="highlight">aqui.</span>
+                        Seu próximo emprego começa <span class="highlight">aqui.</span>
                     </h1>
                     <p class="hero-subtitle">
-                        Esqueça os currículos genéricos. Nossa IA desenha o seu perfil, destaca seus pontos fortes e dá o <strong>Match</strong> exato com as vagas das maiores empresas do mundo.
+                        Nossa IA desenha o seu perfil, destaca seus pontos fortes e dá o <strong>Match</strong> exato com as vagas das maiores empresas do mercado.
                     </p>
                     <div class="hero-cta">
                         <button type="button" id="btnComecar" class="btn-cta-primary" onclick="document.getElementById('btnComecar').click();">
-                            Criar meu portfólio
+                            Criar meu currículo agora
                         </button>
                     </div>
                 </div>
@@ -298,7 +309,7 @@
                     <div class="visual-wrapper">
                         <!-- Floating Tags -->
                         <div class="float-tag tag-1">
-                            <div class="tag-icon"><i class="bi bi-magic"></i></div>
+                            <div class="tag-icon"><i class="bi bi-robot"></i></div>
                             IA Analisando...
                         </div>
                         <div class="float-tag tag-2">
@@ -306,16 +317,16 @@
                             98% Match
                         </div>
                         <div class="float-tag tag-3">
-                            <div class="tag-icon"><i class="bi bi-check2-all"></i></div>
+                            <div class="tag-icon"><i class="bi bi-check-circle"></i></div>
                             Aprovado ATS
                         </div>
 
                         <!-- Card Mockup -->
                         <div class="visual-card">
-                            <div class="d-flex align-items-center gap-3 mb-5">
-                                <div style="width: 60px; height: 60px; background: #6366f1; border-radius: 50%;"></div>
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div style="width: 50px; height: 50px; background: #eaf3fc; border-radius: 50%;"></div>
                                 <div>
-                                    <div class="v-line" style="width: 100px; height: 12px; margin-bottom: 8px; background: white;"></div>
+                                    <div class="v-line" style="width: 100px; height: 10px; margin-bottom: 6px; background: #d0e1f9;"></div>
                                     <div class="v-line" style="width: 60px; height: 8px;"></div>
                                 </div>
                             </div>
@@ -330,11 +341,11 @@
                             </div>
                             
                             <div class="mt-5">
-                                <div class="v-line" style="width: 30%; height: 12px; background: #fde047; margin-bottom: 20px;"></div>
+                                <div class="v-line" style="width: 30%; height: 10px; background: #f79633; margin-bottom: 15px;"></div>
                                 <div class="d-flex gap-2">
-                                    <div class="v-line" style="width: 60px; height: 25px; border-radius: 15px;"></div>
-                                    <div class="v-line" style="width: 80px; height: 25px; border-radius: 15px;"></div>
-                                    <div class="v-line" style="width: 50px; height: 25px; border-radius: 15px;"></div>
+                                    <div class="v-line" style="width: 60px; height: 20px; border-radius: 10px; background:#eaf3fc;"></div>
+                                    <div class="v-line" style="width: 80px; height: 20px; border-radius: 10px; background:#eaf3fc;"></div>
+                                    <div class="v-line" style="width: 50px; height: 20px; border-radius: 10px; background:#eaf3fc;"></div>
                                 </div>
                             </div>
                         </div>
@@ -741,32 +752,29 @@
     <!-- Rodapé -->
     
 
+
 <footer class="creative-footer">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-8">
-                <h2 class="footer-title">Pronto para dar o<br><span style="color: #fde047;">próximo passo?</span></h2>
-                <p style="font-size: 1.2rem; color: #a8a29e; margin-bottom: 30px;">Pare de enviar currículos em branco. Comece a ser notado.</p>
-                <button class="btn btn-cta-primary" style="background: #fde047; color: #1c1917; box-shadow: none;" onclick="window.scrollTo(0,0); document.getElementById('btnComecar').click();">Começar Agora <i class="bi bi-arrow-up-right ms-2"></i></button>
+            <div class="col-lg-7">
+                <h2 class="footer-title">Pronto para avançar?</h2>
+                <p style="font-size: 1.1rem; color: #d0e1f9; margin-bottom: 20px;">Pare de enviar currículos em branco. Seja notado.</p>
+                <button class="btn btn-cta-primary" style="background: #f79633; color: white; padding: 10px 24px; font-size: 1rem;" onclick="window.scrollTo(0,0); document.getElementById('btnComecar').click();">Começar Agora</button>
             </div>
-            <div class="col-lg-4 text-lg-end mt-5 mt-lg-0">
+            <div class="col-lg-5 text-lg-end mt-4 mt-lg-0">
                 <div class="d-inline-flex flex-column align-items-lg-end">
-                    <h4 style="font-weight: 800; font-size: 2rem; margin-bottom: 5px;">Curriculinho<span style="color: #6366f1;">.</span></h4>
-                    <p style="color: #a8a29e;">SENAC 2025 • Turmas 13 & 61</p>
+                    <h4 style="font-weight: 800; font-size: 1.5rem; margin-bottom: 5px;">Curriculinho<span style="color: #f79633;">2.0</span></h4>
+                    <p style="color: #d0e1f9; font-size: 0.9rem;">SENAC 2025 • Turmas 13 & 61</p>
                 </div>
             </div>
         </div>
         <div class="footer-divider"></div>
-        <div class="d-flex justify-content-between align-items-center flex-wrap" style="color: #78716c; font-size: 0.9rem;">
+        <div class="text-center" style="color: #b0cceb; font-size: 0.85rem;">
             <p class="mb-0">© 2025 Curriculinho. Todos os direitos reservados.</p>
-            <div class="d-flex gap-4 mt-3 mt-md-0">
-                <span>UI/UX Design</span>
-                <span>Inteligência Artificial</span>
-                <span>Desenvolvimento Web</span>
-            </div>
         </div>
     </div>
 </footer>
+
 
 
 
