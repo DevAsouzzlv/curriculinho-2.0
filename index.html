@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;800;900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currículo Express</title>
@@ -13,64 +16,328 @@
 <body>
     <!-- TELA DE ENTRADA -->
 
+
+<style id="landing-styles">
+    /* Reset and Typography for Landing */
+    #landing-screen {
+        font-family: 'Outfit', sans-serif;
+        background-color: #fafaf9; /* Warm off-white */
+        color: #1c1917; /* Very dark stone */
+        overflow-x: hidden;
+        position: relative;
+    }
+    
+    /* Navbar */
+    .landing-nav {
+        padding: 20px 0;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+    }
+    .landing-nav .brand {
+        font-size: 1.8rem;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+        color: #1c1917;
+        text-decoration: none;
+    }
+    .landing-nav .brand span {
+        color: #6366f1; /* Indigo */
+    }
+    .btn-pill {
+        border-radius: 50px;
+        padding: 12px 28px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+    .btn-dark-pill {
+        background-color: #1c1917;
+        color: white;
+        border: 2px solid #1c1917;
+    }
+    .btn-dark-pill:hover {
+        background-color: #4338ca;
+        border-color: #4338ca;
+        transform: translateY(-2px);
+    }
+    .btn-outline-pill {
+        background-color: transparent;
+        color: #1c1917;
+        border: 2px solid #e7e5e4;
+    }
+    .btn-outline-pill:hover {
+        border-color: #1c1917;
+    }
+
+    /* Hero Section */
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding-top: 80px;
+    }
+    
+    /* Background blob */
+    .bg-shape {
+        position: absolute;
+        top: -10%;
+        right: -10%;
+        width: 800px;
+        height: 800px;
+        background: #fef08a; /* Soft Yellow */
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        z-index: 0;
+        animation: morph 12s ease-in-out infinite alternate;
+        opacity: 0.6;
+    }
+    @keyframes morph {
+        0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg); }
+        100% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: rotate(10deg); }
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 10;
+    }
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: white;
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        margin-bottom: 24px;
+        border: 1px solid #f5f5f4;
+    }
+    .hero-title {
+        font-size: 4.5rem;
+        font-weight: 900;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        margin-bottom: 24px;
+    }
+    .highlight {
+        position: relative;
+        color: #4338ca; /* Indigo */
+        display: inline-block;
+    }
+    .highlight::after {
+        content: '';
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        width: 100%;
+        height: 16px;
+        background: #fde047; /* Bright yellow */
+        z-index: -1;
+        border-radius: 4px;
+        transform: rotate(-1deg);
+    }
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: #57534e;
+        margin-bottom: 40px;
+        max-width: 90%;
+        line-height: 1.6;
+    }
+    .hero-cta {
+        display: flex;
+        gap: 16px;
+    }
+    .btn-cta-primary {
+        background-color: #4338ca;
+        color: white;
+        padding: 18px 40px;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border: none;
+        box-shadow: 0 10px 25px -5px rgba(67, 56, 202, 0.4);
+        transition: all 0.3s ease;
+    }
+    .btn-cta-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px -5px rgba(67, 56, 202, 0.5);
+    }
+
+    /* Right Side Visuals */
+    .visual-wrapper {
+        position: relative;
+        z-index: 10;
+        height: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .visual-card {
+        width: 340px;
+        height: 480px;
+        background: #1c1917;
+        border-radius: 30px;
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
+        position: relative;
+        transform: rotate(6deg);
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        padding: 40px 30px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+    }
+    .visual-wrapper:hover .visual-card {
+        transform: rotate(0deg) scale(1.02);
+    }
+    
+    /* Mock CV lines inside card */
+    .v-line { background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 16px; }
+    .v-title { width: 60%; height: 24px; background: #fde047; margin-bottom: 30px; }
+    .v-sub { width: 40%; height: 12px; background: #818cf8; margin-bottom: 40px; }
+    .v-text-1 { width: 100%; height: 8px; }
+    .v-text-2 { width: 85%; height: 8px; }
+    .v-text-3 { width: 90%; height: 8px; }
+    
+    /* Floating Tags */
+    .float-tag {
+        position: absolute;
+        background: white;
+        padding: 12px 24px;
+        border-radius: 50px;
+        font-weight: 700;
+        color: #1c1917;
+        box-shadow: 0 15px 30px -5px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: float 6s ease-in-out infinite;
+        z-index: 20;
+        border: 2px solid #f5f5f4;
+    }
+    .tag-1 { top: 10%; left: -15%; animation-delay: 0s; color: #4338ca; }
+    .tag-2 { bottom: 20%; right: -20%; animation-delay: 1.5s; color: #ea580c; }
+    .tag-3 { bottom: 5%; left: 0%; animation-delay: 3s; color: #16a34a; }
+    .tag-icon {
+        width: 32px; height: 32px; 
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        background: #f3f4f6;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+
+    /* Footer */
+    .creative-footer {
+        background-color: #1c1917;
+        color: white;
+        padding: 80px 0 40px 0;
+        margin-top: 0;
+    }
+    .footer-title {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+    .footer-divider {
+        height: 1px;
+        background: rgba(255,255,255,0.1);
+        margin: 40px 0;
+    }
+    
+    @media (max-width: 991px) {
+        .hero-title { font-size: 3rem; }
+        .bg-shape { width: 400px; height: 400px; }
+        .visual-wrapper { display: none; }
+    }
+</style>
+
 <div id="landing-screen">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top py-3">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-primary fs-3 d-flex align-items-center gap-2" href="#">
-                <i class="bi bi-file-earmark-text-fill text-warning"></i> Curriculinho <span class="text-warning">2.0</span>
-            </a>
+    <!-- Navbar -->
+    <nav class="landing-nav">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="#" class="brand">Curriculinho<span>.</span></a>
             <div class="d-flex gap-3">
-                <button class="btn btn-outline-primary rounded-pill px-4 fw-bold" onclick="document.getElementById('btnComecar').click(); setTimeout(() => document.querySelector('[data-target=\'avaliador-section\']').click(), 100);">Avaliar CV</button>
-                <button class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" onclick="document.getElementById('btnComecar').click();">Entrar</button>
+                <button class="btn btn-outline-pill d-none d-md-block" onclick="document.getElementById('btnComecar').click(); setTimeout(() => document.querySelector('[data-target=\'avaliador-section\']').click(), 100);">Avaliar CV</button>
+                <button class="btn btn-dark-pill" onclick="document.getElementById('btnComecar').click();">Entrar <i class="bi bi-arrow-right ms-2"></i></button>
             </div>
         </div>
     </nav>
-    <main class="d-flex align-items-center" style="min-height: 100vh; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding-top: 80px;">
-        <div class="container">
-            <div class="row align-items-center g-5">
+
+    <!-- Hero Section -->
+    <main class="hero">
+        <div class="bg-shape"></div>
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <!-- Text Column -->
                 <div class="col-lg-6">
-                    <h1 class="display-3 fw-bold text-dark mb-4">Crie seu currículo profissional em <span class="text-primary">minutos!</span></h1>
-                    <p class="lead text-muted mb-5 fs-4">O <strong>Curriculinho 2.0</strong> utiliza Inteligência Artificial para gerar, analisar e otimizar seu currículo para as melhores vagas do mercado.</p>
-                    
-                    <ul class="list-unstyled mb-5 fs-5">
-                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2 fs-4 align-middle"></i> Modelos otimizados para recrutadores (ATS)</li>
-                        <li class="mb-3"><i class="bi bi-robot text-primary me-2 fs-4 align-middle"></i> Feedback de IA sobre seus pontos fortes</li>
-                        <li class="mb-3"><i class="bi bi-bullseye text-warning me-2 fs-4 align-middle"></i> Match inteligente com vagas de emprego</li>
-                    </ul>
-                    
-                    <button type="button" id="btnComecar" class="btn btn-warning btn-lg rounded-pill px-5 py-3 fw-bold shadow text-white fs-4 mb-4">
-                        <i class="bi bi-magic me-2"></i> Criar meu currículo grátis
-                    </button>
-                </div>
-                
-                <div class="col-lg-6 d-none d-lg-flex justify-content-center">
-                    <div class="resume-mockup shadow-lg" style="transform: rotate(3deg); transition: transform 0.4s ease; width: 450px; height: 600px; padding: 40px; background: white; border-radius: 12px;">
-                        <div class="mock-line title bg-primary w-50 mb-4" style="height: 18px; border-radius: 10px;"></div>
-                        <div class="mock-line short accent bg-warning w-25 mb-5" style="height: 12px; border-radius: 10px;"></div>
-                        <div class="mock-line medium bg-secondary w-75 mb-3 opacity-50" style="height: 10px; border-radius: 10px;"></div>
-                        <div class="mock-line bg-secondary w-100 mb-3 opacity-25" style="height: 10px; border-radius: 10px;"></div>
-                        <div class="mock-line medium bg-secondary w-75 mb-5 opacity-25" style="height: 10px; border-radius: 10px;"></div>
-                        
-                        <div class="mock-line title bg-primary w-25 mb-4" style="height: 18px; border-radius: 10px;"></div>
-                        <div class="mock-line medium bg-secondary w-100 mb-3 opacity-50" style="height: 10px; border-radius: 10px;"></div>
-                        <div class="mock-line bg-secondary w-100 mb-3 opacity-25" style="height: 10px; border-radius: 10px;"></div>
-                        <div class="mock-line medium bg-secondary w-50 mb-5 opacity-25" style="height: 10px; border-radius: 10px;"></div>
-                        
-                        <div class="mock-line title bg-primary w-50 mb-4" style="height: 18px; border-radius: 10px;"></div>
-                        <div class="mock-line medium bg-secondary w-75 mb-3 opacity-50" style="height: 10px; border-radius: 10px;"></div>
+                    <div class="hero-badge">
+                        <span style="font-size: 1.2rem;">✨</span> Inteligência Artificial para Carreiras
+                    </div>
+                    <h1 class="hero-title">
+                        O seu próximo<br>
+                        emprego começa<br>
+                        <span class="highlight">aqui.</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Esqueça os currículos genéricos. Nossa IA desenha o seu perfil, destaca seus pontos fortes e dá o <strong>Match</strong> exato com as vagas das maiores empresas do mundo.
+                    </p>
+                    <div class="hero-cta">
+                        <button type="button" id="btnComecar" class="btn-cta-primary" onclick="document.getElementById('btnComecar').click();">
+                            Criar meu portfólio
+                        </button>
                     </div>
                 </div>
-            </div>
-            
-            <div class="row mt-5 pt-5 text-center opacity-75">
-                <div class="col-12">
-                    <p class="text-uppercase fw-bold text-muted tracking-wider mb-4 fs-6">Aprovado por quem recruta em grandes empresas</p>
-                    <div class="d-flex justify-content-center gap-5 fs-3 fw-bold text-secondary flex-wrap">
-                        <span><i class="bi bi-google"></i> Google</span>
-                        <span><i class="bi bi-microsoft"></i> Microsoft</span>
-                        <span><i class="bi bi-amazon"></i> Amazon</span>
-                        <span><i class="bi bi-meta"></i> Meta</span>
-                        <span><i class="bi bi-apple"></i> Apple</span>
+                
+                <!-- Visual Column -->
+                <div class="col-lg-6">
+                    <div class="visual-wrapper">
+                        <!-- Floating Tags -->
+                        <div class="float-tag tag-1">
+                            <div class="tag-icon"><i class="bi bi-magic"></i></div>
+                            IA Analisando...
+                        </div>
+                        <div class="float-tag tag-2">
+                            <div class="tag-icon"><i class="bi bi-bullseye"></i></div>
+                            98% Match
+                        </div>
+                        <div class="float-tag tag-3">
+                            <div class="tag-icon"><i class="bi bi-check2-all"></i></div>
+                            Aprovado ATS
+                        </div>
+
+                        <!-- Card Mockup -->
+                        <div class="visual-card">
+                            <div class="d-flex align-items-center gap-3 mb-5">
+                                <div style="width: 60px; height: 60px; background: #6366f1; border-radius: 50%;"></div>
+                                <div>
+                                    <div class="v-line" style="width: 100px; height: 12px; margin-bottom: 8px; background: white;"></div>
+                                    <div class="v-line" style="width: 60px; height: 8px;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="v-line v-title"></div>
+                            <div class="v-line v-sub"></div>
+                            
+                            <div class="mt-4">
+                                <div class="v-line v-text-1"></div>
+                                <div class="v-line v-text-2"></div>
+                                <div class="v-line v-text-3"></div>
+                            </div>
+                            
+                            <div class="mt-5">
+                                <div class="v-line" style="width: 30%; height: 12px; background: #fde047; margin-bottom: 20px;"></div>
+                                <div class="d-flex gap-2">
+                                    <div class="v-line" style="width: 60px; height: 25px; border-radius: 15px;"></div>
+                                    <div class="v-line" style="width: 80px; height: 25px; border-radius: 15px;"></div>
+                                    <div class="v-line" style="width: 50px; height: 25px; border-radius: 15px;"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -473,23 +740,34 @@
     </div>
     <!-- Rodapé -->
     
-<footer class="bg-dark text-light py-5 mt-5">
+
+<footer class="creative-footer">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                <h4 class="fw-bold text-white mb-2"><i class="bi bi-file-earmark-text-fill text-warning"></i> Curriculinho <span class="text-warning">2.0</span></h4>
-                <p class="text-muted mb-0">Desenvolvido pela Turma Técnica de Desenvolvimento de Sistemas do SENAC - 2025 | 13 & 61</p>
+            <div class="col-lg-8">
+                <h2 class="footer-title">Pronto para dar o<br><span style="color: #fde047;">próximo passo?</span></h2>
+                <p style="font-size: 1.2rem; color: #a8a29e; margin-bottom: 30px;">Pare de enviar currículos em branco. Comece a ser notado.</p>
+                <button class="btn btn-cta-primary" style="background: #fde047; color: #1c1917; box-shadow: none;" onclick="window.scrollTo(0,0); document.getElementById('btnComecar').click();">Começar Agora <i class="bi bi-arrow-up-right ms-2"></i></button>
             </div>
-            <div class="col-md-6 text-center text-md-end">
-                <p class="text-muted mb-3">Construindo carreiras com Inteligência Artificial</p>
-                <div class="d-flex justify-content-center justify-content-md-end gap-2">
-                    <span class="badge bg-primary bg-opacity-25 text-primary border border-primary p-2">v2.0.1</span>
-                    <span class="badge bg-warning bg-opacity-25 text-warning border border-warning p-2">SENAC</span>
+            <div class="col-lg-4 text-lg-end mt-5 mt-lg-0">
+                <div class="d-inline-flex flex-column align-items-lg-end">
+                    <h4 style="font-weight: 800; font-size: 2rem; margin-bottom: 5px;">Curriculinho<span style="color: #6366f1;">.</span></h4>
+                    <p style="color: #a8a29e;">SENAC 2025 • Turmas 13 & 61</p>
                 </div>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="d-flex justify-content-between align-items-center flex-wrap" style="color: #78716c; font-size: 0.9rem;">
+            <p class="mb-0">© 2025 Curriculinho. Todos os direitos reservados.</p>
+            <div class="d-flex gap-4 mt-3 mt-md-0">
+                <span>UI/UX Design</span>
+                <span>Inteligência Artificial</span>
+                <span>Desenvolvimento Web</span>
             </div>
         </div>
     </div>
 </footer>
+
 
 
     
