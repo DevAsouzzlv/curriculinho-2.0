@@ -133,14 +133,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Bind AI Buttons
-    const evaluateBtn = document.getElementById('evaluateResumeBtn');
+    const evaluateBtn = document.getElementById('btnEvaluate');
     if (evaluateBtn) {
         evaluateBtn.addEventListener('click', () => {
             sendToAI('resumePdfAvaliador', '/resume/evaluate', 'aiResultContainer', 'aiResultContent');
         });
     }
     
-    const matchBtn = document.getElementById('matchResumeBtn');
+    const matchBtn = document.getElementById('btnMatch');
     if (matchBtn) {
         matchBtn.addEventListener('click', () => {
             const jobDesc = document.getElementById('jobDescriptionMatch');
