@@ -46,24 +46,24 @@ const RealtimePreview = (function() {
                     <p id="preview-license"></p>
                 </div>
                 
-                <div class="resume-section">
+                <div class="resume-section empty-section" id="section-objective">
                     <h2>Objetivo</h2>
                     <p id="preview-objective">Seu objetivo profissional aparecerá aqui.</p>
                 </div>
                 
-                <div class="resume-section">
+                <div class="resume-section empty-section" id="section-qualification">
                     <h2>Síntese de Qualificações</h2>
                     <p id="preview-qualification-summary">Sua síntese de qualificações aparecerá aqui.</p>
                 </div>
                 
-                <div class="resume-section">
+                <div class="resume-section empty-section" id="section-education">
                     <h2>Educação</h2>
                     <div id="preview-education">
                         <p class="placeholder-text">Sua formação acadêmica aparecerá aqui.</p>
                     </div>
                 </div>
                 
-                <div class="resume-section">
+                <div class="resume-section empty-section" id="section-experience">
                     <h2>Experiências Profissionais/Acadêmicas</h2>
                     <div id="preview-experience">
                         <p class="placeholder-text">Suas experiências profissionais aparecerão aqui.</p>
@@ -164,11 +164,15 @@ const RealtimePreview = (function() {
         
         // Objetivo e síntese
         elements.objective.addEventListener('input', debounce(() => {
-            elements.previewObjective.textContent = elements.objective.value || 'Seu objetivo profissional aparecerá aqui.';
+            const objVal = elements.objective.value;
+        elements.previewObjective.textContent = objVal || 'Seu objetivo profissional aparecerá aqui.';
+        document.getElementById('section-objective').classList.toggle('empty-section', !objVal);
         }, 300));
         
         elements.qualificationSummary.addEventListener('input', debounce(() => {
-            elements.previewQualificationSummary.textContent = elements.qualificationSummary.value || 'Sua síntese de qualificações aparecerá aqui.';
+            const qualVal = elements.qualificationSummary.value;
+        elements.previewQualificationSummary.textContent = qualVal || 'Sua síntese de qualificações aparecerá aqui.';
+        document.getElementById('section-qualification').classList.toggle('empty-section', !qualVal);
         }, 300));
         
         // Informações adicionais
@@ -383,8 +387,12 @@ const RealtimePreview = (function() {
         updatePersonalInfo();
         
         // Objetivo e síntese
-        elements.previewObjective.textContent = elements.objective.value || 'Seu objetivo profissional aparecerá aqui.';
-        elements.previewQualificationSummary.textContent = elements.qualificationSummary.value || 'Sua síntese de qualificações aparecerá aqui.';
+        const objVal = elements.objective.value;
+        elements.previewObjective.textContent = objVal || 'Seu objetivo profissional aparecerá aqui.';
+        document.getElementById('section-objective').classList.toggle('empty-section', !objVal);
+        const qualVal = elements.qualificationSummary.value;
+        elements.previewQualificationSummary.textContent = qualVal || 'Sua síntese de qualificações aparecerá aqui.';
+        document.getElementById('section-qualification').classList.toggle('empty-section', !qualVal);
         
         // Seções dinâmicas
         updateEducation();
@@ -461,6 +469,7 @@ const RealtimePreview = (function() {
         let educationHTML = '';
         
         if (educationItems.length === 0) {
+            document.getElementById('section-education').classList.add('empty-section');
             elements.previewEducation.innerHTML = '<p class="placeholder-text">Sua formação acadêmica aparecerá aqui.</p>';
             return;
         }
@@ -489,8 +498,10 @@ const RealtimePreview = (function() {
         });
         
         if (educationHTML) {
+            document.getElementById('section-education').classList.remove('empty-section');
             elements.previewEducation.innerHTML = educationHTML;
         } else {
+            document.getElementById('section-education').classList.add('empty-section');
             elements.previewEducation.innerHTML = '<p class="placeholder-text">Sua formação acadêmica aparecerá aqui.</p>';
         }
     }
@@ -503,7 +514,8 @@ const RealtimePreview = (function() {
         let experienceHTML = '';
         
         if (experienceItems.length === 0) {
-            elements.previewExperience.innerHTML = '<p>Sem experiências profissionais anteriores.</p>';
+            document.getElementById('section-experience').classList.add('empty-section');
+            elements.previewExperience.innerHTML = '<p class="placeholder-text">Sem experiências profissionais anteriores.</p>';
             return;
         }
         
@@ -527,9 +539,11 @@ const RealtimePreview = (function() {
         });
         
         if (hasValidExperience) {
+            document.getElementById('section-experience').classList.remove('empty-section');
             elements.previewExperience.innerHTML = experienceHTML;
         } else {
-            elements.previewExperience.innerHTML = '<p>Sem experiências profissionais anteriores.</p>';
+            document.getElementById('section-experience').classList.add('empty-section');
+            elements.previewExperience.innerHTML = '<p class="placeholder-text">Sem experiências profissionais anteriores.</p>';
         }
     }
     

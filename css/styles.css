@@ -748,3 +748,89 @@ body {
     background: var(--primary);
     color: white;
 }
+
+/* =========================================
+   MODAL STYLES (ASSISTENTE DE SÍNTESE) 
+   ========================================= */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background-color: var(--surface);
+    margin: 5% auto;
+    padding: 30px 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    border: 1px solid var(--border-color);
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.close {
+    color: var(--text-muted);
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close:hover,
+.close:focus {
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+/* =========================================
+   PRINT STYLES FIX (PDF EXPORT) 
+   ========================================= */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .preview-container, .preview-container * {
+        visibility: visible;
+    }
+    .preview-container {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    /* Hide UI elements inside preview */
+    .resume-actions, 
+    .only-screen, 
+    #printBtn, 
+    button,
+    .modal {
+        display: none !important;
+    }
+    
+    /* Esconder textos de placeholder (campos vazios) */
+    .empty-section {
+        display: none !important;
+    }
+}

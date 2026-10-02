@@ -79,25 +79,33 @@ const ResumeGenerator = (function() {
                     ${license ? `<p>CNH: ${license}</p>` : ''}
                 </div>
                 
+                ${objective ? `
                 <div class="resume-section">
                     <h2>Objetivo</h2>
                     <p>${objective}</p>
                 </div>
+                ` : ''}
                 
+                ${qualificationSummary ? `
                 <div class="resume-section">
                     <h2>Síntese de Qualificações</h2>
                     <p>${qualificationSummary}</p>
                 </div>
+                ` : ''}
                 
+                ${educationHTML ? `
                 <div class="resume-section">
                     <h2>Educação</h2>
                     ${educationHTML}
                 </div>
+                ` : ''}
                 
+                ${experienceHTML ? `
                 <div class="resume-section">
                     <h2>Experiências Profissionais/Acadêmicas</h2>
-                    ${experienceHTML || '<p>Sem experiências profissionais anteriores.</p>'}
+                    ${experienceHTML}
                 </div>
+                ` : ''}
                 
                 ${coursesHTML ? `
                 <div class="resume-section">
