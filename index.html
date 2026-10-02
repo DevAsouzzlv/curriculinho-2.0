@@ -4,59 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currículo Express</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/styles.css?v=2.2">
 <script>navigator.serviceWorker.register("service-worker.js")</script> 
 <link rel="manifest" href="manifest.json" />    <link rel="shortcut icon" href="assets/icon/icon.png" type="image/x-icon">
 </head>
 <body>
     <!-- TELA DE ENTRADA -->
+
 <div id="landing-screen">
-    <nav class="landing-nav">
-        <div class="logo">📄 Curriculinho <span>2.0</span></div>
-        <div class="nav-links">
-            <button class="btn-modern btn-outline-m" onclick="document.getElementById('btnComecar').click(); setTimeout(() => document.querySelector('[data-target=\'avaliador-section\']').click(), 100);">Avaliar CV</button>
-            <button class="btn-modern btn-primary-m" onclick="document.getElementById('btnComecar').click();">Entrar</button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary fs-3 d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-file-earmark-text-fill text-warning"></i> Curriculinho <span class="text-warning">2.0</span>
+            </a>
+            <div class="d-flex gap-3">
+                <button class="btn btn-outline-primary rounded-pill px-4 fw-bold" onclick="document.getElementById('btnComecar').click(); setTimeout(() => document.querySelector('[data-target=\'avaliador-section\']').click(), 100);">Avaliar CV</button>
+                <button class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" onclick="document.getElementById('btnComecar').click();">Entrar</button>
+            </div>
         </div>
     </nav>
-    <main class="hero-section">
-        <div class="hero-content">
-            <h1>Crie seu currículo profissional em <span>minutos!</span></h1>
-            <p>O <strong>Curriculinho 2.0</strong> utiliza Inteligência Artificial para gerar, analisar e otimizar seu currículo para as melhores vagas do mercado.</p>
-            <ul class="hero-features">
-                <li>✅ Modelos otimizados para recrutadores (ATS)</li>
-                <li>🤖 Feedback de IA sobre seus pontos fortes</li>
-                <li>🎯 Match inteligente com vagas de emprego</li>
-            </ul>
-            <button type="button" id="btnComecar" class="btn-modern btn-secondary-m" style="font-size: 1.2rem; padding: 15px 40px;">🚀 Criar meu currículo grátis</button>
-        </div>
-        <div class="hero-image">
-            <div class="resume-mockup">
-                <div class="mock-line title"></div>
-                <div class="mock-line short accent"></div>
-                <div style="margin-top: 20px;"></div>
-                <div class="mock-line medium"></div>
-                <div class="mock-line"></div>
-                <div class="mock-line medium"></div>
-                <div style="margin-top: 20px;"></div>
-                <div class="mock-line title" style="width: 40%;"></div>
-                <div class="mock-line"></div>
-                <div class="mock-line"></div>
-                <div class="mock-line medium"></div>
+    <main class="d-flex align-items-center" style="min-height: 100vh; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding-top: 80px;">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <h1 class="display-3 fw-bold text-dark mb-4">Crie seu currículo profissional em <span class="text-primary">minutos!</span></h1>
+                    <p class="lead text-muted mb-5 fs-4">O <strong>Curriculinho 2.0</strong> utiliza Inteligência Artificial para gerar, analisar e otimizar seu currículo para as melhores vagas do mercado.</p>
+                    
+                    <ul class="list-unstyled mb-5 fs-5">
+                        <li class="mb-3"><i class="bi bi-check-circle-fill text-success me-2 fs-4 align-middle"></i> Modelos otimizados para recrutadores (ATS)</li>
+                        <li class="mb-3"><i class="bi bi-robot text-primary me-2 fs-4 align-middle"></i> Feedback de IA sobre seus pontos fortes</li>
+                        <li class="mb-3"><i class="bi bi-bullseye text-warning me-2 fs-4 align-middle"></i> Match inteligente com vagas de emprego</li>
+                    </ul>
+                    
+                    <button type="button" id="btnComecar" class="btn btn-warning btn-lg rounded-pill px-5 py-3 fw-bold shadow text-white fs-4 mb-4">
+                        <i class="bi bi-magic me-2"></i> Criar meu currículo grátis
+                    </button>
+                </div>
+                
+                <div class="col-lg-6 d-none d-lg-flex justify-content-center">
+                    <div class="resume-mockup shadow-lg" style="transform: rotate(3deg); transition: transform 0.4s ease; width: 450px; height: 600px; padding: 40px; background: white; border-radius: 12px;">
+                        <div class="mock-line title bg-primary w-50 mb-4" style="height: 18px; border-radius: 10px;"></div>
+                        <div class="mock-line short accent bg-warning w-25 mb-5" style="height: 12px; border-radius: 10px;"></div>
+                        <div class="mock-line medium bg-secondary w-75 mb-3 opacity-50" style="height: 10px; border-radius: 10px;"></div>
+                        <div class="mock-line bg-secondary w-100 mb-3 opacity-25" style="height: 10px; border-radius: 10px;"></div>
+                        <div class="mock-line medium bg-secondary w-75 mb-5 opacity-25" style="height: 10px; border-radius: 10px;"></div>
+                        
+                        <div class="mock-line title bg-primary w-25 mb-4" style="height: 18px; border-radius: 10px;"></div>
+                        <div class="mock-line medium bg-secondary w-100 mb-3 opacity-50" style="height: 10px; border-radius: 10px;"></div>
+                        <div class="mock-line bg-secondary w-100 mb-3 opacity-25" style="height: 10px; border-radius: 10px;"></div>
+                        <div class="mock-line medium bg-secondary w-50 mb-5 opacity-25" style="height: 10px; border-radius: 10px;"></div>
+                        
+                        <div class="mock-line title bg-primary w-50 mb-4" style="height: 18px; border-radius: 10px;"></div>
+                        <div class="mock-line medium bg-secondary w-75 mb-3 opacity-50" style="height: 10px; border-radius: 10px;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5 pt-5 text-center opacity-75">
+                <div class="col-12">
+                    <p class="text-uppercase fw-bold text-muted tracking-wider mb-4 fs-6">Aprovado por quem recruta em grandes empresas</p>
+                    <div class="d-flex justify-content-center gap-5 fs-3 fw-bold text-secondary flex-wrap">
+                        <span><i class="bi bi-google"></i> Google</span>
+                        <span><i class="bi bi-microsoft"></i> Microsoft</span>
+                        <span><i class="bi bi-amazon"></i> Amazon</span>
+                        <span><i class="bi bi-meta"></i> Meta</span>
+                        <span><i class="bi bi-apple"></i> Apple</span>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
-    <section class="social-proof">
-        <p>Nossos currículos são otimizados para vagas nas maiores empresas</p>
-        <div class="social-logos">
-            <span>Google</span>
-            <span>Amazon</span>
-            <span>Nubank</span>
-            <span>Mercado Livre</span>
-            <span>Itaú</span>
-        </div>
-    </section>
 </div>
-<div class="container">
+
+<div class="container mt-5 pt-4">
 <!-- APLICAÇÃO PRINCIPAL (INVISÍVEL NO INÍCIO) -->
         <div id="app-container" style="display: none;">
             <header>
@@ -450,22 +472,25 @@
         </div> <!-- Fecha app-container -->
     </div>
     <!-- Rodapé -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>Desenvolvido Pela Turma Técnica de Desenvolvimento de Sistemas do SENAC - 2025 | 13 & 61</p>
+    
+<footer class="bg-dark text-light py-5 mt-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <h4 class="fw-bold text-white mb-2"><i class="bi bi-file-earmark-text-fill text-warning"></i> Curriculinho <span class="text-warning">2.0</span></h4>
+                <p class="text-muted mb-0">Desenvolvido pela Turma Técnica de Desenvolvimento de Sistemas do SENAC - 2025 | 13 & 61</p>
             </div>
-            <div class="footer-logo">
-                <div class="color-palette">
-                    <span class="color-dot color-orange"></span>
-                    <span class="color-dot color-blue"></span>
-                    <span class="color-dot color-white"></span>
-                    <span class="color-dot color-black"></span>
-                    <span class="color-dot color-light-orange"></span>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="text-muted mb-3">Construindo carreiras com Inteligência Artificial</p>
+                <div class="d-flex justify-content-center justify-content-md-end gap-2">
+                    <span class="badge bg-primary bg-opacity-25 text-primary border border-primary p-2">v2.0.1</span>
+                    <span class="badge bg-warning bg-opacity-25 text-warning border border-warning p-2">SENAC</span>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
+
 
     
     <!-- Bibliotecas externas -->
@@ -481,5 +506,6 @@
 <script src="js/realtime-preview.js"></script>
 <script src="js/main.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
