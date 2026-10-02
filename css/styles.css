@@ -834,3 +834,33 @@ body {
         display: none !important;
     }
 }
+
+/* =========================================
+   USER REQUEST: RESUME LAYOUT TWEAKS 
+   ========================================= */
+.resume-header {
+    text-align: center;
+    border-bottom: 2px solid #155491;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+.resume-header h1 {
+    margin-bottom: 5px;
+}
+.resume-contact {
+    text-align: center;
+    margin-bottom: 15px;
+}
+.resume-section {
+    margin-bottom: 15px;
+}
+.resume-section h2 {
+    margin-bottom: 8px; /* reduce spacing after title */
+    margin-top: 10px; /* reduce spacing before title */
+}
+.resume-item {
+    margin-bottom: 10px;
+}
+.resume p, .resume ul, .resume-item p {
+    margin-bottom: 5px;
+}

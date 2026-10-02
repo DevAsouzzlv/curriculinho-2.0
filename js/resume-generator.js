@@ -128,9 +128,7 @@ const ResumeGenerator = (function() {
                 </div>
                 ` : ''}
                 
-                <div class="resume-section">
-                    <p><em>Atualizado em ${new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(new Date())}.</em></p>
-                </div>
+                
                 
                 <div class="resume-actions only-screen">
                     <button id="printBtn" onclick="window.print()">Imprimir / Salvar PDF</button>

@@ -13,7 +13,7 @@ class GeminiClient:
     async def _call_gemini_with_fallback(self, prompt: str) -> str:
         """Função privada que lida com as tentativas e fallback dos modelos de forma assíncrona."""
         # Corrigido para modelos oficiais e válidos
-        models_to_try = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
+        models_to_try = ['gemini-3.8-flash', 'gemini-3.5-flash', 'gemini-3.1-flash-lite']
         max_retries = 3
 
         for model in models_to_try:

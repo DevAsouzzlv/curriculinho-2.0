@@ -85,9 +85,7 @@ const RealtimePreview = (function() {
                     <p id="preview-additional-info"></p>
                 </div>
                 
-                <div class="resume-section">
-                    <p><em>Atualizado em novembro de 2025.</em></p>
-                </div>
+                
                 
                 <div class="resume-actions only-screen">
                     <button id="printBtn" onclick="window.print()">Imprimir / Salvar PDF</button>
