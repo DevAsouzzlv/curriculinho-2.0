@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const matchBtn = document.getElementById('btnMatch');
     if (matchBtn) {
         matchBtn.addEventListener('click', () => {
-            const jobDesc = document.getElementById('jobDescriptionMatch');
+            const jobDesc = document.getElementById('jobDescription');
             if (!jobDesc || !jobDesc.value.trim()) {
                 showNotification('Por favor, cole a descrição da vaga para o Match!', 'error');
                 return;
