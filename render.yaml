@@ -1,11 +1,9 @@
 # render.yaml - Blueprint para deploy automático no Render
 services:
-  # Frontend - Site Estático (100% Gratuito)
-  - type: web
+  # Frontend - Site Estático (no Render a sintaxe oficial é type: static_site e não usa a propriedade plan)
+  - type: static_site
     name: curriculinho-2.0
-    runtime: static
-    plan: free
-    buildCommand: echo "Static site, no build needed"
+    buildCommand: echo "Static site ready"
     staticPublishPath: .
     headers:
       - path: /*
@@ -16,7 +14,7 @@ services:
         source: /*
         destination: /index.html
 
-  # Backend - FastAPI API (100% Gratuito)
+  # Backend - FastAPI Web Service (Plano Free)
   - type: web
     name: curriculinho-api
     runtime: python
