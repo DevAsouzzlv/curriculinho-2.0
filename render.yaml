@@ -1,9 +1,10 @@
 # render.yaml - Blueprint para deploy automático no Render
 services:
-  # Frontend - Site Estático
+  # Frontend - Site Estático (100% Gratuito)
   - type: web
     name: curriculinho-2.0
     runtime: static
+    plan: free
     buildCommand: echo "Static site, no build needed"
     staticPublishPath: .
     headers:
@@ -15,10 +16,11 @@ services:
         source: /*
         destination: /index.html
 
-  # Backend - FastAPI API
+  # Backend - FastAPI API (100% Gratuito)
   - type: web
     name: curriculinho-api
     runtime: python
+    plan: free
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn src.main:app --host 0.0.0.0 --port $PORT
