@@ -1,8 +1,9 @@
 # render.yaml - Blueprint para deploy automático no Render
 services:
-  # Frontend - Site Estático (no Render a sintaxe oficial é type: static_site e não usa a propriedade plan)
-  - type: static_site
+  # Frontend - Site Estático (no Render usa type: web com runtime: static e sem o campo plan)
+  - type: web
     name: curriculinho-2.0
+    runtime: static
     buildCommand: echo "Static site ready"
     staticPublishPath: .
     headers:
