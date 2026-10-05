@@ -1,0 +1,85 @@
+/* ==========================================================================
+   APP — abas, gerador (formulário + prévia) e currículo
+   ========================================================================== */
+
+.app { padding: var(--space-6) 0 var(--space-8); }
+.app__head { text-align: center; margin-bottom: var(--space-6); }
+.app__head h1 { font-size: var(--text-2xl); margin-bottom: var(--space-2); }
+.app__head p { color: var(--text-muted); }
+
+/* Abas (controle segmentado) */
+.app-tabs {
+  display: inline-flex; gap: var(--space-1); margin-top: var(--space-5); padding: 5px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-full); box-shadow: var(--shadow-xs);
+  max-width: 100%; overflow-x: auto; scrollbar-width: none;
+}
+.app-tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: 0.6rem 1.2rem; font-size: var(--text-sm); font-weight: 600; white-space: nowrap;
+  color: var(--text-muted); background: transparent; border: 0; border-radius: var(--radius-full);
+  transition: all var(--t-fast) var(--ease);
+}
+.tab-btn:hover { color: var(--text); background: var(--surface-2); }
+.tab-btn.active { color: var(--on-primary); background: var(--primary); box-shadow: var(--shadow-sm); }
+
+.tab-section { animation: step-in var(--t-base) var(--ease); }
+.panel { max-width: 820px; margin-inline: auto; }
+#aiResultContainer { max-width: 820px; margin: var(--space-5) auto 0; }
+#aiResultContainer > h3 { font-size: var(--text-lg); margin-bottom: var(--space-4); }
+
+/* Gerador: formulário + prévia lado a lado */
+#gerador-section { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: var(--space-5); align-items: start; }
+.form-card { padding: var(--space-6); }
+.preview-panel { position: sticky; top: calc(var(--header-h) + var(--space-4)); }
+.preview-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-3); }
+.preview-head h2 { font-size: var(--text-base); }
+.live-badge { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-xs); font-weight: 600; color: var(--success); }
+.live-badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5); animation: pulse 2s infinite; }
+@keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); } }
+
+.preview-container { max-height: calc(100vh - var(--header-h) - 120px); overflow: auto; padding: var(--space-4); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+
+/* Currículo = papel branco, independente do tema */
+.resume { padding: var(--space-6); color: var(--paper-text); background: var(--paper); border-radius: var(--radius-sm); box-shadow: var(--shadow-md); font-size: 0.86rem; line-height: 1.55; }
+.resume-header { text-align: center; margin-bottom: 4px; }
+.resume-header h1 { margin-bottom: 4px; font-size: 1.7rem; color: var(--blue-600); letter-spacing: -0.02em; }
+.resume-header p, .resume-contact p { margin-bottom: 2px; color: var(--paper-muted); }
+.resume-contact { text-align: center; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 2px solid var(--blue-600); }
+.resume-section { margin-bottom: 14px; }
+.resume-section h2 { margin: 0 0 6px; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-hover); }
+.resume-section p, .resume-item p { margin-bottom: 4px; color: var(--paper-text); }
+.resume-item { margin-bottom: 8px; }
+.empty-section p, .placeholder-text { color: #94a3b8; font-style: italic; }
+.skills-list { display: flex; flex-direction: column; gap: 8px; }
+.skills-list .skills-column h3 { margin: 0 0 4px; font-size: 0.78rem; color: var(--paper-muted); font-weight: 600; }
+.skill-tag { display: inline-block; margin: 0 5px 5px 0; padding: 2px 10px; font-size: 0.76rem; font-weight: 500; color: var(--blue-600); background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: var(--radius-full); }
+.resume-actions { display: flex; justify-content: flex-end; margin-top: var(--space-4); }
+#printBtn {
+  display: inline-flex; align-items: center; gap: var(--space-2); padding: 0.65rem 1.1rem;
+  font-size: var(--text-sm); font-weight: 600; color: var(--on-primary); background: var(--primary);
+  border: 0; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); transition: background-color var(--t-fast) var(--ease);
+}
+#printBtn:hover { background: var(--primary-hover); }
+
+/* Botão flutuante (mobile) para alternar formulário ↔ prévia */
+.preview-fab {
+  display: none; position: fixed; right: var(--space-4); bottom: var(--space-4); z-index: 90;
+  align-items: center; gap: var(--space-2); padding: 0.8rem 1.2rem;
+  font-size: var(--text-sm); font-weight: 600; color: var(--on-primary); background: var(--primary);
+  border: 0; border-radius: var(--radius-full); box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 1000px) {
+  #gerador-section { grid-template-columns: 1fr; }
+  .preview-panel { position: static; }
+  .preview-container { max-height: none; }
+  .preview-fab { display: inline-flex; }
+  .form-card { padding: var(--space-5) var(--space-4); }
+}
+@media (max-width: 560px) {
+  .app { padding-top: var(--space-5); }
+  .resume { padding: var(--space-4); }
+  .step-nav .btn, .form-actions .btn { flex: 1 1 100%; }
+  .step-nav { flex-direction: column-reverse; }
+}

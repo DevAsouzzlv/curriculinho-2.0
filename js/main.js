@@ -19,8 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (resumeForm) {
         resumeForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Apenas foca na pré-visualização quando clicado no "Visualizar & Concluir"
-            document.querySelector('.preview-card').scrollIntoView({ behavior: 'smooth' });
+            // Foca na pré-visualização quando clicado no "Concluir"
+            const preview = document.getElementById('resumePreview');
+            if (preview) preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            showNotification('Currículo pronto! Use "Imprimir / Salvar PDF" na prévia.', 'success');
         });
     }
 
@@ -61,11 +63,13 @@ document.addEventListener('DOMContentLoaded', function() {
             tabBtns.forEach(b => {
                 b.classList.remove('active');
                 b.setAttribute('aria-selected', 'false');
+                b.setAttribute('tabindex', '-1');
             });
             tabSections.forEach(s => s.style.display = 'none');
             
             btn.classList.add('active');
             btn.setAttribute('aria-selected', 'true');
+            btn.setAttribute('tabindex', '0');
             const targetId = btn.getAttribute('data-target');
             const targetEl = document.getElementById(targetId);
             
@@ -77,8 +81,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // URL da API: local em desenvolvimento, servidor do Render em produção.
+    // Pode ser sobrescrita definindo window.CURRICULINHO_API_BASE antes deste script.
+    const isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+    const API_BASE = window.CURRICULINHO_API_BASE ||
+        (isLocal ? 'http://localhost:8000/api/v1' : 'https://curriculinho-api.onrender.com/api/v1');
+    const MAX_PDF_BYTES = 5 * 1024 * 1024;
+
     // Função de enviar para a IA (Avaliador e Match)
-    function sendToAI(fileInputId, endpoint, resultContainerId, textContentId, extraData = {}) {
+    function sendToAI(fileInputId, endpoint, resultContainerId, textContentId, extraData = {}, kind = 'evaluate') {
         const fileInput = document.getElementById(fileInputId);
         const resultContainer = document.getElementById(resultContainerId);
         const aiResultContent = document.getElementById(textContentId);
@@ -89,6 +100,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const file = fileInput.files[0];
+        if (file.size > MAX_PDF_BYTES) {
+            showNotification('O arquivo excede 5MB. Escolha um PDF menor.', 'error');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('file', file);
         
@@ -97,10 +113,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         resultContainer.style.display = 'block';
+        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         
-        // NOVO: UX de Carregamento Animado
+        // UX de Carregamento Animado
         aiResultContent.innerHTML = `
-            <div class="ai-loading-container">
+            <div class="ai-loading-container" role="status" aria-live="polite">
                 <div class="progress-percentage">0%</div>
                 <div class="progress-bar">
                     <div class="progress-bar-fill" id="aiProgressFill"></div>
@@ -119,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             { threshold: 30, text: "Lendo e extraindo informações..." },
             { threshold: 60, text: "A IA está analisando seus dados..." },
             { threshold: 80, text: "Cruzando habilidades e perfil..." },
-            { threshold: 95, text: "Formatando os resultados finais..." }
+            { threshold: 95, text: "Formatando os resultados finais... (a primeira análise pode demorar um pouco mais)" }
         ];
 
         const progressInterval = setInterval(() => {
@@ -136,8 +153,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         }, 500);
-
-        const API_BASE = "http://localhost:8000/api/v1";
 
         fetch(`${API_BASE}${endpoint}`, {
             method: 'POST',
@@ -156,22 +171,28 @@ document.addEventListener('DOMContentLoaded', function() {
             if (progressStatus) progressStatus.textContent = 'Análise concluída com sucesso!';
             
             setTimeout(() => {
-                let markdownText = data.feedback || data.match_analysis || "Análise concluída, mas sem texto retornado.";
-                markdownText = window.escapeHTML(markdownText);
-                
-                let htmlOutput = markdownText
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/\n/g, '<br>');
-                
-                aiResultContent.innerHTML = `<p>${htmlOutput}</p>`;
+                const text = data.feedback || data.match_analysis || "Análise concluída, mas sem texto retornado.";
+
+                if (window.CurriculinhoUI && typeof window.CurriculinhoUI.renderAIResult === 'function') {
+                    window.CurriculinhoUI.renderAIResult(aiResultContent, text, kind);
+                } else {
+                    // Fallback simples caso o ui.js não tenha carregado
+                    const htmlOutput = window.escapeHTML(text)
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\n/g, '<br>');
+                    aiResultContent.innerHTML = `<p>${htmlOutput}</p>`;
+                }
                 showNotification('Análise concluída!', 'success');
             }, 800);
         })
         .catch(error => {
             clearInterval(progressInterval);
             console.error('Erro:', error);
-            aiResultContent.innerHTML = `<p style="color: red;">Houve um erro ao se comunicar com a IA:<br>${window.escapeHTML(error.message)}</p>`;
+            const offline = error instanceof TypeError;
+            const msg = offline
+                ? 'Não foi possível conectar ao servidor de IA. Verifique sua conexão ou tente novamente em instantes.'
+                : error.message;
+            aiResultContent.innerHTML = `<div class="ai-error" role="alert"><i class="bi bi-exclamation-octagon" aria-hidden="true"></i><div><strong>Houve um erro ao se comunicar com a IA.</strong><br>${window.escapeHTML(msg)}</div></div>`;
             showNotification('Falha ao analisar.', 'error');
         });
     }
@@ -180,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const evaluateBtn = document.getElementById('btnEvaluate');
     if (evaluateBtn) {
         evaluateBtn.addEventListener('click', () => {
-            sendToAI('resumePdfAvaliador', '/resume/evaluate', 'aiResultContainer', 'aiResultContent');
+            sendToAI('resumePdfAvaliador', '/resume/evaluate', 'aiResultContainer', 'aiResultContent', {}, 'evaluate');
         });
     }
     
@@ -192,52 +213,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 showNotification('Por favor, cole a descrição da vaga para o Match!', 'error');
                 return;
             }
-            sendToAI('resumePdfMatch', '/jobs/match', 'matchResultContainer', 'matchResultContent', {
+            // O Match usa o mesmo contêiner de resultado compartilhado do Avaliador
+            sendToAI('resumePdfMatch', '/jobs/match', 'aiResultContainer', 'aiResultContent', {
                 job_description: jobDesc.value.trim()
-            });
+            }, 'match');
         });
     }
 });
 
 function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
-    notification.className = 'notification';
+    notification.className = `toast toast--${type}`;
     notification.textContent = message;
     notification.setAttribute('role', 'status');
     notification.setAttribute('aria-live', 'polite');
-    notification.style.position = 'fixed';
-    notification.style.bottom = '20px';
-    notification.style.right = '20px';
-    notification.style.padding = '10px 20px';
-    notification.style.borderRadius = '4px';
-    notification.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
-    notification.style.zIndex = '1000';
-    notification.style.transition = 'opacity 0.5s';
-    
-    switch (type) {
-        case 'success':
-            notification.style.backgroundColor = '#4CAF50';
-            notification.style.color = 'white';
-            break;
-        case 'error':
-            notification.style.backgroundColor = '#f44336';
-            notification.style.color = 'white';
-            break;
-        case 'info':
-            notification.style.backgroundColor = '#2196F3';
-            notification.style.color = 'white';
-            break;
-    }
     
     document.body.appendChild(notification);
     setTimeout(() => {
-        notification.style.opacity = '0';
+        notification.classList.add('is-leaving');
         setTimeout(() => {
             if (document.body.contains(notification)) {
                 document.body.removeChild(notification);
             }
         }, 500);
-    }, 3000);
+    }, 3500);
 }
 window.showNotification = showNotification;
 
@@ -245,71 +244,25 @@ function showConfirm(message) {
     return new Promise((resolve) => {
         const overlay = document.createElement('div');
         overlay.className = 'confirm-overlay';
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-        overlay.style.zIndex = '2000';
-        overlay.style.display = 'flex';
-        overlay.style.justifyContent = 'center';
-        overlay.style.alignItems = 'center';
-
-        const modal = document.createElement('div');
-        modal.className = 'confirm-modal';
-        modal.style.backgroundColor = 'white';
-        modal.style.padding = '30px';
-        modal.style.borderRadius = '10px';
-        modal.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)';
-        modal.style.maxWidth = '400px';
-        modal.style.textAlign = 'center';
-
-        const text = document.createElement('p');
-        text.textContent = message;
-        text.style.marginBottom = '20px';
-        text.style.fontSize = '1.1rem';
-        text.style.color = '#2d3748';
-
-        const btnsContainer = document.createElement('div');
-        btnsContainer.style.display = 'flex';
-        btnsContainer.style.gap = '15px';
-        btnsContainer.style.justifyContent = 'center';
-
-        const btnCancel = document.createElement('button');
-        btnCancel.textContent = 'Cancelar';
-        btnCancel.style.padding = '8px 16px';
-        btnCancel.style.border = '1px solid #cbd5e0';
-        btnCancel.style.backgroundColor = '#f8fafc';
-        btnCancel.style.borderRadius = '5px';
-        btnCancel.style.cursor = 'pointer';
-
-        const btnConfirm = document.createElement('button');
-        btnConfirm.textContent = 'Confirmar';
-        btnConfirm.style.padding = '8px 16px';
-        btnConfirm.style.border = 'none';
-        btnConfirm.style.backgroundColor = '#dc2626';
-        btnConfirm.style.color = 'white';
-        btnConfirm.style.borderRadius = '5px';
-        btnConfirm.style.cursor = 'pointer';
-
-        btnsContainer.appendChild(btnCancel);
-        btnsContainer.appendChild(btnConfirm);
-
-        modal.appendChild(text);
-        modal.appendChild(btnsContainer);
-        overlay.appendChild(modal);
+        overlay.innerHTML = `
+            <div class="confirm-modal" role="alertdialog" aria-modal="true" aria-label="Confirmação">
+                <p></p>
+                <div class="confirm-modal__actions">
+                    <button type="button" class="btn btn--ghost" data-action="cancel">Cancelar</button>
+                    <button type="button" class="btn btn--primary" data-action="confirm">Confirmar</button>
+                </div>
+            </div>`;
+        overlay.querySelector('p').textContent = message;
         document.body.appendChild(overlay);
 
-        btnCancel.addEventListener('click', () => {
+        const close = (value) => {
             document.body.removeChild(overlay);
-            resolve(false);
-        });
-
-        btnConfirm.addEventListener('click', () => {
-            document.body.removeChild(overlay);
-            resolve(true);
-        });
+            resolve(value);
+        };
+        overlay.querySelector('[data-action="cancel"]').addEventListener('click', () => close(false));
+        overlay.querySelector('[data-action="confirm"]').addEventListener('click', () => close(true));
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(false); });
+        overlay.querySelector('[data-action="confirm"]').focus();
     });
 }
 window.showConfirm = showConfirm;
@@ -325,35 +278,29 @@ document.addEventListener('DOMContentLoaded', () => {
             // Change event (Click to select)
             input.addEventListener('change', function() {
                 if (this.files && this.files[0]) {
-                    display.textContent = '✅ Arquivo selecionado: ' + window.escapeHTML(this.files[0].name);
+                    display.textContent = '✅ Arquivo selecionado: ' + this.files[0].name;
                 } else {
                     display.textContent = '';
                 }
             });
             
-            // Drag over events
             dropzoneLabel.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                dropzoneLabel.style.backgroundColor = '#eaf2fb';
-                dropzoneLabel.style.borderColor = '#155491';
+                dropzoneLabel.classList.add('is-dragover');
             });
             
             dropzoneLabel.addEventListener('dragleave', (e) => {
                 e.preventDefault();
-                dropzoneLabel.style.backgroundColor = '';
-                dropzoneLabel.style.borderColor = '';
+                dropzoneLabel.classList.remove('is-dragover');
             });
             
-            // Drop event
             dropzoneLabel.addEventListener('drop', (e) => {
                 e.preventDefault();
-                dropzoneLabel.style.backgroundColor = '';
-                dropzoneLabel.style.borderColor = '';
+                dropzoneLabel.classList.remove('is-dragover');
                 
                 if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
                     input.files = e.dataTransfer.files;
-                    const event = new Event('change');
-                    input.dispatchEvent(event);
+                    input.dispatchEvent(new Event('change'));
                 }
             });
         }

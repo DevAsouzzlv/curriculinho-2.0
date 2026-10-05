@@ -1,0 +1,30 @@
+/* ==========================================================================
+   PRINT — somente o currículo vai para o PDF.
+   Usa display:none (não visibility) para não reservar espaço e evitar páginas em branco.
+   ========================================================================== */
+@media print {
+  @page { margin: 12mm; }
+
+  .site-header, .site-footer, .skip-link, #landing-screen, .app__head, .app-tabs,
+  .form-card, .preview-head, .preview-fab, .panel, #avaliador-section, #match-section,
+  #aiResultContainer, .modal, .toast, .confirm-overlay, .resume-actions, #printBtn,
+  .only-screen, .empty-section, button {
+    display: none !important;
+  }
+
+  html, body, main, .container, #app-container, .app, #gerador-section, .preview-panel {
+    display: block !important;
+    position: static !important;
+    width: 100% !important; max-width: none !important; min-height: 0 !important;
+    margin: 0 !important; padding: 0 !important;
+    background: #fff !important; animation: none !important;
+  }
+
+  .preview-container {
+    display: block !important; max-height: none !important; overflow: visible !important;
+    margin: 0 !important; padding: 0 !important; background: #fff !important; border: 0 !important;
+  }
+
+  .resume { padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; font-size: 11pt; }
+  .resume-section, .resume-item { break-inside: avoid; }
+}

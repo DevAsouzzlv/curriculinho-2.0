@@ -1,0 +1,135 @@
+/* ==========================================================================
+   TOKENS — Design System do Curriculinho
+   Única fonte de verdade para cores, tipografia, espaçamento, raios e sombras.
+   Tema escuro: [data-theme="dark"] no <html>.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* Tipografia */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text-xs: 0.78rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: clamp(1.6rem, 1.2rem + 1.5vw, 2.1rem);
+  --text-display: clamp(2.2rem, 1.4rem + 3.6vw, 3.8rem);
+
+  /* Escala de espaçamento (base 4px) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 6rem;
+
+  /* Raios */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  /* Layout */
+  --container: 1180px;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --header-h: 64px;
+
+  /* Movimento */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --t-fast: 150ms;
+  --t-base: 250ms;
+
+  /* Paleta da marca */
+  --blue-50: #eef5fc;
+  --blue-100: #d9e8f7;
+  --blue-200: #b3d1ef;
+  --blue-400: #4d93d8;
+  --blue-500: #1f78cc;
+  --blue-600: #155491;
+  --blue-700: #0f4172;
+  --blue-900: #0a2a4a;
+  --orange-300: #fcc284;
+  --orange-500: #f79633;
+  --orange-600: #e58121;
+  --green-500: #16a34a;
+  --amber-500: #d97706;
+  --red-500: #dc2626;
+
+  /* Tokens semânticos — claro */
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --surface-glass: rgba(255, 255, 255, 0.82);
+  --text: #0f172a;
+  --text-muted: #526077;
+  --text-subtle: #8493a8;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --primary: var(--blue-600);
+  --primary-hover: var(--blue-700);
+  --on-primary: #ffffff;
+  --primary-soft: var(--blue-50);
+  --primary-text: var(--blue-600);
+
+  /* Acento (laranja) — reservado para CTAs principais. Texto escuro garante contraste. */
+  --accent: var(--orange-500);
+  --accent-hover: var(--orange-600);
+  --on-accent: var(--blue-900);
+
+  --success: var(--green-500);
+  --success-soft: #e8f7ee;
+  --warning: var(--amber-500);
+  --warning-soft: #fdf3e3;
+  --danger: var(--red-500);
+  --danger-soft: #fdecec;
+
+  --focus-ring: 0 0 0 3px rgba(31, 120, 204, 0.35);
+
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 10px 24px -6px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 20px 40px -12px rgba(15, 23, 42, 0.18), 0 8px 16px -8px rgba(15, 23, 42, 0.08);
+
+  /* O currículo é sempre "papel branco", em qualquer tema */
+  --paper: #ffffff;
+  --paper-text: #1e293b;
+  --paper-muted: #64748b;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0a1020;
+  --surface: #111a2e;
+  --surface-2: #17223a;
+  --surface-glass: rgba(10, 16, 32, 0.8);
+  --text: #e6edf7;
+  --text-muted: #9aa8bf;
+  --text-subtle: #70809b;
+  --border: #22304a;
+  --border-strong: #31435f;
+
+  --primary: #2b74c2;
+  --primary-hover: #3a86d6;
+  --on-primary: #ffffff;
+  --primary-soft: rgba(77, 147, 216, 0.14);
+  --primary-text: #7db6ef;
+
+  --success-soft: rgba(22, 163, 74, 0.16);
+  --warning-soft: rgba(217, 119, 6, 0.18);
+  --danger-soft: rgba(220, 38, 38, 0.18);
+
+  --focus-ring: 0 0 0 3px rgba(125, 182, 239, 0.45);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 8px 24px -6px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 24px 48px -12px rgba(0, 0, 0, 0.65);
+}
