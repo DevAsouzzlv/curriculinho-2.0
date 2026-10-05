@@ -263,17 +263,18 @@ const RealtimePreview = (function() {
     }
 
     /**
-     * Configura o seletor de cores de destaque para o currículo
+     * Configura o seletor de cores de destaque para o currículo (Estilo Foto 2)
      */
     function setupColorPicker() {
         const swatches = document.querySelectorAll('#colorSwatches .color-swatch');
-        const resumePaper = document.getElementById('resumePaper');
-        if (!swatches.length || !resumePaper) return;
-
+        const atsBtn = document.getElementById('btnApplyAtsPb');
+        const customColorInput = document.getElementById('customColorInput');
+        
         // Recuperar cor salva anteriormente ou usar o padrão preto/grafite
         const savedColor = localStorage.getItem('curriculo_accent_color') || '#0f172a';
         applyResumeColor(savedColor);
 
+        // Clique nas bolinhas de cores
         swatches.forEach(swatch => {
             swatch.addEventListener('click', () => {
                 const color = swatch.getAttribute('data-color');
@@ -284,14 +285,58 @@ const RealtimePreview = (function() {
             });
         });
 
+        // Botão "Aplicar Paleta P&B ATS"
+        if (atsBtn) {
+            atsBtn.addEventListener('click', () => {
+                applyResumeColor('#0f172a');
+                try {
+                    localStorage.setItem('curriculo_accent_color', '#0f172a');
+                } catch(e) {}
+                if (window.showNotification) {
+                    window.showNotification('Paleta P&B ATS aplicada com sucesso!', 'success');
+                }
+            });
+        }
+
+        // Input de cor customizada (Hex customizado)
+        if (customColorInput) {
+            customColorInput.addEventListener('input', (e) => {
+                const color = e.target.value;
+                applyResumeColor(color);
+                try {
+                    localStorage.setItem('curriculo_accent_color', color);
+                } catch(e) {}
+            });
+        }
+
         function applyResumeColor(color) {
             const paper = document.getElementById('resumePaper');
             if (paper) {
                 paper.style.setProperty('--resume-accent', color);
             }
-            swatches.forEach(s => {
-                s.classList.toggle('is-active', s.getAttribute('data-color').toLowerCase() === color.toLowerCase());
+
+            // Atualiza cor de elementos-chave diretamente para compatibilidade total
+            const nameEl = document.getElementById('preview-name');
+            if (nameEl) nameEl.style.color = color;
+
+            const dividerEl = paper ? paper.querySelector('.resume-divider') : null;
+            if (dividerEl) dividerEl.style.backgroundColor = color;
+
+            const sectionTitles = paper ? paper.querySelectorAll('.resume-section h2') : [];
+            sectionTitles.forEach(h2 => {
+                h2.style.color = color;
             });
+
+            // Atualizar estado ativo nas bolinhas
+            swatches.forEach(s => {
+                const swatchColor = s.getAttribute('data-color').toLowerCase();
+                const isActive = swatchColor === color.toLowerCase();
+                s.classList.toggle('is-active', isActive);
+            });
+
+            if (customColorInput && color) {
+                customColorInput.value = color.startsWith('#') && color.length === 7 ? color : '#0f172a';
+            }
         }
     }
     

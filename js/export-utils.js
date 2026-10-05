@@ -371,13 +371,20 @@ const ExportUtils = (function() {
         if (typeof html2pdf !== 'undefined') {
             window.showNotification('Gerando seu PDF com alta qualidade...', 'success');
             
-            // Clona ou configura opções otimizadas
+            // Opções otimizadas para A4 sem corte e com preservação das cores
             const opt = {
                 margin:       [10, 10, 10, 10], // margens em mm
                 filename:     filename,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    letterRendering: true,
+                    scrollY: 0,
+                    scrollX: 0
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
             };
 
             try {
@@ -385,6 +392,7 @@ const ExportUtils = (function() {
                 window.showNotification('PDF salvo com sucesso!', 'success');
             } catch (err) {
                 console.error('Erro ao gerar PDF com html2pdf:', err);
+                window.showNotification('Erro ao gerar direto. Abrindo janela de impressão...', 'error');
                 window.print();
             }
         } else {

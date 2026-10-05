@@ -541,15 +541,42 @@
                             <h2>Pré-visualização</h2>
                             <span class="live-badge">Atualiza em tempo real</span>
                         </div>
-                        <div class="resume-color-picker" aria-label="Escolher cor de destaque do currículo">
-                            <span class="color-picker-label"><i class="bi bi-palette" aria-hidden="true"></i> Cor:</span>
-                            <div class="color-swatches" id="colorSwatches">
-                                <button type="button" class="color-swatch is-active" data-color="#0f172a" style="background:#0f172a" title="Preto Clássico / Grafite" aria-label="Preto Clássico"></button>
-                                <button type="button" class="color-swatch" data-color="#165491" style="background:#165491" title="Azul Senac (#165491)" aria-label="Azul Senac"></button>
-                                <button type="button" class="color-swatch" data-color="#f79633" style="background:#f79633" title="Laranja Vibrante (#F79633)" aria-label="Laranja Vibrante"></button>
-                                <button type="button" class="color-swatch" data-color="#00bd6b" style="background:#00bd6b" title="Verde Esmeralda (#00BD6B)" aria-label="Verde Esmeralda"></button>
-                                <button type="button" class="color-swatch" data-color="#d82f00" style="background:#d82f00" title="Vermelho Terracota (#D82F00)" aria-label="Vermelho Terracota"></button>
-                                <button type="button" class="color-swatch" data-color="#fcc284" style="background:#fcc284" title="Pêssego Claro (#FCC284)" aria-label="Pêssego Claro"></button>
+                    </div>
+
+                    <!-- Bloco de Dica de RH e Seletor de Cores (Estilo Foto 2) -->
+                    <div class="theme-picker-card" aria-label="Personalização de cores do currículo">
+                        <div class="ats-tip-box">
+                            <div class="ats-tip-content">
+                                <div class="ats-tip-header">
+                                    <span class="ats-tip-badge"><i class="bi bi-stars" aria-hidden="true"></i> DICA DE RH: PADRÃO PRETO E BRANCO (P&B)</span>
+                                    <button type="button" id="btnApplyAtsPb" class="btn-ats-pb">Aplicar Paleta P&B ATS</button>
+                                </div>
+                                <p class="ats-tip-text">
+                                    O padrão ideal e universalmente recomendado por recrutadores é a paleta <strong>Preto e Branco (P&B)</strong> com alto contraste. Ela garante <strong>100% de compatibilidade</strong> na leitura por robôs de triagem (ATS) e economia na impressão física.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="color-selection-row">
+                            <div class="color-selection-title">
+                                <i class="bi bi-palette" aria-hidden="true"></i>
+                                <span>Cor Primária de Destaque</span>
+                            </div>
+                            <div class="color-swatches-wrapper">
+                                <div class="color-swatches" id="colorSwatches">
+                                    <button type="button" class="color-swatch is-active" data-color="#0f172a" style="background:#0f172a" title="Preto Clássico / Grafite" aria-label="Preto Clássico"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch" data-color="#165491" style="background:#165491" title="Azul Senac (#165491)" aria-label="Azul Senac"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch" data-color="#f79633" style="background:#f79633" title="Laranja Vibrante (#F79633)" aria-label="Laranja Vibrante"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch" data-color="#fcc284" style="background:#fcc284" title="Pêssego Claro (#FCC284)" aria-label="Pêssego Claro"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch" data-color="#7c3aed" style="background:#7c3aed" title="Roxo Profissional (#7C3AED)" aria-label="Roxo Profissional"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch" data-color="#1e293b" style="background:#1e293b" title="Azul Marinho Escuro (#1E293B)" aria-label="Azul Marinho Escuro"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch" data-color="#00bd6b" style="background:#00bd6b" title="Verde Esmeralda (#00BD6B)" aria-label="Verde Esmeralda"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch" data-color="#475569" style="background:#475569" title="Cinza Ardósia (#475569)" aria-label="Cinza Ardósia"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="custom-color-picker">
+                                    <label for="customColorInput" class="custom-color-label">Hex customizado:</label>
+                                    <input type="color" id="customColorInput" value="#0f172a" title="Escolha qualquer cor personalizada">
+                                </div>
                             </div>
                         </div>
                     </div>
