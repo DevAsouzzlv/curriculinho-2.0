@@ -40,9 +40,11 @@
   .resume-header h1 {
     font-size: 20pt !important;
     font-weight: 800 !important;
-    color: #0f172a !important;
+    color: var(--resume-accent, #0f172a) !important;
     margin: 0 0 2px 0 !important;
     line-height: 1.15 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   .resume-subtitle {
     font-size: 11pt !important;
@@ -61,10 +63,15 @@
   .resume-divider {
     display: block !important;
     height: 2px !important;
-    background: #0f172a !important;
+    background: var(--resume-accent, #0f172a) !important;
     width: 100% !important;
     margin: 8px 0 14px 0 !important;
     border: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .resume-section h2 {
+    color: var(--resume-accent, #0f172a) !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }

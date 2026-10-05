@@ -72,22 +72,22 @@ const ExportUtils = (function() {
                         // Espaçamento
                         new Paragraph({}),
                         
-                        // Síntese de Qualificações
+                        // 2. OBJETIVO / SÍNTESE DE QUALIFICAÇÕES
                         new Paragraph({
-                            text: "SÍNTESE DE QUALIFICAÇÕES",
+                            text: "OBJETIVO / SÍNTESE DE QUALIFICAÇÕES",
                             heading: HeadingLevel.HEADING_2,
                         }),
                         
                         new Paragraph({
-                            text: qualificationSummary,
+                            text: qualificationSummary || objective || "Profissional em busca de novas oportunidades e desenvolvimento contínuo.",
                         }),
                         
                         // Espaçamento
                         new Paragraph({}),
                         
-                        // Educação
+                        // 3. FORMAÇÃO ACADÊMICA
                         new Paragraph({
-                            text: "EDUCAÇÃO",
+                            text: "FORMAÇÃO ACADÊMICA",
                             heading: HeadingLevel.HEADING_2,
                         }),
                         
@@ -97,9 +97,15 @@ const ExportUtils = (function() {
                         // Espaçamento
                         new Paragraph({}),
                         
-                        // Experiências Profissionais
+                        // 4. CURSOS COMPLEMENTARES (se houver)
+                        ...getCoursesParagraphs(),
+                        
+                        // 5. COMPETÊNCIAS / TECNOLOGIAS E FERRAMENTAS (se houver)
+                        ...getSkillsParagraphs(),
+                        
+                        // 6. EXPERIÊNCIA PROFISSIONAL
                         new Paragraph({
-                            text: "EXPERIÊNCIAS PROFISSIONAIS/ACADÊMICAS",
+                            text: "EXPERIÊNCIA PROFISSIONAL",
                             heading: HeadingLevel.HEADING_2,
                         }),
                         
@@ -109,13 +115,7 @@ const ExportUtils = (function() {
                         // Espaçamento
                         new Paragraph({}),
                         
-                        // Cursos Complementares (se houver)
-                        ...getCoursesParagraphs(),
-                        
-                        // Habilidades (se houver)
-                        ...getSkillsParagraphs(),
-                        
-                        // Informações Complementares (se houver)
+                        // 7. INFORMAÇÕES COMPLEMENTARES (se houver)
                         ...(additionalInfo ? [
                             new Paragraph({
                                 text: "INFORMAÇÕES COMPLEMENTARES",
@@ -353,6 +353,47 @@ const ExportUtils = (function() {
     }
 
     /**
+     * Salva o currículo diretamente em PDF no computador (sem abrir modal de impressão)
+     */
+    async function savePdfDirectly() {
+        const resumeElement = document.getElementById('resumePaper');
+        if (!resumeElement) {
+            window.showNotification('Currículo não encontrado para exportar.', 'error');
+            return;
+        }
+
+        const nameInput = document.getElementById('name');
+        const candidateName = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Profissional';
+        const cleanName = candidateName.replace(/[^a-zA-Z0-9À-ÿ\s-]/g, '').trim();
+        const filename = `Curriculo - ${cleanName}.pdf`;
+
+        // Se html2pdf estiver disponível, usamos para download direto com fidelidade A4
+        if (typeof html2pdf !== 'undefined') {
+            window.showNotification('Gerando seu PDF com alta qualidade...', 'success');
+            
+            // Clona ou configura opções otimizadas
+            const opt = {
+                margin:       [10, 10, 10, 10], // margens em mm
+                filename:     filename,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            try {
+                await html2pdf().set(opt).from(resumeElement).save();
+                window.showNotification('PDF salvo com sucesso!', 'success');
+            } catch (err) {
+                console.error('Erro ao gerar PDF com html2pdf:', err);
+                window.print();
+            }
+        } else {
+            // Fallback caso a biblioteca externa ainda não tenha carregado
+            window.print();
+        }
+    }
+
+    /**
      * Imprime o currículo usando a função nativa do navegador
      */
     function printResume() {
@@ -362,6 +403,7 @@ const ExportUtils = (function() {
     // API pública
     return {
         exportToWord,
-        printResume
+        printResume,
+        savePdfDirectly
     };
 })();

@@ -527,7 +527,7 @@
                             <button type="submit" id="generateBtn" class="btn btn--accent btn--lg form-actions__primary"><i class="bi bi-check2-circle" aria-hidden="true"></i> Concluir e ver prévia</button>
                             <button type="button" id="exportWordBtn" class="btn btn--ghost"><i class="bi bi-file-earmark-word" aria-hidden="true"></i> Exportar para Word</button>
                             <button type="button" id="printFormBtn" class="btn btn--ghost" onclick="window.print()"><i class="bi bi-printer" aria-hidden="true"></i> Imprimir</button>
-                            <button type="button" id="savePdfFormBtn" class="btn btn--ghost" onclick="window.print()"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> Salvar em PDF</button>
+                            <button type="button" id="savePdfFormBtn" class="btn btn--ghost" onclick="if (typeof ExportUtils !== 'undefined' && ExportUtils.savePdfDirectly) { ExportUtils.savePdfDirectly(); } else { window.print(); }"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> Salvar em PDF</button>
                             <button type="button" id="saveBtn" class="btn btn--ghost"><i class="bi bi-save" aria-hidden="true"></i> Salvar rascunho</button>
                             <button type="reset" id="clearBtn" class="btn btn--danger-ghost"><i class="bi bi-trash3" aria-hidden="true"></i> Restaurar padrão</button>
                         </div>
@@ -537,8 +537,21 @@
                 <!-- Prévia ao vivo -->
                 <aside class="preview-panel" aria-label="Prévia do currículo">
                     <div class="preview-head">
-                        <h2>Pré-visualização</h2>
-                        <span class="live-badge">Atualiza em tempo real</span>
+                        <div>
+                            <h2>Pré-visualização</h2>
+                            <span class="live-badge">Atualiza em tempo real</span>
+                        </div>
+                        <div class="resume-color-picker" aria-label="Escolher cor de destaque do currículo">
+                            <span class="color-picker-label"><i class="bi bi-palette" aria-hidden="true"></i> Cor:</span>
+                            <div class="color-swatches" id="colorSwatches">
+                                <button type="button" class="color-swatch is-active" data-color="#0f172a" style="background:#0f172a" title="Preto Clássico / Grafite" aria-label="Preto Clássico"></button>
+                                <button type="button" class="color-swatch" data-color="#165491" style="background:#165491" title="Azul Senac (#165491)" aria-label="Azul Senac"></button>
+                                <button type="button" class="color-swatch" data-color="#f79633" style="background:#f79633" title="Laranja Vibrante (#F79633)" aria-label="Laranja Vibrante"></button>
+                                <button type="button" class="color-swatch" data-color="#00bd6b" style="background:#00bd6b" title="Verde Esmeralda (#00BD6B)" aria-label="Verde Esmeralda"></button>
+                                <button type="button" class="color-swatch" data-color="#d82f00" style="background:#d82f00" title="Vermelho Terracota (#D82F00)" aria-label="Vermelho Terracota"></button>
+                                <button type="button" class="color-swatch" data-color="#fcc284" style="background:#fcc284" title="Pêssego Claro (#FCC284)" aria-label="Pêssego Claro"></button>
+                            </div>
+                        </div>
                     </div>
                     <div class="preview-container" id="resumePreview"></div>
                 </aside>
@@ -624,6 +637,7 @@
     <!-- Bibliotecas externas -->
     <script src="https://unpkg.com/docx@7.1.0/build/index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <!-- Scripts da aplicação (ui.js deve vir antes do main.js) -->
     <script src="js/data-storage.js?v=3.0"></script>

@@ -33,7 +33,8 @@ const RealtimePreview = (function() {
         const previewContainer = document.getElementById('resumePreview');
         
         previewContainer.innerHTML = `
-            <div class="resume">
+            <div class="resume" id="resumePaper">
+                <!-- 1. DADOS PESSOAIS -->
                 <header class="resume-header">
                     <h1 id="preview-name">Arthur Miguel Souza de Oliveira</h1>
                     <div class="resume-subtitle" id="preview-subtitle">Engenheiro Pleno de Software</div>
@@ -48,28 +49,13 @@ const RealtimePreview = (function() {
                 
                 <div class="resume-divider"></div>
                 
+                <!-- 2. OBJETIVO / SÍNTESE -->
                 <div class="resume-section empty-section" id="section-qualification">
-                    <h2>SÍNTESE DE QUALIFICAÇÕES</h2>
+                    <h2>OBJETIVO / SÍNTESE DE QUALIFICAÇÕES</h2>
                     <p id="preview-qualification-summary">Sua síntese de qualificações aparecerá aqui.</p>
                 </div>
                 
-                <div class="resume-section" id="preview-skills-section" style="display: none;">
-                    <h2>TECNOLOGIAS DOMINADAS & FERRAMENTAS</h2>
-                    <div id="preview-skills-chips" class="resume-chips-grid"></div>
-                    
-                    <div class="resume-competencies-block" id="preview-competencies-block">
-                        <h3>PRINCIPAIS COMPETÊNCIAS</h3>
-                        <div id="preview-competencies-text"></div>
-                    </div>
-                </div>
-                
-                <div class="resume-section empty-section" id="section-experience">
-                    <h2>EXPERIÊNCIA PROFISSIONAL</h2>
-                    <div id="preview-experience">
-                        <p class="placeholder-text">Suas experiências profissionais aparecerão aqui.</p>
-                    </div>
-                </div>
-                
+                <!-- 3. FORMAÇÃO ACADÊMICA -->
                 <div class="resume-section empty-section" id="section-education">
                     <h2>FORMAÇÃO ACADÊMICA</h2>
                     <div id="preview-education">
@@ -77,11 +63,33 @@ const RealtimePreview = (function() {
                     </div>
                 </div>
                 
+                <!-- 4. CURSOS COMPLEMENTARES -->
                 <div class="resume-section" id="preview-courses-section" style="display: none;">
                     <h2>CURSOS COMPLEMENTARES</h2>
                     <div id="preview-courses"></div>
                 </div>
                 
+                <!-- 5. COMPETÊNCIAS -->
+                <div class="resume-section" id="preview-competencies-section" style="display: none;">
+                    <h2>COMPETÊNCIAS</h2>
+                    <div id="preview-competencies-text"></div>
+                </div>
+                
+                <!-- 6. TECNOLOGIAS E FERRAMENTAS -->
+                <div class="resume-section" id="preview-tools-section" style="display: none;">
+                    <h2>TECNOLOGIAS E FERRAMENTAS</h2>
+                    <div id="preview-skills-chips" class="resume-chips-grid"></div>
+                </div>
+                
+                <!-- 7. EXPERIÊNCIA PROFISSIONAL -->
+                <div class="resume-section empty-section" id="section-experience">
+                    <h2>EXPERIÊNCIA PROFISSIONAL</h2>
+                    <div id="preview-experience">
+                        <p class="placeholder-text">Suas experiências profissionais aparecerão aqui.</p>
+                    </div>
+                </div>
+                
+                <!-- INFORMAÇÕES COMPLEMENTARES (se houver) -->
                 <div class="resume-section" id="preview-additional-info-section" style="display: none;">
                     <h2>INFORMAÇÕES COMPLEMENTARES</h2>
                     <p id="preview-additional-info"></p>
@@ -89,8 +97,8 @@ const RealtimePreview = (function() {
                 
                 <div class="resume-actions only-screen">
                     <button type="button" id="exportWordPreviewBtn" class="resume-action-btn resume-action-btn--word"><i class="bi bi-file-earmark-word" aria-hidden="true"></i> Exportar para Word</button>
-                    <button type="button" id="printResumeBtn" class="resume-action-btn resume-action-btn--print" onclick="window.print()"><i class="bi bi-printer" aria-hidden="true"></i> Imprimir</button>
-                    <button type="button" id="savePdfBtn" class="btn-primary-pdf" onclick="window.print()">Imprimir / Salvar PDF</button>
+                    <button type="button" id="printResumeBtn" class="resume-action-btn resume-action-btn--print"><i class="bi bi-printer" aria-hidden="true"></i> Imprimir</button>
+                    <button type="button" id="savePdfBtn" class="btn-primary-pdf"><i class="bi bi-download" aria-hidden="true"></i> Salvar em PDF</button>
                 </div>
             </div>
         `;
@@ -137,10 +145,10 @@ const RealtimePreview = (function() {
             previewExperience: document.getElementById('preview-experience'),
             previewCourses: document.getElementById('preview-courses'),
             previewCoursesSection: document.getElementById('preview-courses-section'),
-            previewSkillsChips: document.getElementById('preview-skills-chips'),
-            previewCompetenciesBlock: document.getElementById('preview-competencies-block'),
+            previewCompetenciesSection: document.getElementById('preview-competencies-section'),
             previewCompetenciesText: document.getElementById('preview-competencies-text'),
-            previewSkillsSection: document.getElementById('preview-skills-section'),
+            previewToolsSection: document.getElementById('preview-tools-section'),
+            previewSkillsChips: document.getElementById('preview-skills-chips'),
             previewAdditionalInfo: document.getElementById('preview-additional-info'),
             previewAdditionalInfoSection: document.getElementById('preview-additional-info-section')
         };
@@ -227,6 +235,62 @@ const RealtimePreview = (function() {
                 if (typeof ExportUtils !== 'undefined' && ExportUtils.exportToWord) {
                     ExportUtils.exportToWord();
                 }
+            });
+        }
+
+        // Listener para o botão Imprimir (abre o modal de impressão nativo)
+        const printBtn = document.getElementById('printResumeBtn');
+        if (printBtn) {
+            printBtn.addEventListener('click', () => {
+                window.print();
+            });
+        }
+
+        // Listener para o botão Salvar em PDF (faz download direto do arquivo sem modal)
+        const savePdfBtn = document.getElementById('savePdfBtn');
+        if (savePdfBtn) {
+            savePdfBtn.addEventListener('click', () => {
+                if (typeof ExportUtils !== 'undefined' && ExportUtils.savePdfDirectly) {
+                    ExportUtils.savePdfDirectly();
+                } else {
+                    window.print();
+                }
+            });
+        }
+
+        // Configurar seletor de paleta de cores para o currículo
+        setupColorPicker();
+    }
+
+    /**
+     * Configura o seletor de cores de destaque para o currículo
+     */
+    function setupColorPicker() {
+        const swatches = document.querySelectorAll('#colorSwatches .color-swatch');
+        const resumePaper = document.getElementById('resumePaper');
+        if (!swatches.length || !resumePaper) return;
+
+        // Recuperar cor salva anteriormente ou usar o padrão preto/grafite
+        const savedColor = localStorage.getItem('curriculo_accent_color') || '#0f172a';
+        applyResumeColor(savedColor);
+
+        swatches.forEach(swatch => {
+            swatch.addEventListener('click', () => {
+                const color = swatch.getAttribute('data-color');
+                applyResumeColor(color);
+                try {
+                    localStorage.setItem('curriculo_accent_color', color);
+                } catch(e) {}
+            });
+        });
+
+        function applyResumeColor(color) {
+            const paper = document.getElementById('resumePaper');
+            if (paper) {
+                paper.style.setProperty('--resume-accent', color);
+            }
+            swatches.forEach(s => {
+                s.classList.toggle('is-active', s.getAttribute('data-color').toLowerCase() === color.toLowerCase());
             });
         }
     }
@@ -643,35 +707,34 @@ const RealtimePreview = (function() {
             });
         }
         
-        if (hardSkills.length > 0 || softSkills.length > 0) {
-            // 1. Tecnologias & Ferramentas Dominadas (Chips retangulares arredondados)
-            if (elements.previewSkillsChips) {
-                const allChips = [...hardSkills];
-                if (allChips.length > 0) {
-                    elements.previewSkillsChips.innerHTML = allChips
-                        .map(skill => `<span class="resume-pill">${skill}</span>`)
-                        .join('');
-                    elements.previewSkillsChips.style.display = 'flex';
-                } else {
-                    elements.previewSkillsChips.style.display = 'none';
-                }
+        // 1. Tecnologias & Ferramentas Dominadas (Chips retangulares arredondados)
+        if (elements.previewSkillsChips && elements.previewToolsSection) {
+            const allChips = [...hardSkills];
+            if (allChips.length > 0) {
+                elements.previewSkillsChips.innerHTML = allChips
+                    .map(skill => `<span class="resume-pill">${skill}</span>`)
+                    .join('');
+                elements.previewToolsSection.style.display = 'block';
+            } else {
+                elements.previewToolsSection.style.display = 'none';
             }
-            
-            // 2. Principais Competências com marcadores (bullet dots)
-            if (elements.previewCompetenciesText) {
-                let compHTML = '';
-                if (hardSkills.length > 0) {
-                    compHTML += `<p><strong>Hard Skills:</strong> ${hardSkills.join(' • ')}</p>`;
-                }
-                if (softSkills.length > 0) {
-                    compHTML += `<p><strong>Soft Skills:</strong> ${softSkills.join(' • ')}</p>`;
-                }
+        }
+        
+        // 2. Principais Competências com marcadores (bullet dots)
+        if (elements.previewCompetenciesText && elements.previewCompetenciesSection) {
+            let compHTML = '';
+            if (hardSkills.length > 0) {
+                compHTML += `<p><strong>Hard Skills:</strong> ${hardSkills.join(' • ')}</p>`;
+            }
+            if (softSkills.length > 0) {
+                compHTML += `<p><strong>Soft Skills:</strong> ${softSkills.join(' • ')}</p>`;
+            }
+            if (compHTML) {
                 elements.previewCompetenciesText.innerHTML = compHTML;
+                elements.previewCompetenciesSection.style.display = 'block';
+            } else {
+                elements.previewCompetenciesSection.style.display = 'none';
             }
-            
-            elements.previewSkillsSection.style.display = 'block';
-        } else {
-            elements.previewSkillsSection.style.display = 'none';
         }
     }
     
