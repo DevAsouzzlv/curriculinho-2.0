@@ -132,15 +132,17 @@ input:user-invalid:focus, select:user-invalid:focus, textarea:user-invalid:focus
 /* ---------- Stepper ---------- */
 .stepper { display: flex; gap: var(--space-2); margin-bottom: var(--space-3); overflow-x: auto; padding-bottom: var(--space-1); scrollbar-width: none; }
 .stepper::-webkit-scrollbar { display: none; }
+.stepper > li { flex: 1 1 0; min-width: 0; display: flex; }
 .stepper__item {
-  flex: 1 0 auto; display: flex; align-items: center; gap: var(--space-2);
-  padding: 0.5rem 0.85rem; font-size: var(--text-xs); font-weight: 600;
+  width: 100%; display: flex; align-items: center; justify-content: center; gap: var(--space-2);
+  padding: 0.5rem 0.75rem; font-size: var(--text-xs); font-weight: 600;
   color: var(--text-muted); background: var(--surface);
   border: 1px solid var(--border); border-radius: var(--radius-full);
-  transition: all var(--t-fast) var(--ease);
+  transition: all var(--t-fast) var(--ease); text-align: center;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .stepper__num {
-  display: inline-grid; place-items: center; width: 22px; height: 22px;
+  flex-shrink: 0; display: inline-grid; place-items: center; width: 22px; height: 22px;
   font-size: 0.72rem; border-radius: 50%; background: var(--surface-2); color: var(--text-muted);
 }
 .stepper__item:hover { border-color: var(--primary); }
@@ -148,8 +150,35 @@ input:user-invalid:focus, select:user-invalid:focus, textarea:user-invalid:focus
 .stepper__item.is-active .stepper__num { background: var(--primary); color: var(--on-primary); }
 .stepper__item.is-done .stepper__num { background: var(--success); color: #fff; font-size: 0; }
 .stepper__item.is-done .stepper__num::before { content: '\2713'; font-size: 0.8rem; }
-.stepper > li { flex: 1 0 auto; display: flex; }
-.stepper__item { width: 100%; justify-content: center; }
+
+@media (max-width: 640px) {
+  .stepper { gap: var(--space-1); }
+  .stepper__item {
+    padding: 0.4rem 0.3rem;
+    font-size: 0.72rem;
+    justify-content: center;
+    border-radius: var(--radius-md);
+  }
+  /* Em telas pequenas, se o texto ficar muito apertado, exibe apenas o número ou texto encurtado */
+  .stepper__item span.stepper__text { display: none; }
+  .stepper__item.is-active { font-weight: 700; }
+}
+
+@media (max-width: 480px) {
+  .stepper__item {
+    padding: 0.35rem;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    margin: 0 auto;
+    font-size: 0;
+  }
+  .stepper__num {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+}
 
 .stepper__track { height: 6px; background: var(--surface-2); border-radius: var(--radius-full); overflow: hidden; margin-bottom: var(--space-2); }
 .stepper__bar { height: 100%; width: 20%; background: linear-gradient(90deg, var(--primary), var(--blue-400)); border-radius: inherit; transition: width var(--t-base) var(--ease); }
@@ -289,8 +318,40 @@ input:user-invalid:focus, select:user-invalid:focus, textarea:user-invalid:focus
 .ai-card strong { color: var(--text); }
 .ai-error { display: flex; gap: var(--space-3); padding: var(--space-4); color: var(--danger); background: var(--danger-soft); border-radius: var(--radius-md); font-size: var(--text-sm); }
 
+@media (max-width: 640px) {
+  .modal-content {
+    margin: 2vh auto;
+    padding: var(--space-4) var(--space-3);
+    border-radius: var(--radius-lg);
+  }
+  .modal-content h2 { font-size: 1.25rem; }
+  .modal-skills-section { grid-template-columns: 1fr; gap: var(--space-3); }
+  .skills-section { grid-template-columns: 1fr; gap: var(--space-4); }
+  .education-item, .experience-item, .course-item {
+    padding: var(--space-3) var(--space-3) var(--space-2);
+  }
+  .remove-btn {
+    min-height: 38px;
+    padding: 0.5rem 0.9rem;
+  }
+}
+
 @media (max-width: 560px) {
   .ai-result__head { flex-direction: column; text-align: center; }
   .panel__head { flex-direction: column; }
   .btn--lg { width: 100%; }
+  .chip-content {
+    padding: 0.4rem 0.75rem;
+    font-size: var(--text-xs);
+  }
+  .confirm-modal {
+    padding: var(--space-4);
+  }
+  .confirm-modal__actions {
+    flex-direction: column-reverse;
+  }
+  .confirm-modal__actions .btn {
+    width: 100%;
+  }
 }
+
