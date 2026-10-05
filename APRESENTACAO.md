@@ -40,50 +40,57 @@
 
 ---
 
-### 🎲 02:30 - 05:00 | Bloco 3: A Dinâmica Interativa com as 3 Pessoas
-**Objetivo:** Fazer as 3 pessoas participarem ativamente usando o Avaliador ou Match de Vagas.
+### 🎲 02:30 - 05:00 | Bloco 3: A Dinâmica Interativa & O Desafio do Brinde 🎁
+**Objetivo:** Engajar as 3 pessoas ativamente no produto e fechar com o convite imperdível do brinde.
 
-#### 🎮 Dinâmica: *"Desafio do Recrutador vs. IA"*
+#### 🎮 Parte 1: *"Desafio do Recrutador vs. IA"* (1.5 min)
 Distribua 1 papel rápido para cada uma das 3 pessoas:
-
 - **Pessoa 1 (O Candidato):** Escolhe uma área ou profissão (Ex: *"Atendente de Loja"*, *"Auxiliar Administrativo"* ou *"Desenvolvedor Web"*).
 - **Pessoa 2 (O Recrutador):** Dita 2 requisitos indispensáveis para essa vaga (Ex: *"Precisa ter comunicação clara e saber Excel básico"*).
 - **Pessoa 3 (O Juiz da IA):** Vai analisar se o feedback que a inteligência artificial gerar foi justo e preciso.
 
-#### Como executar na tela:
-1. Clique na aba **"Match de Vagas"** (ou **"Avaliador com IA"**).
-2. Na caixa de descrição da vaga, digite os requisitos que a **Pessoa 2 (Recrutador)** ditou.
-3. Selecione um currículo em PDF de exemplo (arraste para a dropzone).
-4. Clique no botão **"Calcular match"** (ou **"Avaliar meu currículo"**).
-5. Mostre a animação de diagnóstico e o resultado na tela:
-   - O anel colorido com a pontuação de compatibilidade.
-   - Os pontos fortes identificados no currículo.
-   - O que faltou em relação aos requisitos da Pessoa 2.
-   - O plano de melhoria prático.
-6. Pergunte para a **Pessoa 3 (Juiz)**:  
-   *"Você contrataria esse candidato ou acha que o alerta da IA fez sentido?"*  
-   *(Isso gera um momento natural e leve de discussão que prova o valor do projeto ao vivo).*
+**Execução na tela:**
+1. Abra a aba **"Match de Vagas"** (ou **"Avaliador com IA"**).
+2. Cole os requisitos ditados pela **Pessoa 2**, carregue um PDF de teste e clique em **"Calcular Match"**.
+3. Mostre o diagnóstico ao vivo (pontuação, pontos fortes e pontos a melhorar).
+4. Pergunte à **Pessoa 3**: *"Você concorda com o veredito da IA?"*
+
+#### 🎁 Parte 2: O Desafio Interativo — *"Criou, Ganhou Brinde!"* (1 min)
+Agora você lança a dinâmica prática diretamente para as 3 pessoas:
+
+> **Fala de impacto:**  
+> *"E para provar como o Curriculinho é rápido, prático e pensado para o mundo real, nós temos uma dinâmica especial agora:*
+>  
+> *📱 **Quem abrir o site agora no celular e criar o seu currículo aqui com a gente vai ganhar um brinde exclusivo!**  
+>  
+> *Leva menos de 3 minutos, você não precisa criar conta e já sai daqui com o seu currículo profissional pronto em PDF para colocar no mercado!"*
+>
+> *(Aponte para o QR Code / link na tela ou passe o link do projeto para os 3 abrirem nos próprios celulares).*
 
 ---
 
 ### 📌 05:00 - 06:00 | Bloco 4: Engenharia & Diferenciais Técnicos
 > **Fala sugerida:**  
-> *"Nos bastidores, o projeto conta com tecnologias modernas e pensadas para o usuário real:*
-> 1. * **Design System e Tokens CSS:** Cores semânticas, suporte a temas e consistência visual.*
-> 2. * **100% Responsivo:** Testado e refinado do smartphone até telas grandes.*
-> 3. * **Privacidade por Padrão:** Não exige cadastro nem armazena senhas; o rascunho fica seguro no próprio navegador do usuário.*
-> 4. * **Impressão e Exportação Calibradas:** Impressão em folha A4 limpa sem páginas em branco e exportação direta para arquivo Word.*
-> 5. * **Deploy e CI/CD:** Código versionado no GitHub e preparado para hospedagem em nuvem."*
+> *"Enquanto vocês testam aí no celular, vejam o que está rodando por trás:*
+> 1. * **100% Responsivo:** Vocês estão vendo direto na tela do celular como o formulário se adapta com facilidade.*
+> 2. * **Design System e Tokens CSS:** Cores semânticas, suporte a temas e consistência visual.*
+> 3. * **Privacidade por Padrão:** Não exige cadastro nem armazena senhas; o rascunho fica seguro no próprio navegador.*
+> 4. * **Impressão e Exportação Calibradas:** PDF A4 profissional sem páginas em branco e exportação Word (.doc).*
+> 5. * **Deploy e CI/CD:** Versão em nuvem integrada ao GitHub e pronta para escalar."*
 
 ---
 
-### 📌 06:00 - 07:00 | Bloco 5: Conclusão & Perguntas
+### 📌 06:00 - 07:00 | Bloco 5: Entrega dos Brindes & Fechamento
 > **Fala sugerida:**  
-> *"O Curriculinho 2.0 não é apenas mais um formulário na internet: ele é um verdadeiro copiloto de carreira que orienta, formata e valida as chances do profissional. Agradecemos a atenção de vocês e estamos abertos para perguntas e feedbacks!"*
+> *"Quem já conseguiu gerar a sua prévia e baixar o PDF? [Espere a reação/mostra na tela do celular].  
+> Parabéns! Aqui está o brinde de vocês! 🎁  
+>  
+> O Curriculinho 2.0 foi feito exatamente para isso: eliminar barreiras e colocar as pessoas no mercado de trabalho com dignidade e velocidade. Muito obrigado a todos e estamos abertos a perguntas!"*
 
 ---
 
 ## 💡 Dicas Rápidas de Preparação
-- **Deixe o site aberto em uma aba** antes de começar.
-- **Deixe 1 arquivo PDF de teste salvo na Área de Trabalho** para a dinâmica ser rápida e sem imprevistos.
-- **Mantenha a postura dinâmica:** olhe para as 3 pessoas e faça contato visual durante a dinâmica.
+- **Deixe os brindes separados:** podem ser bombons, adesivos personalizados, canetas ou um mimo simples.
+- **Deixe o link ou QR Code do site bem visível:** pode ser o link do GitHub Pages / Render ou seu IP local na rede Wi-Fi.
+- **Tenha 1 PDF de teste na Área de Trabalho:** para o teste do Match de Vagas não travar por falta de arquivo.
+- **Mantenha a energia alta:** a promessa do brinde gera um pico de curiosidade e engajamento imediato!
