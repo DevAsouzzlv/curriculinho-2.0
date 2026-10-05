@@ -81,11 +81,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // URL da API: local em desenvolvimento, servidor do Render em produção.
-    // Pode ser sobrescrita definindo window.CURRICULINHO_API_BASE antes deste script.
-    const isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
-    const API_BASE = window.CURRICULINHO_API_BASE ||
-        (isLocal ? 'http://localhost:8000/api/v1' : 'https://curriculinho-api.onrender.com/api/v1');
+    // URL da API:
+    // Permite que o usuário use o backend local ou remoto conforme onde estiver rodando.
+    // Pode ser sobrescrita definindo window.CURRICULINHO_API_BASE ou via localStorage.
+    function getApiCandidates() {
+        const custom = window.CURRICULINHO_API_BASE || localStorage.getItem('curriculinho_api_url');
+        if (custom) return [custom.replace(/\/+$/, '')];
+
+        const isLocalHost = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+        if (isLocalHost) {
+            return ['http://127.0.0.1:8000/api/v1', 'http://localhost:8000/api/v1'];
+        }
+        // Se estiver no GitHub Pages ou Render, tenta o serviço publicado no Render primeiro,
+        // com fallback para localhost se o usuário estiver com o backend local aberto.
+        return [
+            'https://curriculinho-api.onrender.com/api/v1',
+            'http://127.0.0.1:8000/api/v1'
+        ];
+    }
     const MAX_PDF_BYTES = 5 * 1024 * 1024;
 
     // Função de enviar para a IA (Avaliador e Match)
@@ -154,16 +167,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 500);
 
-        fetch(`${API_BASE}${endpoint}`, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw new Error(err.detail || "Erro desconhecido") });
+        async function postToEndpoint() {
+            const candidates = getApiCandidates();
+            let lastError = null;
+
+            for (const base of candidates) {
+                try {
+                    const response = await fetch(`${base}${endpoint}`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (!response.ok) {
+                        const err = await response.json().catch(() => ({}));
+                        throw new Error(err.detail || `Erro do servidor (${response.status})`);
+                    }
+                    return await response.json();
+                } catch (err) {
+                    lastError = err;
+                    // Se for erro de rede/CORS, continua para o próximo candidato
+                    console.warn(`Tentativa em ${base}${endpoint} falhou:`, err.message);
+                }
             }
-            return response.json();
-        })
+            throw lastError || new Error("Não foi possível conectar ao servidor.");
+        }
+
+        postToEndpoint()
         .then(data => {
             clearInterval(progressInterval);
             if (progressFill) progressFill.style.width = '100%';
@@ -176,7 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (window.CurriculinhoUI && typeof window.CurriculinhoUI.renderAIResult === 'function') {
                     window.CurriculinhoUI.renderAIResult(aiResultContent, text, kind);
                 } else {
-                    // Fallback simples caso o ui.js não tenha carregado
                     const htmlOutput = window.escapeHTML(text)
                         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                         .replace(/\n/g, '<br>');
@@ -187,12 +214,12 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             clearInterval(progressInterval);
-            console.error('Erro:', error);
-            const offline = error instanceof TypeError;
+            console.error('Erro final na comunicação com IA:', error);
+            const offline = error instanceof TypeError || error.message.includes('Failed to fetch') || error.message.includes('NetworkError');
             const msg = offline
-                ? 'Não foi possível conectar ao servidor de IA. Verifique sua conexão ou tente novamente em instantes.'
+                ? 'Não foi possível conectar ao servidor de IA.<br><small style="color:var(--text-muted)">Certifique-se de que o backend FastAPI esteja rodando localmente (porta 8000) ou que o serviço no Render tenha sido iniciado.</small>'
                 : error.message;
-            aiResultContent.innerHTML = `<div class="ai-error" role="alert"><i class="bi bi-exclamation-octagon" aria-hidden="true"></i><div><strong>Houve um erro ao se comunicar com a IA.</strong><br>${window.escapeHTML(msg)}</div></div>`;
+            aiResultContent.innerHTML = `<div class="ai-error" role="alert"><i class="bi bi-exclamation-octagon" aria-hidden="true"></i><div><strong>Houve um erro ao se comunicar com a IA.</strong><br>${msg}</div></div>`;
             showNotification('Falha ao analisar.', 'error');
         });
     }
