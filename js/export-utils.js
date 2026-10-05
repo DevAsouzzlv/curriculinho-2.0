@@ -37,70 +37,36 @@ const ExportUtils = (function() {
                 sections: [{
                     properties: {},
                     children: [
-                        // Cabeçalho - Nome
+                        // Cabeçalho - Nome (Alinhado à esquerda)
                         new Paragraph({
                             text: name,
                             heading: HeadingLevel.HEADING_1,
-                            alignment: AlignmentType.CENTER
+                            alignment: AlignmentType.LEFT
                         }),
                         
-                        // Informações pessoais
-                        new Paragraph({
-                            alignment: AlignmentType.CENTER,
+                        // Cargo / Subtítulo
+                        objective ? new Paragraph({
+                            alignment: AlignmentType.LEFT,
                             children: [
                                 new TextRun({
-                                    text: `${birthplace ? `Natural de ${birthplace}` : ''}${birthplace && maritalStatus ? ', ' : ''}${maritalStatus || ''}${(birthplace || maritalStatus) && age ? ', ' : ''}${age ? `${age} anos` : ''}`,
-                                }),
-                            ]
-                        }),
-                        
-                        // Endereço
-                        new Paragraph({
-                            alignment: AlignmentType.CENTER,
-                            children: [
-                                new TextRun({
-                                    text: `${neighborhood || ''}${neighborhood && (city || state) ? ', ' : ''}${city || ''}${(neighborhood || city) && state ? ' - ' : ''}${state || ''}`,
-                                }),
-                            ]
-                        }),
-                        
-                        // Contato
-                        new Paragraph({
-                            alignment: AlignmentType.CENTER,
-                            children: [
-                                new TextRun({
-                                    text: `${phone1 || ''}${phone1 && phone2 ? '; ' : ''}${phone2 ? `${phone2} (ligação, WhatsApp ou recado)` : ''}`,
-                                }),
-                            ]
-                        }),
-                        
-                        // Email
-                        new Paragraph({
-                            alignment: AlignmentType.CENTER,
-                            children: [
-                                new TextRun({ text: email || '' }),
-                            ]
-                        }),
-                        
-                        // CNH
-                        license ? new Paragraph({
-                            alignment: AlignmentType.CENTER,
-                            children: [
-                                new TextRun({ text: `CNH: ${license}` }),
+                                    text: objective,
+                                    bold: true,
+                                    size: 24, // 12pt
+                                    color: "334155"
+                                })
                             ]
                         }) : null,
                         
-                        // Espaçamento
-                        new Paragraph({}),
-                        
-                        // Objetivo
+                        // Metadados (Localização • Telefone • Email)
                         new Paragraph({
-                            text: "OBJETIVO",
-                            heading: HeadingLevel.HEADING_2,
-                        }),
-                        
-                        new Paragraph({
-                            text: objective,
+                            alignment: AlignmentType.LEFT,
+                            children: [
+                                new TextRun({
+                                    text: `${city && state ? `${city} – ${state}` : city || neighborhood || ''}${(city || neighborhood) && (phone1 || phone2 || email) ? '  •  ' : ''}${phone1 || phone2 || ''}${(phone1 || phone2) && email ? '  •  ' : ''}${email || ''}`,
+                                    color: "64748B",
+                                    size: 20 // 10pt
+                                })
+                            ]
                         }),
                         
                         // Espaçamento

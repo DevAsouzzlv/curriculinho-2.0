@@ -34,63 +34,63 @@ const RealtimePreview = (function() {
         
         previewContainer.innerHTML = `
             <div class="resume">
-                <div class="resume-header">
-                    <h1 id="preview-name">Nome Completo</h1>
-                    <p id="preview-personal-info"></p>
-                    <p id="preview-address"></p>
-                </div>
+                <header class="resume-header">
+                    <h1 id="preview-name">Arthur Miguel Souza de Oliveira</h1>
+                    <div class="resume-subtitle" id="preview-subtitle">Engenheiro Pleno de Software</div>
+                    <div class="resume-meta" id="preview-meta">
+                        <span id="preview-meta-location"><i class="bi bi-geo-alt" aria-hidden="true"></i> Santo Antônio de Jesus – BA</span>
+                        <span class="meta-dot" aria-hidden="true">•</span>
+                        <span id="preview-meta-phone">(75) 98145-0488</span>
+                        <span class="meta-dot" aria-hidden="true">•</span>
+                        <span id="preview-meta-email">ssouzarthur90@gmail.com</span>
+                    </div>
+                </header>
                 
-                <div class="resume-contact">
-                    <p id="preview-phones"></p>
-                    <p id="preview-email"></p>
-                    <p id="preview-license"></p>
-                </div>
-                
-                <div class="resume-section empty-section" id="section-objective">
-                    <h2>Objetivo</h2>
-                    <p id="preview-objective">Seu objetivo profissional aparecerá aqui.</p>
-                </div>
+                <div class="resume-divider"></div>
                 
                 <div class="resume-section empty-section" id="section-qualification">
-                    <h2>Síntese de Qualificações</h2>
+                    <h2>SÍNTESE DE QUALIFICAÇÕES</h2>
                     <p id="preview-qualification-summary">Sua síntese de qualificações aparecerá aqui.</p>
                 </div>
                 
-                <div class="resume-section empty-section" id="section-education">
-                    <h2>Educação</h2>
-                    <div id="preview-education">
-                        <p class="placeholder-text">Sua formação acadêmica aparecerá aqui.</p>
+                <div class="resume-section" id="preview-skills-section" style="display: none;">
+                    <h2>TECNOLOGIAS DOMINADAS & FERRAMENTAS</h2>
+                    <div id="preview-skills-chips" class="resume-chips-grid"></div>
+                    
+                    <div class="resume-competencies-block" id="preview-competencies-block">
+                        <h3>PRINCIPAIS COMPETÊNCIAS</h3>
+                        <div id="preview-competencies-text"></div>
                     </div>
                 </div>
                 
                 <div class="resume-section empty-section" id="section-experience">
-                    <h2>Experiências Profissionais/Acadêmicas</h2>
+                    <h2>EXPERIÊNCIA PROFISSIONAL</h2>
                     <div id="preview-experience">
                         <p class="placeholder-text">Suas experiências profissionais aparecerão aqui.</p>
                     </div>
                 </div>
                 
+                <div class="resume-section empty-section" id="section-education">
+                    <h2>FORMAÇÃO ACADÊMICA</h2>
+                    <div id="preview-education">
+                        <p class="placeholder-text">Sua formação acadêmica aparecerá aqui.</p>
+                    </div>
+                </div>
+                
                 <div class="resume-section" id="preview-courses-section" style="display: none;">
-                    <h2>Cursos Complementares</h2>
+                    <h2>CURSOS COMPLEMENTARES</h2>
                     <div id="preview-courses"></div>
                 </div>
                 
-                <div class="resume-section" id="preview-skills-section" style="display: none;">
-                    <h2>Habilidades</h2>
-                    <div id="preview-skills"></div>
-                </div>
-                
                 <div class="resume-section" id="preview-additional-info-section" style="display: none;">
-                    <h2>Informações Complementares</h2>
+                    <h2>INFORMAÇÕES COMPLEMENTARES</h2>
                     <p id="preview-additional-info"></p>
                 </div>
-                
-                
                 
                 <div class="resume-actions only-screen">
                     <button type="button" id="exportWordPreviewBtn" class="resume-action-btn resume-action-btn--word"><i class="bi bi-file-earmark-word" aria-hidden="true"></i> Exportar para Word</button>
                     <button type="button" id="printResumeBtn" class="resume-action-btn resume-action-btn--print" onclick="window.print()"><i class="bi bi-printer" aria-hidden="true"></i> Imprimir</button>
-                    <button type="button" id="savePdfBtn" class="resume-action-btn resume-action-btn--pdf" onclick="window.print()"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> Salvar em PDF</button>
+                    <button type="button" id="savePdfBtn" class="btn-primary-pdf" onclick="window.print()">Imprimir / Salvar PDF</button>
                 </div>
             </div>
         `;
@@ -127,18 +127,19 @@ const RealtimePreview = (function() {
             
             // Elementos de visualização
             previewName: document.getElementById('preview-name'),
-            previewPersonalInfo: document.getElementById('preview-personal-info'),
-            previewAddress: document.getElementById('preview-address'),
-            previewPhones: document.getElementById('preview-phones'),
-            previewEmail: document.getElementById('preview-email'),
-            previewLicense: document.getElementById('preview-license'),
-            previewObjective: document.getElementById('preview-objective'),
+            previewSubtitle: document.getElementById('preview-subtitle'),
+            previewMeta: document.getElementById('preview-meta'),
+            previewMetaLocation: document.getElementById('preview-meta-location'),
+            previewMetaPhone: document.getElementById('preview-meta-phone'),
+            previewMetaEmail: document.getElementById('preview-meta-email'),
             previewQualificationSummary: document.getElementById('preview-qualification-summary'),
             previewEducation: document.getElementById('preview-education'),
             previewExperience: document.getElementById('preview-experience'),
             previewCourses: document.getElementById('preview-courses'),
             previewCoursesSection: document.getElementById('preview-courses-section'),
-            previewSkills: document.getElementById('preview-skills'),
+            previewSkillsChips: document.getElementById('preview-skills-chips'),
+            previewCompetenciesBlock: document.getElementById('preview-competencies-block'),
+            previewCompetenciesText: document.getElementById('preview-competencies-text'),
             previewSkillsSection: document.getElementById('preview-skills-section'),
             previewAdditionalInfo: document.getElementById('preview-additional-info'),
             previewAdditionalInfoSection: document.getElementById('preview-additional-info-section')
@@ -165,8 +166,9 @@ const RealtimePreview = (function() {
         // Objetivo e síntese
         elements.objective.addEventListener('input', debounce(() => {
             const objVal = elements.objective.value;
-        elements.previewObjective.textContent = objVal || 'Seu objetivo profissional aparecerá aqui.';
-        document.getElementById('section-objective').classList.toggle('empty-section', !objVal);
+            if (elements.previewSubtitle) {
+                elements.previewSubtitle.textContent = objVal || 'Cargo / Área de Atuação';
+            }
         }, 300));
         
         elements.qualificationSummary.addEventListener('input', debounce(() => {
@@ -396,13 +398,13 @@ const RealtimePreview = (function() {
     function updateFullPreview() {
         updatePersonalInfo();
         
-        // Objetivo e síntese
-        const objVal = elements.objective.value;
-        elements.previewObjective.textContent = objVal || 'Seu objetivo profissional aparecerá aqui.';
-        document.getElementById('section-objective').classList.toggle('empty-section', !objVal);
+        // Subtítulo e síntese
         const qualVal = elements.qualificationSummary.value;
-        elements.previewQualificationSummary.textContent = qualVal || 'Sua síntese de qualificações aparecerá aqui.';
-        document.getElementById('section-qualification').classList.toggle('empty-section', !qualVal);
+        if (elements.previewQualificationSummary) {
+            elements.previewQualificationSummary.textContent = qualVal || 'Sua síntese de qualificações aparecerá aqui.';
+        }
+        const secQual = document.getElementById('section-qualification');
+        if (secQual) secQual.classList.toggle('empty-section', !qualVal);
         
         // Seções dinâmicas
         updateEducation();
@@ -422,53 +424,56 @@ const RealtimePreview = (function() {
     function updatePersonalInfo() {
         // Nome
         const name = esc( elements.name.value);
-        elements.previewName.textContent = name || 'Nome Completo';
+        if (elements.previewName) elements.previewName.textContent = name || 'Nome Completo';
         
-        // Linha de naturalidade, estado civil e idade
-        let personalInfoLine = '';
-        const birthplace = esc( elements.birthplace.value);
-        const maritalStatus = esc( elements.maritalStatus.value);
-        const age = esc( elements.age.value);
+        // Cargo / Subtítulo
+        const objVal = esc( elements.objective.value);
+        if (elements.previewSubtitle) {
+            elements.previewSubtitle.textContent = objVal || 'Cargo / Área de Atuação';
+            elements.previewSubtitle.style.display = objVal ? 'block' : 'none';
+        }
         
-        if (birthplace) personalInfoLine += `Natural de ${birthplace}`;
-        if (birthplace && (maritalStatus || age)) personalInfoLine += ', ';
-        if (maritalStatus) personalInfoLine += `${maritalStatus}`;
-        if ((birthplace || maritalStatus) && age) personalInfoLine += ', ';
-        if (age) personalInfoLine += `${age} anos`;
-        
-        elements.previewPersonalInfo.textContent = personalInfoLine;
-        
-        // Linha de endereço
-        let addressLine = '';
-        const neighborhood = esc( elements.neighborhood.value);
+        // Localização (Cidade - UF ou Bairro)
         const city = esc( elements.city.value);
         const state = esc( elements.state.value);
+        const neighborhood = esc( elements.neighborhood.value);
+        let locText = '';
+        if (city && state) locText = `${city} – ${state}`;
+        else if (city) locText = city;
+        else if (neighborhood) locText = neighborhood;
         
-        if (neighborhood) addressLine += neighborhood;
-        if (neighborhood && (city || state)) addressLine += ', ';
-        if (city) addressLine += city;
-        if ((neighborhood || city) && state) addressLine += ' - ';
-        if (state) addressLine += state;
+        if (elements.previewMetaLocation) {
+            if (locText) {
+                elements.previewMetaLocation.innerHTML = `<i class="bi bi-geo-alt" aria-hidden="true"></i> ${locText}`;
+                elements.previewMetaLocation.style.display = 'inline';
+            } else {
+                elements.previewMetaLocation.style.display = 'none';
+            }
+        }
         
-        elements.previewAddress.textContent = addressLine;
-        
-        // Linha de telefones
-        let phoneLine = '';
+        // Telefone
         const phone1 = esc( elements.phone1.value);
         const phone2 = esc( elements.phone2.value);
-        
-        if (phone1) phoneLine += phone1;
-        if (phone1 && phone2) phoneLine += '; ';
-        if (phone2) phoneLine += `${phone2} (ligação, WhatsApp ou recado)`;
-        
-        elements.previewPhones.textContent = phoneLine;
+        const phone = phone1 || phone2;
+        if (elements.previewMetaPhone) {
+            if (phone) {
+                elements.previewMetaPhone.textContent = phone;
+                elements.previewMetaPhone.style.display = 'inline';
+            } else {
+                elements.previewMetaPhone.style.display = 'none';
+            }
+        }
         
         // Email
-        elements.previewEmail.textContent = esc( elements.email.value);
-        
-        // CNH
-        const license = esc( elements.license.value);
-        elements.previewLicense.textContent = license ? `CNH: ${license}` : '';
+        const email = esc( elements.email.value);
+        if (elements.previewMetaEmail) {
+            if (email) {
+                elements.previewMetaEmail.textContent = email;
+                elements.previewMetaEmail.style.display = 'inline';
+            } else {
+                elements.previewMetaEmail.style.display = 'none';
+            }
+        }
     }
     
     /**
@@ -638,30 +643,32 @@ const RealtimePreview = (function() {
             });
         }
         
-        // Formatar habilidades
-        let skillsHTML = '';
         if (hardSkills.length > 0 || softSkills.length > 0) {
-            skillsHTML += '<div class="skills-list">';
-            
-            if (hardSkills.length > 0) {
-                skillsHTML += '<div class="skills-column"><h3>Hard Skills</h3>';
-                hardSkills.forEach(skill => {
-                    skillsHTML += `<span class="skill-tag">${skill}</span>`;
-                });
-                skillsHTML += '</div>';
+            // 1. Tecnologias & Ferramentas Dominadas (Chips retangulares arredondados)
+            if (elements.previewSkillsChips) {
+                const allChips = [...hardSkills];
+                if (allChips.length > 0) {
+                    elements.previewSkillsChips.innerHTML = allChips
+                        .map(skill => `<span class="resume-pill">${skill}</span>`)
+                        .join('');
+                    elements.previewSkillsChips.style.display = 'flex';
+                } else {
+                    elements.previewSkillsChips.style.display = 'none';
+                }
             }
             
-            if (softSkills.length > 0) {
-                skillsHTML += '<div class="skills-column"><h3>Soft Skills</h3>';
-                softSkills.forEach(skill => {
-                    skillsHTML += `<span class="skill-tag">${skill}</span>`;
-                });
-                skillsHTML += '</div>';
+            // 2. Principais Competências com marcadores (bullet dots)
+            if (elements.previewCompetenciesText) {
+                let compHTML = '';
+                if (hardSkills.length > 0) {
+                    compHTML += `<p><strong>Hard Skills:</strong> ${hardSkills.join(' • ')}</p>`;
+                }
+                if (softSkills.length > 0) {
+                    compHTML += `<p><strong>Soft Skills:</strong> ${softSkills.join(' • ')}</p>`;
+                }
+                elements.previewCompetenciesText.innerHTML = compHTML;
             }
             
-            skillsHTML += '</div>';
-            
-            elements.previewSkills.innerHTML = skillsHTML;
             elements.previewSkillsSection.style.display = 'block';
         } else {
             elements.previewSkillsSection.style.display = 'none';

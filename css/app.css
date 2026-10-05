@@ -41,23 +41,138 @@
 .preview-container { max-height: calc(100vh - var(--header-h) - 120px); overflow: auto; padding: var(--space-4); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-lg); }
 
 /* Currículo = papel branco, independente do tema */
-.resume { padding: var(--space-6); color: var(--paper-text); background: var(--paper); border-radius: var(--radius-sm); box-shadow: var(--shadow-md); font-size: 0.86rem; line-height: 1.55; }
-.resume-header { text-align: center; margin-bottom: 4px; }
-.resume-header h1 { margin-bottom: 4px; font-size: 1.7rem; color: var(--blue-600); letter-spacing: -0.02em; }
-.resume-header p, .resume-contact p { margin-bottom: 2px; color: var(--paper-muted); }
-.resume-contact { text-align: center; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 2px solid var(--blue-600); }
-.resume-section { margin-bottom: 14px; }
-.resume-section h2 { margin: 0 0 6px; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-hover); }
-.resume-section p, .resume-item p { margin-bottom: 4px; color: var(--paper-text); }
-.resume-item { margin-bottom: 8px; }
+.resume {
+  padding: clamp(1.2rem, 3.5vw, 2.5rem);
+  color: #1e293b;
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* Header alinhado à esquerda como na referência */
+.resume-header {
+  text-align: left;
+  margin-bottom: 0.8rem;
+}
+.resume-header h1 {
+  margin: 0 0 4px 0;
+  font-size: 1.95rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+  line-height: 1.15;
+}
+.resume-subtitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
+}
+.resume-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+.resume-meta i {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-right: 2px;
+}
+.meta-dot {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+/* Linha divisória grossa preta/grafite */
+.resume-divider {
+  height: 2px;
+  background: #0f172a;
+  width: 100%;
+  margin: 0.9rem 0 1.2rem;
+}
+
+/* Seções */
+.resume-section {
+  margin-bottom: 1.25rem;
+}
+.resume-section h2 {
+  margin: 0 0 6px 0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #0f172a;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 4px;
+}
+.resume-section p, .resume-item p {
+  margin: 0 0 6px 0;
+  color: #334155;
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+.resume-item {
+  margin-bottom: 10px;
+}
+
+/* Pílulas retangulares de tecnologias dominadas (iguais à imagem) */
+.resume-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 14px;
+}
+.resume-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: #1e293b;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+/* Bloco de competências principais (Hard Skills e Soft Skills com marcadores •) */
+.resume-competencies-block {
+  margin-top: 10px;
+  padding-top: 6px;
+}
+.resume-competencies-block h3 {
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 3px;
+}
+.resume-competencies-block p {
+  font-size: 0.82rem;
+  color: #334155;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.resume-competencies-block strong {
+  color: #0f172a;
+}
+
 .empty-section p, .placeholder-text { color: #94a3b8; font-style: italic; }
-.skills-list { display: flex; flex-direction: column; gap: 8px; }
-.skills-list .skills-column h3 { margin: 0 0 4px; font-size: 0.78rem; color: var(--paper-muted); font-weight: 600; }
-.skill-tag { display: inline-block; margin: 0 5px 5px 0; padding: 2px 10px; font-size: 0.76rem; font-weight: 500; color: var(--blue-600); background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: var(--radius-full); }
-.resume-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4); }
+
+/* Botões de Ação na Prévia */
+.resume-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: flex-end; align-items: center; margin-top: var(--space-5); }
 .resume-action-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
-  padding: 0.65rem 1.1rem; font-size: var(--text-sm); font-weight: 600;
+  padding: 0.65rem 1.15rem; font-size: var(--text-sm); font-weight: 600;
   border: 1px solid transparent; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
   transition: all var(--t-fast) var(--ease); cursor: pointer;
 }
@@ -73,11 +188,30 @@
 .resume-action-btn--print:hover {
   background: var(--surface-2); border-color: var(--text-muted);
 }
-.resume-action-btn--pdf {
-  color: var(--on-primary); background: var(--primary);
+
+/* Botão azul com cantos arredondados "Imprimir / Salvar PDF" (exatamente como na imagem 2) */
+.btn-primary-pdf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.7rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #2563eb;
+  border: 0;
+  border-radius: 9999px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+  cursor: pointer;
+  transition: all var(--t-fast) var(--ease);
 }
-.resume-action-btn--pdf:hover {
-  background: var(--primary-hover);
+.btn-primary-pdf:hover {
+  background-color: #1d4ed8;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.45);
+  transform: translateY(-1px);
+}
+.btn-primary-pdf:active {
+  transform: translateY(0);
 }
 #printBtn {
   display: inline-flex; align-items: center; gap: var(--space-2); padding: 0.65rem 1.1rem;
@@ -125,7 +259,7 @@
   .resume-header h1 { font-size: 1.3rem; margin-bottom: 2px; }
   .resume-section h2 { font-size: 0.76rem; margin-bottom: 4px; }
   .resume-actions { justify-content: stretch; gap: var(--space-2); }
-  .resume-action-btn, #printBtn { width: 100%; justify-content: center; min-height: 44px; }
+  .resume-action-btn, .btn-primary-pdf, #printBtn { width: 100%; justify-content: center; min-height: 44px; }
   .preview-fab {
     bottom: var(--space-3); right: var(--space-3);
     padding: 0.7rem 1rem; font-size: var(--text-xs);
