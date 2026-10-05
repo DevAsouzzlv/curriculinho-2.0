@@ -812,27 +812,50 @@ button[type="reset"]:hover {
 
 /* 13. Print Styles */
 @media print {
-  body * {
-    visibility: hidden;
-  }
-  
-  .preview-container, .preview-container * {
-    visibility: visible;
-  }
-  
-  .preview-container {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    border: none;
+  @page { margin: 12mm; }
+
+  /* Remove do layout (display:none) tudo que não é o currículo,
+     senão o espaço fica reservado e gera páginas em branco */
+  #landing-screen,
+  .landing-nav,
+  .site-footer,
+  footer,
+  header,
+  .form-container,
+  .ai-container,
+  #avaliador-section,
+  #match-section,
+  #aiResultContainer,
+  .modal,
+  .notification-toast,
+  .resume-actions,
+  #printBtn,
+  .only-screen,
+  .empty-section,
+  button {
+    display: none !important;
   }
 
-  .empty-section {
-    display: none !important;
+  html, body, .container, #app-container, main, #gerador-section {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    background: #fff !important;
+    animation: none !important;
+  }
+
+  .preview-container {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #fff !important;
   }
 }
 
