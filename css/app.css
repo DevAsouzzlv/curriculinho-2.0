@@ -54,7 +54,31 @@
 .skills-list { display: flex; flex-direction: column; gap: 8px; }
 .skills-list .skills-column h3 { margin: 0 0 4px; font-size: 0.78rem; color: var(--paper-muted); font-weight: 600; }
 .skill-tag { display: inline-block; margin: 0 5px 5px 0; padding: 2px 10px; font-size: 0.76rem; font-weight: 500; color: var(--blue-600); background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: var(--radius-full); }
-.resume-actions { display: flex; justify-content: flex-end; margin-top: var(--space-4); }
+.resume-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4); }
+.resume-action-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  padding: 0.65rem 1.1rem; font-size: var(--text-sm); font-weight: 600;
+  border: 1px solid transparent; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+  transition: all var(--t-fast) var(--ease); cursor: pointer;
+}
+.resume-action-btn--word {
+  color: #1e40af; background: #eff6ff; border-color: #bfdbfe;
+}
+.resume-action-btn--word:hover {
+  background: #dbeafe; border-color: #93c5fd; color: #1d4ed8;
+}
+.resume-action-btn--print {
+  color: var(--text); background: var(--surface); border-color: var(--border-strong);
+}
+.resume-action-btn--print:hover {
+  background: var(--surface-2); border-color: var(--text-muted);
+}
+.resume-action-btn--pdf {
+  color: var(--on-primary); background: var(--primary);
+}
+.resume-action-btn--pdf:hover {
+  background: var(--primary-hover);
+}
 #printBtn {
   display: inline-flex; align-items: center; gap: var(--space-2); padding: 0.65rem 1.1rem;
   font-size: var(--text-sm); font-weight: 600; color: var(--on-primary); background: var(--primary);
@@ -100,8 +124,8 @@
   .resume { padding: var(--space-3) var(--space-2); font-size: 0.78rem; line-height: 1.45; }
   .resume-header h1 { font-size: 1.3rem; margin-bottom: 2px; }
   .resume-section h2 { font-size: 0.76rem; margin-bottom: 4px; }
-  .resume-actions { justify-content: stretch; }
-  #printBtn { width: 100%; justify-content: center; }
+  .resume-actions { justify-content: stretch; gap: var(--space-2); }
+  .resume-action-btn, #printBtn { width: 100%; justify-content: center; min-height: 44px; }
   .preview-fab {
     bottom: var(--space-3); right: var(--space-3);
     padding: 0.7rem 1rem; font-size: var(--text-xs);

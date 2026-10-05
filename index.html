@@ -525,8 +525,10 @@
                         <!-- Ações finais (visíveis na última etapa) -->
                         <div class="form-actions" id="formActions" hidden>
                             <button type="submit" id="generateBtn" class="btn btn--accent btn--lg form-actions__primary"><i class="bi bi-check2-circle" aria-hidden="true"></i> Concluir e ver prévia</button>
-                            <button type="button" id="saveBtn" class="btn btn--ghost"><i class="bi bi-save" aria-hidden="true"></i> Salvar rascunho</button>
                             <button type="button" id="exportWordBtn" class="btn btn--ghost"><i class="bi bi-file-earmark-word" aria-hidden="true"></i> Exportar para Word</button>
+                            <button type="button" id="printFormBtn" class="btn btn--ghost" onclick="window.print()"><i class="bi bi-printer" aria-hidden="true"></i> Imprimir</button>
+                            <button type="button" id="savePdfFormBtn" class="btn btn--ghost" onclick="window.print()"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> Salvar em PDF</button>
+                            <button type="button" id="saveBtn" class="btn btn--ghost"><i class="bi bi-save" aria-hidden="true"></i> Salvar rascunho</button>
                             <button type="reset" id="clearBtn" class="btn btn--danger-ghost"><i class="bi bi-trash3" aria-hidden="true"></i> Restaurar padrão</button>
                         </div>
                     </form>

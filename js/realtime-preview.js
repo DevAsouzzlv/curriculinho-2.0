@@ -88,7 +88,9 @@ const RealtimePreview = (function() {
                 
                 
                 <div class="resume-actions only-screen">
-                    <button id="printBtn" onclick="window.print()">Imprimir / Salvar PDF</button>
+                    <button type="button" id="exportWordPreviewBtn" class="resume-action-btn resume-action-btn--word"><i class="bi bi-file-earmark-word" aria-hidden="true"></i> Exportar para Word</button>
+                    <button type="button" id="printResumeBtn" class="resume-action-btn resume-action-btn--print" onclick="window.print()"><i class="bi bi-printer" aria-hidden="true"></i> Imprimir</button>
+                    <button type="button" id="savePdfBtn" class="resume-action-btn resume-action-btn--pdf" onclick="window.print()"><i class="bi bi-file-earmark-pdf" aria-hidden="true"></i> Salvar em PDF</button>
                 </div>
             </div>
         `;
@@ -215,6 +217,16 @@ const RealtimePreview = (function() {
         
         // Adicionar listeners aos itens iniciais
         addListenersToAllItems();
+        
+        // Listener para o botão de Exportar para Word na prévia
+        const wordPreviewBtn = document.getElementById('exportWordPreviewBtn');
+        if (wordPreviewBtn) {
+            wordPreviewBtn.addEventListener('click', () => {
+                if (typeof ExportUtils !== 'undefined' && ExportUtils.exportToWord) {
+                    ExportUtils.exportToWord();
+                }
+            });
+        }
     }
     
     /**

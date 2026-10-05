@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Foca na pré-visualização quando clicado no "Concluir"
             const preview = document.getElementById('resumePreview');
             if (preview) preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            showNotification('Currículo pronto! Use "Imprimir / Salvar PDF" na prévia.', 'success');
+            showNotification('Currículo pronto! Escolha: Exportar para Word, Imprimir ou Salvar em PDF.', 'success');
         });
     }
 
