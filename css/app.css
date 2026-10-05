@@ -70,16 +70,27 @@
   border: 0; border-radius: var(--radius-full); box-shadow: var(--shadow-lg);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   #gerador-section { grid-template-columns: 1fr; }
   .preview-panel { position: static; }
   .preview-container { max-height: none; }
   .preview-fab { display: inline-flex; }
   .form-card { padding: var(--space-5) var(--space-4); }
 }
+
+@media (max-width: 768px) {
+  .app__head h1 { font-size: 1.6rem; }
+  .app-tabs { width: 100%; justify-content: flex-start; }
+  .tab-btn { padding: 0.5rem 0.9rem; font-size: var(--text-xs); }
+  .preview-container { padding: var(--space-2); }
+  .resume { padding: var(--space-4) var(--space-3); }
+}
+
 @media (max-width: 560px) {
-  .app { padding-top: var(--space-5); }
-  .resume { padding: var(--space-4); }
-  .step-nav .btn, .form-actions .btn { flex: 1 1 100%; }
-  .step-nav { flex-direction: column-reverse; }
+  .app { padding-top: var(--space-4); }
+  .step-nav { flex-direction: column-reverse; gap: var(--space-2); }
+  .step-nav .btn, .form-actions .btn { width: 100%; }
+  .form-actions { flex-direction: column; width: 100%; }
+  .resume { padding: var(--space-3) var(--space-2); font-size: 0.8rem; }
+  .resume-header h1 { font-size: 1.4rem; }
 }
