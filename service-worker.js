@@ -3,26 +3,27 @@
  * Suporte completo a Offline-First, Cache de assets essenciais e Network-First com Fallback de Cache.
  */
 
-const CACHE_NAME = 'curriculinho-v2.1';
+const CACHE_NAME = 'curriculinho-v2.2';
 
 // Recursos críticos para funcionamento 100% offline
 const STATIC_ASSETS = [
     './',
     './index.html',
     './manifest.json',
-    './css/tokens.css?v=3.0',
-    './css/base.css?v=3.0',
-    './css/components.css?v=3.0',
-    './css/landing.css?v=3.0',
-    './css/app.css?v=3.0',
-    './css/print.css?v=3.0',
-    './js/data-storage.js?v=3.0',
-    './js/form-handlers.js?v=3.0',
-    './js/resume-generator.js?v=3.0',
-    './js/export-utils.js?v=3.0',
-    './js/realtime-preview.js?v=3.0',
-    './js/ui.js?v=3.0',
-    './js/main.js?v=3.0',
+    './css/tokens.css?v=3.2',
+    './css/base.css?v=3.2',
+    './css/components.css?v=3.2',
+    './css/landing.css?v=3.2',
+    './css/app.css?v=3.2',
+    './css/print.css?v=3.2',
+    './js/data-storage.js?v=3.2',
+    './js/form-handlers.js?v=3.2',
+    './js/resume-generator.js?v=3.2',
+    './js/export-utils.js?v=3.2',
+    './js/realtime-preview.js?v=3.2',
+    './js/ui.js?v=3.2',
+    './js/main.js?v=3.2',
+    './js/pwa.js?v=3.2',
     './assets/images/logo.png',
     './assets/icon/icon_192.png',
     './assets/icon/icon_512.png',

@@ -41,97 +41,34 @@
 .preview-container { max-height: calc(100vh - var(--header-h) - 120px); overflow: auto; padding: var(--space-4); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-lg); }
 
 /* ==========================================================================
-   SELETOR DE CORES E DICA DE RH (ESTILO FOTO 2)
+   SELETOR DE CORES
    ========================================================================== */
 .theme-picker-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 1.1rem;
+  padding: 0.9rem 1.1rem;
   margin-bottom: var(--space-4);
   box-shadow: var(--shadow-sm);
 }
 
-/* Card escuro de Dica de RH com bordas arredondadas */
-.ats-tip-box {
-  background: #0f172a;
-  color: #f8fafc;
-  border-radius: var(--radius-md);
-  padding: 1rem 1.2rem;
-  margin-bottom: 1.1rem;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
-}
-[data-theme="dark"] .ats-tip-box {
-  background: #090e1a;
-  border: 1px solid #1e293b;
-}
-
-.ats-tip-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 0.6rem;
-}
-
-.ats-tip-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #f59e0b;
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.btn-ats-pb {
-  background: #ffffff;
-  color: #0f172a;
-  font-weight: 700;
-  font-size: 0.78rem;
-  padding: 5px 12px;
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  transition: all var(--t-fast) var(--ease);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-}
-.btn-ats-pb:hover {
-  background: #f1f5f9;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.25);
-}
-
-.ats-tip-text {
-  font-size: 0.84rem;
-  line-height: 1.5;
-  color: #cbd5e1;
-  margin: 0;
-}
-.ats-tip-text strong {
-  color: #ffffff;
-}
-
-/* Linha de seleção de cor primária */
 .color-selection-row {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .color-selection-title {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--text);
 }
 .color-selection-title i {
   color: var(--primary);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .color-swatches-wrapper {

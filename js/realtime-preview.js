@@ -310,34 +310,34 @@ const RealtimePreview = (function() {
             });
         }
 
+        // Salva e aplica a cor ativa
+        window.applyResumeColor = applyResumeColor;
+
         function applyResumeColor(color) {
+            const chosenColor = color || localStorage.getItem('curriculo_accent_color') || '#0f172a';
             const paper = document.getElementById('resumePaper');
             if (paper) {
-                paper.style.setProperty('--resume-accent', color);
+                paper.style.setProperty('--resume-accent', chosenColor);
             }
 
             // Atualiza cor de elementos-chave diretamente para compatibilidade total
             const nameEl = document.getElementById('preview-name');
-            if (nameEl) nameEl.style.color = color;
+            if (nameEl) nameEl.style.color = chosenColor;
 
             const dividerEl = paper ? paper.querySelector('.resume-divider') : null;
-            if (dividerEl) dividerEl.style.backgroundColor = color;
+            if (dividerEl) dividerEl.style.backgroundColor = chosenColor;
 
             const sectionTitles = paper ? paper.querySelectorAll('.resume-section h2') : [];
             sectionTitles.forEach(h2 => {
-                h2.style.color = color;
+                h2.style.color = chosenColor;
             });
 
             // Atualizar estado ativo nas bolinhas
             swatches.forEach(s => {
                 const swatchColor = s.getAttribute('data-color').toLowerCase();
-                const isActive = swatchColor === color.toLowerCase();
+                const isActive = swatchColor === chosenColor.toLowerCase();
                 s.classList.toggle('is-active', isActive);
             });
-
-            if (customColorInput && color) {
-                customColorInput.value = color.startsWith('#') && color.length === 7 ? color : '#0f172a';
-            }
         }
     }
     
@@ -526,6 +526,11 @@ const RealtimePreview = (function() {
         const additionalInfo = esc( elements.additionalInfo.value);
         elements.previewAdditionalInfo.textContent = additionalInfo;
         elements.previewAdditionalInfoSection.style.display = additionalInfo ? 'block' : 'none';
+
+        // Reaplicar cor de destaque ativa nos títulos e linhas
+        if (typeof window.applyResumeColor === 'function') {
+            window.applyResumeColor();
+        }
     }
     
     /**

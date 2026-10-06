@@ -8,6 +8,7 @@
   .site-header, .site-footer, .skip-link, #landing-screen, .app__head, .app-tabs,
   .form-card, .preview-head, .preview-fab, .panel, #avaliador-section, #match-section,
   #aiResultContainer, .modal, .toast, .confirm-overlay, .resume-actions, #printBtn,
+  .theme-picker-card, .ats-tip-box, .color-selection-row,
   .only-screen, .empty-section, button {
     display: none !important;
   }

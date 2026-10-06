@@ -31,12 +31,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <!-- Design system modular -->
-    <link rel="stylesheet" href="css/tokens.css?v=3.0">
-    <link rel="stylesheet" href="css/base.css?v=3.0">
-    <link rel="stylesheet" href="css/components.css?v=3.0">
-    <link rel="stylesheet" href="css/landing.css?v=3.0">
-    <link rel="stylesheet" href="css/app.css?v=3.0">
-    <link rel="stylesheet" href="css/print.css?v=3.0" media="print">
+    <link rel="stylesheet" href="css/tokens.css?v=3.2">
+    <link rel="stylesheet" href="css/base.css?v=3.2">
+    <link rel="stylesheet" href="css/components.css?v=3.2">
+    <link rel="stylesheet" href="css/landing.css?v=3.2">
+    <link rel="stylesheet" href="css/app.css?v=3.2">
+    <link rel="stylesheet" href="css/print.css?v=3.2" media="print">
 
     <link rel="manifest" href="manifest.json">
     <link rel="shortcut icon" href="assets/images/logo.png" type="image/png">
@@ -552,39 +552,23 @@
                         </div>
                     </div>
 
-                    <!-- Bloco de Dica de RH e Seletor de Cores (Estilo Foto 2) -->
+                    <!-- Seletor de Cores de Destaque -->
                     <div class="theme-picker-card" aria-label="Personalização de cores do currículo">
-                        <div class="ats-tip-box">
-                            <div class="ats-tip-content">
-                                <div class="ats-tip-header">
-                                    <span class="ats-tip-badge"><i class="bi bi-stars" aria-hidden="true"></i> DICA DE RH: PADRÃO PRETO E BRANCO (P&B)</span>
-                                    <button type="button" id="btnApplyAtsPb" class="btn-ats-pb">Aplicar Paleta P&B ATS</button>
-                                </div>
-                                <p class="ats-tip-text">
-                                    O padrão ideal e universalmente recomendado por recrutadores é a paleta <strong>Preto e Branco (P&B)</strong> com alto contraste. Ela garante <strong>100% de compatibilidade</strong> na leitura por robôs de triagem (ATS) e economia na impressão física.
-                                </p>
-                            </div>
-                        </div>
-
                         <div class="color-selection-row">
                             <div class="color-selection-title">
                                 <i class="bi bi-palette" aria-hidden="true"></i>
-                                <span>Cor Primária de Destaque</span>
+                                <span>Cor da Letra / Destaque do Currículo:</span>
                             </div>
                             <div class="color-swatches-wrapper">
                                 <div class="color-swatches" id="colorSwatches">
-                                    <button type="button" class="color-swatch is-active" data-color="#0f172a" style="background:#0f172a" title="Preto Clássico / Grafite" aria-label="Preto Clássico"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch is-active" data-color="#0f172a" style="background:#0f172a" title="Preto Clássico" aria-label="Preto Clássico"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
                                     <button type="button" class="color-swatch" data-color="#165491" style="background:#165491" title="Azul Senac (#165491)" aria-label="Azul Senac"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
                                     <button type="button" class="color-swatch" data-color="#f79633" style="background:#f79633" title="Laranja Vibrante (#F79633)" aria-label="Laranja Vibrante"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
                                     <button type="button" class="color-swatch" data-color="#fcc284" style="background:#fcc284" title="Pêssego Claro (#FCC284)" aria-label="Pêssego Claro"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
-                                    <button type="button" class="color-swatch" data-color="#7c3aed" style="background:#7c3aed" title="Roxo Profissional (#7C3AED)" aria-label="Roxo Profissional"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
-                                    <button type="button" class="color-swatch" data-color="#1e293b" style="background:#1e293b" title="Azul Marinho Escuro (#1E293B)" aria-label="Azul Marinho Escuro"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
-                                    <button type="button" class="color-swatch" data-color="#00bd6b" style="background:#00bd6b" title="Verde Esmeralda (#00BD6B)" aria-label="Verde Esmeralda"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
-                                    <button type="button" class="color-swatch" data-color="#475569" style="background:#475569" title="Cinza Ardósia (#475569)" aria-label="Cinza Ardósia"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
-                                </div>
-                                <div class="custom-color-picker">
-                                    <label for="customColorInput" class="custom-color-label">Hex customizado:</label>
-                                    <input type="color" id="customColorInput" value="#0f172a" title="Escolha qualquer cor personalizada">
+                                    <button type="button" class="color-swatch" data-color="#7c3aed" style="background:#7c3aed" title="Roxo (#7C3AED)" aria-label="Roxo"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch" data-color="#1e293b" style="background:#1e293b" title="Azul Marinho (#1E293B)" aria-label="Azul Marinho"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch" data-color="#00bd6b" style="background:#00bd6b" title="Verde (#00BD6B)" aria-label="Verde"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
+                                    <button type="button" class="color-swatch" data-color="#475569" style="background:#475569" title="Cinza (#475569)" aria-label="Cinza"><i class="bi bi-check2 check-icon" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -676,13 +660,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <!-- Scripts da aplicação (ui.js deve vir antes do main.js) -->
-    <script src="js/data-storage.js?v=3.0"></script>
-    <script src="js/form-handlers.js?v=3.0"></script>
-    <script src="js/resume-generator.js?v=3.0"></script>
-    <script src="js/export-utils.js?v=3.0"></script>
-    <script src="js/realtime-preview.js?v=3.0"></script>
-    <script src="js/ui.js?v=3.0"></script>
-    <script src="js/main.js?v=3.0"></script>
-    <script src="js/pwa.js?v=3.0"></script>
+    <script src="js/data-storage.js?v=3.2"></script>
+    <script src="js/form-handlers.js?v=3.2"></script>
+    <script src="js/resume-generator.js?v=3.2"></script>
+    <script src="js/export-utils.js?v=3.2"></script>
+    <script src="js/realtime-preview.js?v=3.2"></script>
+    <script src="js/ui.js?v=3.2"></script>
+    <script src="js/main.js?v=3.2"></script>
+    <script src="js/pwa.js?v=3.2"></script>
 </body>
 </html>
