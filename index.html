@@ -6,6 +6,13 @@
     <title>Curriculinho 2.0 — Gerador de Currículo com IA</title>
     <meta name="description" content="Crie um currículo profissional, avalie com inteligência artificial e compare com vagas reais. Gratuito e sem cadastro.">
     <meta name="theme-color" content="#155491">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Curriculinho">
+    <link rel="apple-touch-icon" href="assets/icon/icon_192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icon/icon_192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/icon/icon_512.png">
 
     <!-- Aplica o tema salvo antes da renderização (evita "piscar" de tema) -->
     <script>
@@ -31,7 +38,6 @@
     <link rel="stylesheet" href="css/app.css?v=3.0">
     <link rel="stylesheet" href="css/print.css?v=3.0" media="print">
 
-    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');</script>
     <link rel="manifest" href="manifest.json">
     <link rel="shortcut icon" href="assets/images/logo.png" type="image/png">
 </head>
@@ -53,6 +59,9 @@
             </nav>
 
             <div class="header-actions">
+                <button type="button" id="pwaInstallBtn" class="btn btn--outline btn--sm" style="display: none;" title="Instalar aplicativo no computador ou celular">
+                    <i class="bi bi-download" aria-hidden="true"></i> <span>Instalar App</span>
+                </button>
                 <button type="button" id="themeToggle" class="icon-btn" aria-pressed="false" aria-label="Ativar tema escuro">
                     <i class="bi bi-moon-stars" aria-hidden="true"></i>
                 </button>
@@ -674,5 +683,6 @@
     <script src="js/realtime-preview.js?v=3.0"></script>
     <script src="js/ui.js?v=3.0"></script>
     <script src="js/main.js?v=3.0"></script>
+    <script src="js/pwa.js?v=3.0"></script>
 </body>
 </html>

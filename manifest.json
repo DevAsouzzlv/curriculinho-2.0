@@ -1,15 +1,35 @@
 {
-  "name": "Curriculo Express",
+  "name": "Curriculinho 2.0 — Gerador de Currículo Profissional",
   "short_name": "Curriculinho",
-  "start_url": "https://dev.santecweb.com.br/curriculo",
+  "description": "Crie currículos profissionais no padrão de mercado, avalie com IA e compare com vagas reais. Funciona offline e sem cadastro.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "description": "Aplicativo para criar currículos profissionais com formato padronizado, desenvolvido pela turma de Desenvolvimento de Sistemas do SENAC",
-  "lang": "pt-BR",
-  "dir": "auto",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
   "theme_color": "#155491",
-  "background_color": "#f5f5f5",
-  "orientation": "any",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "utilities", "education"],
   "icons": [
+    {
+      "src": "assets/icon/icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon/icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icon/icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "assets/icon/icon_512.png",
       "sizes": "512x512",
@@ -17,8 +37,8 @@
       "purpose": "maskable"
     },
     {
-      "src": "assets/icon/icon_192.png",
-      "sizes": "192x192",
+      "src": "assets/images/logo.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     }
@@ -28,37 +48,37 @@
       "src": "assets/screenshots/img.png",
       "sizes": "2880x1800",
       "type": "image/png",
-      "description": "Tela de criação de currículo com formulário e visualização em tempo real"
+      "form_factor": "wide",
+      "label": "Painel de edição em tempo real do currículo"
     },
     {
       "src": "assets/screenshots/img.png",
       "sizes": "2880x1800",
       "type": "image/png",
-      "description": "Currículo gerado pronto para impressão ou exportação"
+      "label": "Pré-visualização do currículo profissional para impressão e PDF"
     }
   ],
-  "related_applications": [
-    {
-      "platform": "windows",
-      "url": "https://dev.santecweb.com.br/curriculo"
-    }
-  ],
-  "prefer_related_applications": false,
   "shortcuts": [
     {
-      "name": "Novo Currículo",
-      "url": "/index.html?new=true",
-      "description": "Criar um novo currículo em branco"
+      "name": "Criar Currículo",
+      "short_name": "Criar",
+      "description": "Abrir o gerador de currículo passo a passo",
+      "url": "./#gerador",
+      "icons": [{ "src": "assets/icon/icon_192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Modelos",
-      "url": "/index.html?templates=true",
-      "description": "Acessar modelos de currículo pré-definidos"
+      "name": "Avaliador com IA",
+      "short_name": "Avaliador",
+      "description": "Receba feedback instantâneo no seu PDF",
+      "url": "./#avaliador",
+      "icons": [{ "src": "assets/icon/icon_192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Continuar Editando",
-      "url": "/index.html?load=last",
-      "description": "Continuar editando o último currículo salvo"
+      "name": "Match de Vagas",
+      "short_name": "Match",
+      "description": "Compare seu currículo com vagas de emprego",
+      "url": "./#match",
+      "icons": [{ "src": "assets/icon/icon_192.png", "sizes": "192x192" }]
     }
   ]
 }

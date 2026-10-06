@@ -26,6 +26,9 @@
 .btn--ghost { background: var(--surface); border-color: var(--border-strong); color: var(--text); }
 .btn--ghost:hover { border-color: var(--primary); color: var(--primary-text); }
 
+.btn--outline { background: transparent; border-color: var(--primary); color: var(--primary); font-weight: 600; }
+.btn--outline:hover { background: var(--primary); color: var(--on-primary); box-shadow: var(--shadow-sm); }
+
 .btn--soft { background: var(--primary-soft); color: var(--primary-text); }
 .btn--soft:hover { background: var(--primary-soft); border-color: var(--primary); }
 

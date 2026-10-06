@@ -1,90 +1,110 @@
+/**
+ * Service Worker — Curriculinho 2.0 PWA
+ * Suporte completo a Offline-First, Cache de assets essenciais e Network-First com Fallback de Cache.
+ */
 
-    // Based off of https://github.com/pwa-builder/PWABuilder/blob/main/docs/sw.js
+const CACHE_NAME = 'curriculinho-v2.1';
 
-    /*
-      Welcome to our basic Service Worker! This Service Worker offers a basic offline experience
-      while also being easily customizeable. You can add in your own code to implement the capabilities
-      listed below, or change anything else you would like.
+// Recursos críticos para funcionamento 100% offline
+const STATIC_ASSETS = [
+    './',
+    './index.html',
+    './manifest.json',
+    './css/tokens.css?v=3.0',
+    './css/base.css?v=3.0',
+    './css/components.css?v=3.0',
+    './css/landing.css?v=3.0',
+    './css/app.css?v=3.0',
+    './css/print.css?v=3.0',
+    './js/data-storage.js?v=3.0',
+    './js/form-handlers.js?v=3.0',
+    './js/resume-generator.js?v=3.0',
+    './js/export-utils.js?v=3.0',
+    './js/realtime-preview.js?v=3.0',
+    './js/ui.js?v=3.0',
+    './js/main.js?v=3.0',
+    './assets/images/logo.png',
+    './assets/icon/icon_192.png',
+    './assets/icon/icon_512.png',
+    './assets/screenshots/img.png',
+    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
+    'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css',
+    'https://unpkg.com/docx@7.1.0/build/index.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js'
+];
 
+// Instalação do Service Worker e pré-cache de ativos
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => {
+            console.log('[SW] Pré-carregando arquivos estáticos para suporte offline...');
+            return cache.addAll(STATIC_ASSETS.map(url => new Request(url, { mode: 'cors', credentials: 'omit' })))
+                .catch(err => {
+                    console.warn('[SW] Alguns ativos opcionais não puderam ser cacheados na instalação:', err);
+                });
+        }).then(() => self.skipWaiting())
+    );
+});
 
-      Need an introduction to Service Workers? Check our docs here: https://docs.pwabuilder.com/#/home/sw-intro
-      Want to learn more about how our Service Worker generation works? Check our docs here: https://docs.pwabuilder.com/#/studio/existing-app?id=add-a-service-worker
+// Ativação e limpeza de caches antigos
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((name) => {
+                    if (name !== CACHE_NAME) {
+                        console.log('[SW] Removendo cache obsoleto:', name);
+                        return caches.delete(name);
+                    }
+                })
+            );
+        }).then(() => self.clients.claim())
+    );
+});
 
-      Did you know that Service Workers offer many more capabilities than just offline? 
-        - Background Sync: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/advanced-capabilities/06
-        - Periodic Background Sync: https://web.dev/periodic-background-sync/
-        - Push Notifications: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/advanced-capabilities/07?id=push-notifications-on-the-web
-        - Badges: https://microsoft.github.io/win-student-devs/#/30DaysOfPWA/advanced-capabilities/07?id=application-badges
-    */
+// Interceptação de requisições
+self.addEventListener('fetch', (event) => {
+    const request = event.request;
+    const url = new URL(request.url);
 
-    const HOSTNAME_WHITELIST = [
-        self.location.hostname,
-        'fonts.gstatic.com',
-        'fonts.googleapis.com',
-        'cdn.jsdelivr.net'
-    ]
-
-    // The Util Function to hack URLs of intercepted requests
-    const getFixedUrl = (req) => {
-        var now = Date.now()
-        var url = new URL(req.url)
-
-        // 1. fixed http URL
-        // Just keep syncing with location.protocol
-        // fetch(httpURL) belongs to active mixed content.
-        // And fetch(httpRequest) is not supported yet.
-        url.protocol = self.location.protocol
-
-        // 2. add query for caching-busting.
-        // Github Pages served with Cache-Control: max-age=600
-        // max-age on mutable content is error-prone, with SW life of bugs can even extend.
-        // Removemos o cache-bust dinâmico que impedia o uso offline.
-        // O cache deve ser gerenciado com mais cuidado para não quebrar a PWA.
-        return url.href
+    // Não interceptar requisições que não sejam GET nem chamadas de API de IA (FastAPI/Backend)
+    if (request.method !== 'GET' || url.pathname.includes('/api/v1/')) {
+        return;
     }
 
-    /**
-     *  @Lifecycle Activate
-     *  New one activated when old isnt being used.
-     *
-     *  waitUntil(): activating ====> activated
-     */
-    self.addEventListener('activate', event => {
-      event.waitUntil(self.clients.claim())
-    })
+    // Estratégia Stale-While-Revalidate com fallback para Cache
+    event.respondWith(
+        caches.match(request).then((cachedResponse) => {
+            const fetchPromise = fetch(request)
+                .then((networkResponse) => {
+                    if (networkResponse && networkResponse.status === 200) {
+                        const responseClone = networkResponse.clone();
+                        caches.open(CACHE_NAME).then((cache) => {
+                            cache.put(request, responseClone);
+                        });
+                    }
+                    return networkResponse;
+                })
+                .catch(() => {
+                    // Se falhar a rede (offline), retorna o que estiver em cache
+                    if (cachedResponse) {
+                        return cachedResponse;
+                    }
+                    // Se for navegação de página (HTML) e offline, retorna index.html cacheado
+                    if (request.mode === 'navigate') {
+                        return caches.match('./index.html') || caches.match('./');
+                    }
+                });
 
-    /**
-     *  @Functional Fetch
-     *  All network requests are being intercepted here.
-     *
-     *  void respondWith(Promise<Response> r)
-     */
-    self.addEventListener('fetch', event => {
-    // Skip some of cross-origin requests, like those for Google Analytics.
-    if (HOSTNAME_WHITELIST.indexOf(new URL(event.request.url).hostname) > -1) {
-        // Stale-while-revalidate
-        // similar to HTTP's stale-while-revalidate: https://www.mnot.net/blog/2007/12/12/stale
-        // Upgrade from Jake's to Surma's: https://gist.github.com/surma/eb441223daaedf880801ad80006389f1
-        const cached = caches.match(event.request)
-        const fixedUrl = getFixedUrl(event.request)
-        const fetched = fetch(fixedUrl, { cache: 'no-store' })
-        const fetchedCopy = fetched.then(resp => resp.clone())
+            return cachedResponse || fetchPromise;
+        })
+    );
+});
 
-        // Call respondWith() with whatever we get first.
-        // If the fetch fails (e.g disconnected), wait for the cache.
-        // If there’s nothing in cache, wait for the fetch.
-        // If neither yields a response, return offline pages.
-        event.respondWith(
-        Promise.race([fetched.catch(_ => cached), cached])
-            .then(resp => resp || fetched)
-            .catch(_ => { /* eat any errors */ })
-        )
-
-        // Update the cache with the version we fetched (only for ok status)
-        event.waitUntil(
-        Promise.all([fetchedCopy, caches.open("pwa-cache")])
-            .then(([response, cache]) => response.ok && cache.put(event.request, response))
-            .catch(_ => { /* eat any errors */ })
-        )
+// Mensagens vindas do cliente
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.action === 'skipWaiting') {
+        self.skipWaiting();
     }
-    })
+});

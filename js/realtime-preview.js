@@ -94,12 +94,13 @@ const RealtimePreview = (function() {
                     <h2>INFORMAÇÕES COMPLEMENTARES</h2>
                     <p id="preview-additional-info"></p>
                 </div>
-                
-                <div class="resume-actions only-screen">
-                    <button type="button" id="exportWordPreviewBtn" class="resume-action-btn resume-action-btn--word"><i class="bi bi-file-earmark-word" aria-hidden="true"></i> Exportar para Word</button>
-                    <button type="button" id="printResumeBtn" class="resume-action-btn resume-action-btn--print"><i class="bi bi-printer" aria-hidden="true"></i> Imprimir</button>
-                    <button type="button" id="savePdfBtn" class="btn-primary-pdf"><i class="bi bi-download" aria-hidden="true"></i> Salvar em PDF</button>
-                </div>
+            </div>
+
+            <!-- Botões de ação da prévia (fora do papel do currículo) -->
+            <div class="resume-actions only-screen">
+                <button type="button" id="exportWordPreviewBtn" class="resume-action-btn resume-action-btn--word"><i class="bi bi-file-earmark-word" aria-hidden="true"></i> Exportar para Word</button>
+                <button type="button" id="printResumeBtn" class="resume-action-btn resume-action-btn--print"><i class="bi bi-printer" aria-hidden="true"></i> Imprimir</button>
+                <button type="button" id="savePdfBtn" class="btn-primary-pdf"><i class="bi bi-download" aria-hidden="true"></i> Salvar em PDF</button>
             </div>
         `;
     }
