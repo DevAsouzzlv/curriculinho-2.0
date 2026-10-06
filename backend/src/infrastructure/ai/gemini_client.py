@@ -21,6 +21,7 @@ class GeminiClient:
             'gemini-2.5-pro'
         ]
 
+        last_error = None
         for model in models_to_try:
             try:
                 # Executa a chamada com timeout seguro
@@ -32,11 +33,12 @@ class GeminiClient:
                 if response and response.text:
                     return response.text
             except Exception as e:
+                last_error = e
                 error_msg = str(e)
                 print(f"[Aviso IA] Modelo {model} indisponível ou em alta demanda: {error_msg[:100]}. Tentando modelo alternativo...")
                 continue
                         
-        raise Exception("Servidores de IA temporariamente sobrecarregados. Por favor, tente novamente em alguns segundos.")
+        raise Exception(f"Servidores de IA indisponíveis: {str(last_error)[:150] if last_error else 'Sem resposta'}")
 
     async def evaluate_resume(self, resume_text: str) -> str:
         prompt = f"""
