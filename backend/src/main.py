@@ -12,9 +12,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import resume, jobs
 
 app = FastAPI(
-    title="Curriculinho 2.0 API",
+    title="Curriculinho API",
     description="API inteligente de carreira com IA e NLP",
-    version="2.0.0"
+    version="1.0.0"
 )
 
 app.add_middleware(
@@ -30,4 +30,4 @@ app.include_router(jobs.router, prefix="/api/v1/jobs", tags=["Jobs"])
 
 @app.get("/")
 def read_root():
-    return {"message": "Bem-vindo ao back-end do Curriculinho 2.0!"}
+    return {"message": "Bem-vindo ao back-end do Curriculinho!"}

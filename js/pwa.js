@@ -1,5 +1,5 @@
 /**
- * pwa.js — Gerenciador de Instalação e Ciclo de Vida da PWA (Curriculinho 2.0)
+ * pwa.js — Gerenciador de Instalação e Ciclo de Vida da PWA (Curriculinho)
  */
 (function () {
     'use strict';

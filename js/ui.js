@@ -73,14 +73,14 @@
       landing.style.display = '';
       app.style.display = 'none';
       document.body.classList.remove('in-app');
-      document.title = 'Curriculinho 2.0 — Gerador de Currículo com IA';
+      document.title = 'Curriculinho — Gerador de Currículo com IA';
       return;
     }
 
     landing.style.display = 'none';
     app.style.display = 'block';
     document.body.classList.add('in-app');
-    document.title = TITLES[key] + ' · Curriculinho 2.0';
+    document.title = TITLES[key] + ' · Curriculinho';
 
     // Reaproveita a lógica de abas já existente no main.js
     const tab = $(`.tab-btn[data-target="${ROUTES[key]}"]`);

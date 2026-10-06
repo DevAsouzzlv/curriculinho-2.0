@@ -1,5 +1,5 @@
 /**
- * Service Worker — Curriculinho 2.0 PWA
+ * Service Worker — Curriculinho PWA
  * Suporte completo a Offline-First, Cache de assets essenciais e Network-First com Fallback de Cache.
  */
 
